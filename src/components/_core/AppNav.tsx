@@ -29,13 +29,13 @@ const AppNav = () => {
       <motion.div
         variants={variants}
         initial="hidden"
-        animate="visible" // always animate in on mount
+        animate="visible"
         transition={{ duration: 0.3 }}
         className={`hidden md:block w-full p-4 ${isSticky
-            ? "bg-white dark:bg-gray-900 shadow-md fixed top-0 left-0 z-50"
-            : "bg-transparent"
+          ? "bg-white dark:bg-gray-900 shadow-md fixed top-0 left-0 z-50"
+          : "bg-transparent"
           }`}
-        key={isSticky ? "sticky" : "normal"} 
+        key={isSticky ? "sticky" : "normal"}
       >
         <main>
           <div className="flex items-center justify-between">
@@ -51,7 +51,6 @@ const AppNav = () => {
           </div>
         </main>
       </motion.div>
-
 
       <div className="md:hidden bg-primary px-3 py-2">
         <div className="flex items-center justify-between">
