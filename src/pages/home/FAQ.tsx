@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqData = [
   {
@@ -14,8 +15,7 @@ const faqData = [
           Check out this guide to learn how to{" "}
           <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
             get started
-          </a>
-          {" "}and start developing websites even faster with components on top of Tailwind CSS.
+          </a>{" "}and start developing websites even faster with components on top of Tailwind CSS.
         </p>
       </>
     ),
@@ -31,8 +31,7 @@ const faqData = [
           Check out the{" "}
           <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
             Figma design system
-          </a>{" "}
-          based on the utility classes from Tailwind CSS and components from Landwind.
+          </a>{" "}based on the utility classes from Tailwind CSS and components from Landwind.
         </p>
       </>
     ),
@@ -50,14 +49,10 @@ const faqData = [
         <p className="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
         <ul className="pl-5 text-gray-500 list-disc dark:text-gray-400">
           <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
-              Landwind Pro
-            </a>
+            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Landwind Pro</a>
           </li>
           <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
-              Tailwind UI
-            </a>
+            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Tailwind UI</a>
           </li>
         </ul>
       </>
@@ -76,14 +71,10 @@ const faqData = [
         <p className="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
         <ul className="pl-5 text-gray-500 list-disc dark:text-gray-400">
           <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
-              Landwind Pro
-            </a>
+            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Landwind Pro</a>
           </li>
           <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
-              Tailwind UI
-            </a>
+            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Tailwind UI</a>
           </li>
         </ul>
       </>
@@ -123,18 +114,26 @@ export default function FaqSection() {
                     <IoIosArrowDown size={16}
                       className={`shrink-0 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : ""}`}
                     />
-
                   </button>
                 </h3>
-                <div
-                  id={`accordion-flush-body-${idx + 1}`}
-                  className={openIndex === idx ? "" : "hidden"}
-                  aria-labelledby={`accordion-flush-heading-${idx + 1}`}
-                >
-                  <div className="py-5 border-b border-gray-200 dark:border-gray-700">
-                    {item.answer}
-                  </div>
-                </div>
+                <AnimatePresence initial={false}>
+                  {openIndex === idx && (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.4 }}
+                      id={`accordion-flush-body-${idx + 1}`}
+                      aria-labelledby={`accordion-flush-heading-${idx + 1}`}
+                      className="overflow-hidden"
+                    >
+                      <div className="py-5 border-b border-gray-200 dark:border-gray-700">
+                        {item.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>

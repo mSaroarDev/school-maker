@@ -1,10 +1,18 @@
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function FreeTrialSection() {
   return (
     <section className="bg-gray-50 dark:bg-gray-800">
       <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
-        <div className="max-w-screen-sm mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-screen-sm mx-auto text-center"
+        >
           <h2 className="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">
             Start your free trial today
           </h2>
@@ -17,7 +25,7 @@ export default function FreeTrialSection() {
           >
             Free trial for 30 days
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
