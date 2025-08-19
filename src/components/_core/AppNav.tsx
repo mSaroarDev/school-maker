@@ -8,7 +8,7 @@ const AppNav = () => {
 
   return (
     <>
-      <div className="hidden md:block w-full">
+      <div className="hidden md:block w-full p-4">
         <main>
           <div className="flex items-center justify-between">
             <Logo />
