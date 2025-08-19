@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 const faqData = [
   {
@@ -110,31 +111,19 @@ export default function FaqSection() {
                 <h3 id={`accordion-flush-heading-${idx + 1}`}>
                   <button
                     type="button"
-                    className={`flex items-center justify-between w-full py-5 font-medium text-left border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 ${
-                      openIndex === idx
-                        ? "text-gray-900 dark:text-white"
-                        : "text-gray-500 dark:text-gray-400"
-                    }`}
+                    className={`flex items-center justify-between w-full py-5 font-medium text-left border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 ${openIndex === idx
+                      ? "text-gray-900 dark:text-white"
+                      : "text-gray-500 dark:text-gray-400"
+                      }`}
                     aria-expanded={openIndex === idx}
                     aria-controls={`accordion-flush-body-${idx + 1}`}
                     onClick={() => handleToggle(idx)}
                   >
                     <span>{item.question}</span>
-                    <svg
-                      data-accordion-icon=""
-                      className={`w-6 h-6 shrink-0 transition-transform duration-300 ${
-                        openIndex === idx ? "rotate-180" : ""
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    <IoIosArrowDown size={16}
+                      className={`shrink-0 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : ""}`}
+                    />
+
                   </button>
                 </h3>
                 <div
