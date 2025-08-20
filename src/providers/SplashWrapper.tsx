@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import airbnb from "@/assets/images/airbnb.svg";
+import Image from "next/image";
 
 export default function SplashWrapper({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 2000); // show splash for 2s
+    const t = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(t);
   }, []);
 
@@ -26,9 +28,15 @@ export default function SplashWrapper({ children }: { children: React.ReactNode 
               initial={{ scale: 0.8 }}
               animate={{ scale: 1.1 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: "reverse" }}
-              className="text-3xl font-bold"
+              className="text-xl font-bold"
             >
-              🚀 My App
+              <Image 
+                src={airbnb}
+                alt="Airbnb Logo"
+                width={100}
+                height={100}
+                className="w-24 h-24 fade-in"
+              />
             </motion.h1>
           </motion.div>
         ) : (
