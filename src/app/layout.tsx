@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import SplashWrapper from "@/providers/SplashWrapper";
 
 const InterSans = Inter({
   variable: "--font-inter",
@@ -24,7 +25,9 @@ export default function RootLayout({
         ${InterSans.className} bg-background text-foreground min-h-screen
           antialiased`}
       >
-        {children}
+        <SplashWrapper>
+          {children}
+        </SplashWrapper>
       </body>
     </html>
   );
