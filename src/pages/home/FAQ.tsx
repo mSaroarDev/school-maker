@@ -1,9 +1,15 @@
 "use client";
-import React, { useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { motion, AnimatePresence } from "framer-motion";
 
-const faqData = [
+import React, { useState, useRef } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+
+type FaqItem = {
+  question: string;
+  answer: React.ReactNode;
+};
+
+const faqData: FaqItem[] = [
   {
     question: "Can I use Landwind in open-source projects?",
     answer: (
@@ -15,7 +21,8 @@ const faqData = [
           Check out this guide to learn how to{" "}
           <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
             get started
-          </a>{" "}and start developing websites even faster with components on top of Tailwind CSS.
+          </a>{" "}
+          and start developing websites even faster with components on top of Tailwind CSS.
         </p>
       </>
     ),
@@ -31,7 +38,8 @@ const faqData = [
           Check out the{" "}
           <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">
             Figma design system
-          </a>{" "}based on the utility classes from Tailwind CSS and components from Landwind.
+          </a>{" "}
+          based on the utility classes from Tailwind CSS and components from Landwind.
         </p>
       </>
     ),
@@ -63,82 +71,83 @@ const faqData = [
     answer: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
-          The main difference is that the core components from Landwind are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Landwind relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.
+          Landwind supports all modern browsers. Its Tailwind-based components work with Chrome, Firefox, Safari, and Edge.
         </p>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">
-          However, we actually recommend using both Landwind, Landwind Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.
+        <p className="text-gray-500 dark:text-gray-400">
+          Older browsers may not support all modern CSS features without polyfills.
         </p>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-        <ul className="pl-5 text-gray-500 list-disc dark:text-gray-400">
-          <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Landwind Pro</a>
-          </li>
-          <li>
-            <a href="#" className="text-purple-600 dark:text-purple-500 hover:underline">Tailwind UI</a>
-          </li>
-        </ul>
       </>
     ),
   },
 ];
 
 export default function FaqSection() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
 
-  const handleToggle = (idx) => {
+  const handleToggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <motion.section
+      ref={sectionRef}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="bg-white dark:bg-gray-900"
+    >
       <div className="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-24 lg:px-6 ">
         <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-center text-gray-900 lg:mb-8 lg:text-3xl dark:text-white">
           Frequently asked questions
         </h2>
         <div className="max-w-screen-md mx-auto">
-          <div>
-            {faqData.map((item, idx) => (
-              <div key={idx}>
-                <h3 id={`accordion-flush-heading-${idx + 1}`}>
-                  <button
-                    type="button"
-                    className={`flex items-center justify-between w-full py-5 font-medium text-left border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 ${openIndex === idx
+          {faqData.map((item, idx) => (
+            <div key={idx}>
+              <h3 id={`accordion-flush-heading-${idx + 1}`}>
+                <button
+                  type="button"
+                  className={`flex items-center justify-between w-full py-5 font-medium text-left border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 ${
+                    openIndex === idx
                       ? "text-gray-900 dark:text-white"
                       : "text-gray-500 dark:text-gray-400"
-                      }`}
-                    aria-expanded={openIndex === idx}
-                    aria-controls={`accordion-flush-body-${idx + 1}`}
-                    onClick={() => handleToggle(idx)}
+                  }`}
+                  aria-expanded={openIndex === idx}
+                  aria-controls={`accordion-flush-body-${idx + 1}`}
+                  onClick={() => handleToggle(idx)}
+                >
+                  <span>{item.question}</span>
+                  <IoIosArrowDown
+                    size={16}
+                    className={`shrink-0 transition-transform duration-300 ${
+                      openIndex === idx ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </h3>
+              <AnimatePresence initial={false}>
+                {openIndex === idx && (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.4 }}
+                    id={`accordion-flush-body-${idx + 1}`}
+                    aria-labelledby={`accordion-flush-heading-${idx + 1}`}
+                    className="overflow-hidden"
                   >
-                    <span>{item.question}</span>
-                    <IoIosArrowDown size={16}
-                      className={`shrink-0 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                </h3>
-                <AnimatePresence initial={false}>
-                  {openIndex === idx && (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.4 }}
-                      id={`accordion-flush-body-${idx + 1}`}
-                      aria-labelledby={`accordion-flush-heading-${idx + 1}`}
-                      className="overflow-hidden"
-                    >
-                      <div className="py-5 border-b border-gray-200 dark:border-gray-700">
-                        {item.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
+                    <div className="py-5 border-b border-gray-200 dark:border-gray-700">
+                      {item.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
