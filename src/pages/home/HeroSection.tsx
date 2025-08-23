@@ -21,7 +21,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           >
-            Building digital <br /> products & brands.
+            Create your school <br /> website in minutes.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: -20 }}

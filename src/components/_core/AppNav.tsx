@@ -5,10 +5,12 @@ import Menus from "./Menus";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 
 const AppNav = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const {push} = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +48,7 @@ const AppNav = () => {
             <div className="flex items-center gap-2">
               <Button className="rounded-full" size="icon" variant="outline"><CloudSun /></Button>
               <Button variant="outline"><Star size={18} /> Feedback</Button>
-              <Button>Get Started </Button>
+              <Button onClick={()=> push('/install?step=terms')}>Get Started </Button>
             </div>
           </div>
         </main>
