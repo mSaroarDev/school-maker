@@ -9,6 +9,8 @@ import { TbLayout } from "react-icons/tb";
 import AgreementTab from "./AgreementTab";
 import InstituteInfoTab from "./InstituteInfoTab";
 import { FormData } from "./interfaces/formdataInterface";
+import AdminInfoTab from "./AdminInfoTab";
+import ThemeSettingsTab from "./ThemeSettingsTab";
 
 const InstallMain = () => {
   const steps = [
@@ -49,6 +51,20 @@ const InstallMain = () => {
           />}
 
           {currStepId === 2 && <InstituteInfoTab
+            currStepId={currStepId}
+            setCurrStepId={setCurrStepId}
+            formdata={formdata}
+            setFormdata={setFormdata}
+          />}
+
+          {currStepId === 3 && <AdminInfoTab
+            currStepId={currStepId}
+            setCurrStepId={setCurrStepId}
+            formdata={formdata}
+            setFormdata={setFormdata}
+          />}
+
+          {currStepId === 4 && <ThemeSettingsTab
             currStepId={currStepId}
             setCurrStepId={setCurrStepId}
             formdata={formdata}
