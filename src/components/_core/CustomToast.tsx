@@ -3,7 +3,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import React, { JSX } from "react";
 
-type ToastType = "success" | "error" | "warning";
+export type ToastType = "success" | "error" | "warning";
 
 interface CustomToastProps {
   message: string;

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { FormData } from "./interfaces/formdataInterface";
 import { SelectComponent } from "@/components/ui/select";
 import { showConfirmModal } from "@/utils/showConfirmModal";
-import { showSuccess, showToast } from "@/utils/showToast";
+import { showToast } from "@/utils/showToast";
 
 type Props = {
   currStepId: number;
@@ -29,7 +29,7 @@ export default function ThemeSettingsTab({
       title: "Are you sure?",
       text: "You are about to complete the installation process. Do you want to proceed?",
       func: () => {
-        showSuccess("Installation completed successfully!, Installation completed successfully!, Installation completed successfully!, Installation completed successfully!");
+        showToast("warning", "Installation completed successfully!");
       }
     })
   }
