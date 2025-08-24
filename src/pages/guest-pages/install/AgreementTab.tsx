@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { MdArrowBack, MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
 
@@ -15,6 +16,7 @@ export default function AgreementTab({
   setCurrStepId,
 }: Props) {
   const [agreed, setAgreed] = useState(false);
+  const {push} = useRouter();
 
   const rules = [
     {
@@ -75,7 +77,7 @@ export default function AgreementTab({
           </div>
 
           <div className="overflow-hidden">
-            <div className="max-h-80 overflow-auto p-4 leading-relaxed text-slate-700 dark:text-slate-200">
+            <div className="max-h-80 overflow-auto p-4 leading-relaxed bg-slate-50 text-slate-700 dark:text-slate-200">
               <ol className="list-decimal pl-5 space-y-3">
                 {rules.map((r) => (
                   <li key={r.id} className="">
@@ -107,8 +109,8 @@ export default function AgreementTab({
 
         <div className="flex items-center justify-between mt-10">
           <Button
-            disabled={currStepId === 1}
-          ><MdArrowBack size={18} />Previous</Button>
+            onClick={() => push("/")}
+          ><MdArrowBack size={18} />Back to Homepage</Button>
           <Button
             disabled={!agreed}
             onClick={handleContinue}

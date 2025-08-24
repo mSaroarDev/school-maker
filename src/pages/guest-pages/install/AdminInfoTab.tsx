@@ -72,7 +72,7 @@ export default function AdminInfoTab({
 
         <div className="flex items-center justify-between mt-10">
           <Button
-           
+           onClick={() => setCurrStepId(currStepId - 1)}
           ><MdArrowBack size={18} />Previous</Button>
           <Button
             disabled={false}

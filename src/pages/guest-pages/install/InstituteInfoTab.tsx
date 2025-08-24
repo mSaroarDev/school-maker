@@ -81,6 +81,7 @@ export default function InstituteInfoTab({
         <div className="flex items-center justify-between mt-10">
           <Button
             disabled={currStepId === 1}
+            onClick={() => setCurrStepId(currStepId - 1)}
           ><MdArrowBack size={18} />Previous</Button>
           <Button
             disabled={false}
