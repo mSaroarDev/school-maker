@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SplashWrapper from "@/providers/SplashWrapper";
 import UIProvider from "@/providers/UIProvider";
+import ReactQueryClientProvider from "@/providers/ReactQueryProvider";
 
 const InterSans = Inter({
   variable: "--font-inter",
@@ -26,10 +27,12 @@ export default function RootLayout({
         ${InterSans.className} bg-background text-foreground min-h-screen
           antialiased`}
       >
-        <SplashWrapper>
-          <UIProvider />
-          {children}
-        </SplashWrapper>
+        <ReactQueryClientProvider>
+          <SplashWrapper>
+            <UIProvider />
+            {children}
+          </SplashWrapper>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
