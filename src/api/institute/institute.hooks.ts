@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createInstitute } from "./institute.api";
 
-export const useCreateBrand = () => {
+export const useCreateInstitute = () => {
   const queryClient = useQueryClient();
   const data = useMutation({
     mutationFn: createInstitute,

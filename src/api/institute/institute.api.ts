@@ -1,8 +1,8 @@
-"use server";
+// "use server";
+import { TInstallInstituteFormData } from "@/pages/guest-pages/install/interfaces/formdataInterface";
 import request from "../apiRequest";
-import { TInstitute } from "./institue.interfaces";
 
-export const createInstitute = async (data: TInstitute) => {
+export const createInstitute = async (data: TInstallInstituteFormData) => {
  const res = await request.post("/institute/create", data);
  return res.data;
 }
