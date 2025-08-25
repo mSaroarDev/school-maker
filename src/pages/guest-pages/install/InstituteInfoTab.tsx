@@ -1,16 +1,16 @@
+import { useCreateInstitute } from "@/api/institute/institute.hooks";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import { educationLevelsOption, institutesTypesOption, mpoTypesOption, shiftsOption } from "@/constants/constants";
+import { showToast } from "@/utils/showToast";
 import { motion } from "framer-motion";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdArrowBack, MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
 import { TInstallInstituteFormData } from "./interfaces/formdataInterface";
-import { useCreateInstitute } from "@/api/institute/institute.hooks";
-import { showToast } from "@/utils/showToast";
 
 type Props = {
   currStepId: number;
@@ -22,36 +22,38 @@ export default function InstituteInfoTab({
   setCurrStepId,
 }: Props) {
 
-  const {mutateAsync: createInstitute, isPending: isCreatingInstitute} = useCreateInstitute();
+  const { mutateAsync: createInstitute, isPending: isCreatingInstitute } = useCreateInstitute();
+  const defaultValues = {
+    name: "",
+    stablishedYear: null as number | null,
+    eiin: "",
+    mpoType: "",
+    instituteType: [],
+    educationLevel: [],
+    shift: [],
+    instituteContacts: {
+      contactNo: ""
+    }
+  };
 
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     control,
     formState: { errors },
   } = useForm<TInstallInstituteFormData>({
-    defaultValues: {
-      name: "",
-      stablishedYear: null as number | null,
-      eiin: "",
-      mpoType: "",
-      instituteType: [],
-      educationLevel: [],
-      shift: [],
-      instituteContacts: {
-        contactNo: ""
-      }
-    }
+    defaultValues,
   });
 
   const onSubmit: SubmitHandler<TInstallInstituteFormData> = async (data) => {
-    const res = await createInstitute(data);
-    console.log(res);
-    if(res?.success) {
-      showToast("success", res?.message || "Institute created successfully");
-    } 
+    try {
+      const res = await createInstitute(data);
+      if (res?.success) {
+        setCurrStepId(currStepId + 1);
+      }
+    } catch (error) {
+      showToast("error", (error as Error).message || "Failed to create institute");
+    }
   };
 
   return (
@@ -105,11 +107,11 @@ export default function InstituteInfoTab({
               } />}
             </div>
             <div className="md:col-span-4">
-              <Label className="mb-2">EIIN</Label>
+              <Label className="mb-2" notRequired>EIIN</Label>
               <Input
                 type="number"
                 placeholder="eg: 123456"
-                {...register("eiin", { required: true, min: 100000, max: 999999 })}
+                {...register("eiin", { required: false, min: 100000, max: 999999 })}
                 className={`${errors.eiin ? "border-red-500" : ""}`}
               />
               {errors.eiin && <ErrorLabel msg={
@@ -157,24 +159,27 @@ export default function InstituteInfoTab({
                 type="text"
                 placeholder="eg: +8801XXXXXXXXX"
                 {...register("instituteContacts.contactNo", { required: true })}
-                // className={`${errors.name ? "border-red-500" : ""}`}
                 className={`${errors.instituteContacts?.contactNo ? "border-red-500" : ""}`}
               />
               {errors.instituteContacts?.contactNo
-               && <ErrorLabel msg="School Name is required" />}
+                && <ErrorLabel msg="School Name is required" />}
             </div>
 
             <div className="col-span-12 flex items-center justify-between mt-10">
               <Button
                 type="button"
-                disabled={currStepId === 1}
+                disabled={currStepId === 1 || isCreatingInstitute}
                 onClick={() => setCurrStepId(currStepId - 1)}
               ><MdArrowBack size={18} />Previous</Button>
               <Button
                 type="submit"
-                disabled={false}
+                disabled={isCreatingInstitute}
+                isLoading={isCreatingInstitute}
                 className="bg-primary/90 hover:bg-primary text-white"
-              >Next <MdOutlineArrowForward /></Button>
+              >
+                Next
+                <MdOutlineArrowForward />
+              </Button>
             </div>
           </form>
         </div>

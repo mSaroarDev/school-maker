@@ -1,3 +1,4 @@
+import { CgSpinner } from "react-icons/cg";
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -27,7 +28,7 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
       },
-      
+
     },
     defaultVariants: {
       variant: "default",
@@ -36,24 +37,35 @@ const buttonVariants = cva(
   }
 )
 
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    isLoading?: boolean
+    isDisabled?: boolean
+    asChild?: boolean
+  }
+
 function Button({
   className,
   variant,
   size,
+  isLoading = false,
+  isDisabled = false,
   asChild = false,
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot : "button"
+}: ButtonProps) {
+  const Comp = asChild ? Slot : "button";
+  const disabled = Boolean(isDisabled || props["aria-disabled"] || isLoading);
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled}
       {...props}
-    />
+    >
+      {isLoading && <CgSpinner className="animate-spin" />}
+      {!isLoading && props.children}
+    </Comp>
   )
 }
 
