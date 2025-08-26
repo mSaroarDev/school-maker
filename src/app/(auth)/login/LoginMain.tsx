@@ -12,10 +12,31 @@ import loginImage from "@/assets/images/login.svg";
 import Image from "next/image";
 import { TbLogin2 } from "react-icons/tb";
 import { IoMdArrowBack } from "react-icons/io";
+import { useForm } from "react-hook-form";
+import ErrorLabel from "@/components/_core/ErrorLabel";
+import { TLoginPayload } from "@/api/user/user.interfaces";
+import { useUserLogin } from "@/api/user/user.hooks";
 
 const LoginMain = () => {
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const { mutateAsync: userLogin, isPending: isLogining } = useUserLogin();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: TLoginPayload) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -34,7 +55,7 @@ const LoginMain = () => {
             </div>
 
             <div className={`col-span-6 w-full p-5`}>
-              <div className="w-full">
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="flex-shrink-0 w-14 h-14 rounded-md bg-[#f4f7ed] flex items-center justify-center">
                     <TbLogin2 size={25} />
@@ -50,19 +71,27 @@ const LoginMain = () => {
                 <div className="w-full relative">
                   <Label>Email or Phone no</Label>
                   <Input
-                    className="w-full mt-1 pl-10"
                     type="email"
                     placeholder="Enter your email or phone number"
+                    {...register("email", { required: true })}
+                    className={`w-full mt-1 pl-10 ${errors.email ? "border-red-500" : ""}`}
                   />
                   <HiOutlineMailOpen size={18} className="absolute bottom-2.5 left-3" />
                 </div>
 
+                {errors.email && <ErrorLabel msg={
+                  errors.email?.type === "pattern"
+                    ? "Invalid email address"
+                    : "Email or Phone no is required"
+                } />}
+
                 <div className="w-full relative mt-2">
                   <Label>Password</Label>
                   <Input
-                    className="w-full mt-1 pl-10"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
+                    {...register("password", { required: true, minLength: 6 })}
+                    className={`w-full mt-1 pl-10 ${errors.password ? "border-red-500" : ""}`}
                   >
                   </Input>
                   <RiKeyLine size={18} className="absolute bottom-2.5 left-3" />
@@ -74,18 +103,23 @@ const LoginMain = () => {
                     )}
                   </div>
                 </div>
+                {errors.password && <ErrorLabel msg={
+                  errors.password?.type === "minLength"
+                    ? "Password must be at least 6 characters"
+                    : "Password is required"
+                } />}
 
                 <div className="text-right my-2">
                   <Link href="/forgot-password">Forgot Password?</Link>
                 </div>
 
-                <Button className="w-full">Login </Button>
+                <Button type="submit" className="w-full">Login </Button>
 
                 <Link href="/" className="cursor-pointer mt-5 text-center flex items-center justify-center gap-1">
                   <IoMdArrowBack size={18} />
                   <span>Back to Homepage</span>
                 </Link>
-              </div>
+              </form>
             </div>
           </div>
         </main>
