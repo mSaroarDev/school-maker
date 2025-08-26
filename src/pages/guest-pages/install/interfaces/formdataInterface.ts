@@ -20,3 +20,8 @@ export type TInstallAdminFormData = {
   retypePassword?: string ;
   role?: string;
 }
+
+export type TUpdateInstituteFormData = {
+  instituteId?: string;
+  frontendTheme: string;
+}
