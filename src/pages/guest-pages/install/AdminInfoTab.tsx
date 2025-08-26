@@ -10,6 +10,7 @@ import { MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
 import { TInstallAdminFormData } from "./interfaces/formdataInterface";
 import { showToast } from "@/utils/showToast";
 import { useCreateUsers } from "@/api/user/user.hooks";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
 
 type Props = {
   currStepId: number;
@@ -61,9 +62,11 @@ export default function AdminInfoTab({
       });
       if (res.success) {
         setCurrStepId(currStepId + 1);
+      } else {
+        showToast("error", res?.message || "Failed to create admin");
       }
     } catch (error) {
-      showToast("error", (error as Error).message || "Failed to create admin");
+      showToast("error", handleErrorMessage(error));
     }
   };
 
@@ -162,13 +165,14 @@ export default function AdminInfoTab({
               {errors.retypePassword && <ErrorLabel msg={errors.retypePassword.message || "Please retype your password"} />}
             </div>
 
-            <div className="md:col-span-12 flex items-center justify-end mt-5">
+            <div className="md:col-span-12 flex items-center justify-end">
               <Button
                 type="submit"
                 disabled={isCreatingUser}
                 className="bg-primary/90 hover:bg-primary text-white"
-              >
-                {isCreatingUser ? "Creating..." : "Next"}
+                isLoading={isCreatingUser}
+              > 
+                Next
                 <MdOutlineArrowForward />
               </Button>
             </div>
