@@ -7,7 +7,7 @@ const layout = ({
 }: Props) => {
   return (
     <>
-      <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+      <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-800 px-5">
         {children}
       </div>
     </>

@@ -9,7 +9,7 @@ import { showToast } from "@/utils/showToast";
 import { motion } from "framer-motion";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MdArrowBack, MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
+import { MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
 import { TInstallInstituteFormData } from "./interfaces/formdataInterface";
 
 type Props = {
@@ -49,6 +49,7 @@ export default function InstituteInfoTab({
     try {
       const res = await createInstitute(data);
       if (res?.success) {
+        localStorage.setItem("instituteCreated", JSON.stringify(res?.data));
         setCurrStepId(currStepId + 1);
       }
     } catch (error) {
@@ -71,7 +72,7 @@ export default function InstituteInfoTab({
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-5 gap-2 gap-y-4 grid md:grid-cols-12">
-            <div className="md:col-span-8">
+            <div className="col-span-12 md:col-span-8">
               <Label className="mb-2">Institute Name</Label>
               <Input
                 type="text"
@@ -81,7 +82,7 @@ export default function InstituteInfoTab({
               />
               {errors.name && <ErrorLabel msg="School Name is required" />}
             </div>
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <Label className="mb-2">Institue Type</Label>
               <SelectComponent<TInstallInstituteFormData, "instituteType">
                 name="instituteType"
@@ -92,7 +93,7 @@ export default function InstituteInfoTab({
                 rules={{ required: "Choose a institute Type", deps: ["instituteType"] }}
               />
             </div>
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <Label className="mb-2">Stablished Year</Label>
               <Input
                 type="number"
@@ -106,7 +107,7 @@ export default function InstituteInfoTab({
                   : "Stablished Year is required"
               } />}
             </div>
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <Label className="mb-2" notRequired>EIIN</Label>
               <Input
                 type="number"
@@ -120,7 +121,7 @@ export default function InstituteInfoTab({
                   : "EIIN is required"
               } />}
             </div>
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <Label className="mb-2">MPO Type</Label>
               <SelectComponent
                 name="mpoType"
@@ -130,7 +131,7 @@ export default function InstituteInfoTab({
                 rules={{ required: "Choose a MPO Type", deps: ["mpoType"] }}
               />
             </div>
-            <div className="md:col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <Label className="mb-2">Education Level</Label>
               <SelectComponent
                 name="educationLevel"
@@ -141,7 +142,7 @@ export default function InstituteInfoTab({
                 rules={{ required: "Choose at least one education level", deps: ["educationLevel"] }}
               />
             </div>
-            <div className="md:col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <Label className="mb-2">Shift</Label>
               <SelectComponent
                 name="shift"
@@ -153,24 +154,26 @@ export default function InstituteInfoTab({
               />
             </div>
 
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <Label className="mb-2">Contact No</Label>
               <Input
                 type="text"
                 placeholder="eg: +8801XXXXXXXXX"
-                {...register("instituteContacts.contactNo", { required: true })}
+                {...register("instituteContacts.contactNo", { 
+                  required: true,
+                  pattern: { value: /^(?:\+88|88)?(01[3-9]\d{8})$/, message: "Invalid Bangladeshi mobile number" },
+                })}
                 className={`${errors.instituteContacts?.contactNo ? "border-red-500" : ""}`}
               />
               {errors.instituteContacts?.contactNo
-                && <ErrorLabel msg="School Name is required" />}
+                && <ErrorLabel msg={
+                  errors.instituteContacts.contactNo.type === "pattern"
+                    ? "Invalid Bangladeshi mobile number"
+                    : "Contact No is required"
+                } />}
             </div>
 
-            <div className="col-span-12 flex items-center justify-between mt-10">
-              <Button
-                type="button"
-                disabled={currStepId === 1 || isCreatingInstitute}
-                onClick={() => setCurrStepId(currStepId - 1)}
-              ><MdArrowBack size={18} />Previous</Button>
+            <div className="col-span-12 flex items-center justify-end md:mt-5">
               <Button
                 type="submit"
                 disabled={isCreatingInstitute}

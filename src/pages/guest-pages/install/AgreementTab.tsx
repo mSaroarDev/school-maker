@@ -16,7 +16,7 @@ export default function AgreementTab({
   setCurrStepId,
 }: Props) {
   const [agreed, setAgreed] = useState(false);
-  const {push} = useRouter();
+  const { push } = useRouter();
 
   const rules = [
     {
@@ -99,9 +99,9 @@ export default function AgreementTab({
             <Checkbox
               checked={agreed}
               onCheckedChange={(checked) => setAgreed(!!checked)}
-              id="terms" 
+              id="terms"
             />
-            <Label htmlFor="terms">
+            <Label htmlFor="terms" notRequired>
               I have read and agree to the terms and conditions. I understand that by checking this box, I am entering into a legally binding agreement.
             </Label>
           </div>

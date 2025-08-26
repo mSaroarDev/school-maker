@@ -1,35 +1,71 @@
+"use client";
+import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
-import { MdArrowBack, MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
-import { Input } from "@/components/ui/input";
-import { FormData } from "./interfaces/formdataInterface";
-import { SelectComponent } from "@/components/ui/select";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
+import { TInstallAdminFormData } from "./interfaces/formdataInterface";
+import { showToast } from "@/utils/showToast";
+import { useCreateUsers } from "@/api/user/user.hooks";
 
 type Props = {
   currStepId: number;
   setCurrStepId: React.Dispatch<React.SetStateAction<number>>;
-  formdata: FormData;
-  setFormdata: React.Dispatch<React.SetStateAction<FormData>>;
 };
 
 export default function AdminInfoTab({
   currStepId,
   setCurrStepId,
-  formdata,
-  setFormdata
 }: Props) {
 
-  function handleContinue(e: React.FormEvent) {
-    e.preventDefault();
-    // if (!agreed) {
-    //   return;
-    // }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      password: "",
+      retypePassword: ""
+    }
+  });
 
-    setCurrStepId(currStepId + 1);
-  }
+  const institute = localStorage.getItem("instituteCreated");
+  const instituteId = institute ? JSON.parse(institute)?._id : null;
+
+  const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUsers();
+
+  // Watch the password field for validation
+  const password = watch("password");
+
+  const onSubmit = async (data: TInstallAdminFormData) => {
+    if (data.password !== data.retypePassword) {
+      showToast("error", "Passwords do not match");
+      return;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { retypePassword, ...tempData } = data;
+
+    try {
+      const res = await createUser({
+        ...tempData,
+        instituteId,
+        role: "institute-admin"
+      });
+      if (res.success) {
+        setCurrStepId(currStepId + 1);
+      }
+    } catch (error) {
+      showToast("error", (error as Error).message || "Failed to create admin");
+    }
+  };
 
   return (
     <div className="">
@@ -45,40 +81,98 @@ export default function AdminInfoTab({
             <span>Create the first login credentials</span>
           </div>
 
-          <div className="mt-5 gap-2 gap-y-4 grid md:grid-cols-12">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-5 gap-2 gap-y-4 grid md:grid-cols-12"
+          >
             <div className="md:col-span-12">
               <Label className="mb-2">Full Name</Label>
-              <Input type="email" placeholder="Email" />
+              <Input
+                type="text"
+                placeholder="eg: John Doe"
+                {...register("fullName", { required: "Full name is required" })}
+                className={`${errors.fullName ? "border-red-500" : ""}`}
+              />
+              {errors.fullName && <ErrorLabel msg={errors.fullName.message || "Full name is required"} />}
             </div>
-            <div className="md:col-span-6">
+
+            <div className="md:col-span-12">
               <Label className="mb-2">Email</Label>
-              <Input type="email" placeholder="Email" />
+              <Input
+                type="email"
+                placeholder="eg: example@gmail.com"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address"
+                  }
+                })}
+                className={`${errors.email ? "border-red-500" : ""}`}
+              />
+              {errors.email && <ErrorLabel msg={errors.email.message || "Email is required"} />}
             </div>
-            <div className="md:col-span-6">
+
+            <div className="md:col-span-12">
               <Label className="mb-2">Phone</Label>
-              <Input type="email" placeholder="eg: 1990" />
+              <Input
+                type="text"
+                placeholder="eg: +8801798456380"
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^(\+8801|01)\d{9}$/,
+                    message: "Please enter a valid Bangladeshi phone number"
+                  }
+                })}
+                className={`${errors.phone ? "border-red-500" : ""}`}
+              />
+              {errors.phone && <ErrorLabel msg={errors.phone.message || "Phone number is required"} />}
             </div>
-            <div className="md:col-span-6">
+
+            <div className="md:col-span-12">
               <Label className="mb-2">Password</Label>
-              <Input type="email" placeholder="Email" />
+              <Input
+                type="password"
+                placeholder="******"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters"
+                  }
+                })}
+                className={`${errors.password ? "border-red-500" : ""}`}
+              />
+              {errors.password && <ErrorLabel msg={errors.password.message || "Password is required"} />}
             </div>
-            <div className="md:col-span-6">
+
+            <div className="md:col-span-12">
               <Label className="mb-2">Retype Password</Label>
-              <Input type="email" placeholder="Email" />
+              <Input
+                type="password"
+                placeholder="******"
+                {...register("retypePassword", {
+                  required: "Please retype your password",
+                  validate: (value) =>
+                    value === password || "Passwords do not match"
+                })}
+                className={`${errors.retypePassword ? "border-red-500" : ""}`}
+              />
+              {errors.retypePassword && <ErrorLabel msg={errors.retypePassword.message || "Please retype your password"} />}
             </div>
-          </div>
 
-        </div>
-
-        <div className="flex items-center justify-between mt-10">
-          <Button
-           onClick={() => setCurrStepId(currStepId - 1)}
-          ><MdArrowBack size={18} />Previous</Button>
-          <Button
-            disabled={false}
-            onClick={handleContinue}
-            className="bg-primary/90 hover:bg-primary text-white"
-          >Next <MdOutlineArrowForward /></Button>
+            <div className="md:col-span-12 flex items-center justify-end mt-5">
+              <Button
+                type="submit"
+                disabled={isCreatingUser}
+                className="bg-primary/90 hover:bg-primary text-white"
+              >
+                {isCreatingUser ? "Creating..." : "Next"}
+                <MdOutlineArrowForward />
+              </Button>
+            </div>
+          </form>
         </div>
       </motion.div>
     </div>

@@ -10,3 +10,13 @@ export type TInstallInstituteFormData = {
     contactNo: string;
   }
 }
+
+export type TInstallAdminFormData = {
+  instituteId?: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  retypePassword?: string ;
+  role?: string;
+}

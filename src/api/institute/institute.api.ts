@@ -1,4 +1,3 @@
-// "use server";
 import { TInstallInstituteFormData } from "@/pages/guest-pages/install/interfaces/formdataInterface";
 import request from "../apiRequest";
 
