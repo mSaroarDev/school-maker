@@ -16,8 +16,12 @@ import { useForm } from "react-hook-form";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { TLoginPayload } from "@/api/user/user.interfaces";
 import { useUserLogin } from "@/api/user/user.hooks";
+import { showToast } from "@/utils/showToast";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { useRouter } from "next/navigation";
 
 const LoginMain = () => {
+  const { replace } = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,8 +38,20 @@ const LoginMain = () => {
     },
   });
 
-  const onSubmit = (data: TLoginPayload) => {
-    console.log(data);
+  const onSubmit = async (data: TLoginPayload) => {
+    if (!data.email || !data.password) {
+      return;
+    }
+
+    try {
+      const res = await userLogin(data);
+      if (res?.success) {
+        showToast("success", res?.message || "Login successful");
+        replace("/dashboard");
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error) || "Login failed");
+    }
   };
 
   return (
@@ -43,7 +59,7 @@ const LoginMain = () => {
       <div className="min-h-screen w-full flex items-center justify-center px-5 bg-slate-100">
         <main className="max-w-3xl">
           <div className="w-full grid grid-cols-12 rounded-2xl p-2 bg-card">
-            <div className="col-span-6 w-full h-full flex items-center justify-center mr-10 bg-[#f4f7ed] rounded-s-xl px-20">
+            <div className="hidden col-span-6 w-full h-full md:flex items-center justify-center mr-10 bg-[#f4f7ed] rounded-s-xl px-20">
               <div className="w-60 h-60 relative">
                 <Image
                   src={loginImage}
@@ -54,7 +70,7 @@ const LoginMain = () => {
               </div>
             </div>
 
-            <div className={`col-span-6 w-full p-5`}>
+            <div className={`col-span-12 md:col-span-6 w-full p-5`}>
               <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <div className="mb-5 flex items-center gap-3">
                   <div className="flex-shrink-0 w-14 h-14 rounded-md bg-[#f4f7ed] flex items-center justify-center">
@@ -73,8 +89,9 @@ const LoginMain = () => {
                   <Input
                     type="email"
                     placeholder="Enter your email or phone number"
-                    {...register("email", { required: true })}
+                    {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                     className={`w-full mt-1 pl-10 ${errors.email ? "border-red-500" : ""}`}
+                    disabled={isLogining}
                   />
                   <HiOutlineMailOpen size={18} className="absolute bottom-2.5 left-3" />
                 </div>
@@ -92,6 +109,7 @@ const LoginMain = () => {
                     placeholder="Enter your password"
                     {...register("password", { required: true, minLength: 6 })}
                     className={`w-full mt-1 pl-10 ${errors.password ? "border-red-500" : ""}`}
+                    disabled={isLogining}
                   >
                   </Input>
                   <RiKeyLine size={18} className="absolute bottom-2.5 left-3" />
@@ -113,7 +131,7 @@ const LoginMain = () => {
                   <Link href="/forgot-password">Forgot Password?</Link>
                 </div>
 
-                <Button type="submit" className="w-full">Login </Button>
+                <Button isDisabled={isLogining} type="submit" className="w-full">Login </Button>
 
                 <Link href="/" className="cursor-pointer mt-5 text-center flex items-center justify-center gap-1">
                   <IoMdArrowBack size={18} />
