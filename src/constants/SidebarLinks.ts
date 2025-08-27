@@ -30,65 +30,49 @@ const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
           label: "Teachers",
           icon: PiGraduationCapDuotone,
           link: "/teachers",
-          // count: 0,
         },
         {
           label: "Students",
           icon: PiStudentDuotone,
           link: "/students",
-          // count: 0,
         },
         {
           label: "Attendence",
           icon: AiOutlineTeam,
           link: "/attendence",
-          // count: 0,
         },
         {
           label: "Finance",
           icon: RiMoneyDollarBoxLine,
           link: "/finance",
-          // count: 0,
         },
          {
           label: "Notices",
           icon: LuNotebookPen,
           link: "/notices",
-          // count: 0,
         },
         {
           label: "Calender",
           icon: CalendarDays,
           link: "/calender",
-          // count: 0,
         },
         {
           label: "Library",
           icon: IoBookOutline,
           link: "/library",
-          // count: 0,
         },
         {
           label: "Messages",
           icon: TbMessage2,
           link: "/messages",
-          // count: 0,
         },
       ],
     },
-    // {
-    //   heading: "Students",
-    //   links: [
-    //     { label: "My Store", icon: IoStorefrontOutline, link: "/seller/store" },
-    //     { label: "Products", icon: BiGift, link: "/seller/products" },
-    //     // { label: "Orders", icon: GoTasklist, link: "/seller/orders" },
-    //   ],
-    // },
     {
       heading: "Others",
       links: [
         { label: "Profile", icon: ContactRound, link: "/profile" },
-        { label: "Settings", icon: Settings, link: "/settings" },0
+        { label: "Settings", icon: Settings, link: "/settings" },
       ],
     },
   ];
