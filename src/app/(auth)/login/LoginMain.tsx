@@ -48,7 +48,7 @@ const LoginMain = () => {
       const res = await userLogin(data);
       if (res?.success) {
         showToast("success", res?.message || "Login successful");
-        // replace("/dashboard");
+        replace("/dashboard");
         handleLoginSuccess(res);
         console.log("Login successful, redirecting to dashboard...", res);
       }
