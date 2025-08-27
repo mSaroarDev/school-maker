@@ -80,7 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleSuccessLogin = (token: string) => {
     localStorage.setItem("token", token);
     setToken(token); // Update token state
-    
+
     Cookies.set("token", token);
   }
 
@@ -100,7 +100,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("persist:root");
-    localStorage.removeItem("loggedInAs");
     setToken(null);
     Cookies.remove("token");
     dispatch({ type: "LOGOUT" });
@@ -111,7 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!token) return false;
 
     try {
-      const response: TLoginResponse = await request.get("/auth/me");
+      const response: TLoginResponse = await request.get("/users/me");
       if (response?.success) {
         return true;
       }
@@ -131,7 +130,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const getUserInfo = async () => {
       try {
-        const response: TLoginResponse = await request.get("/auth/me");
+        const response: TLoginResponse = await request.get("/users/me");
         if (response?.success) {
           if (!response?.data) {
             return;
@@ -139,21 +138,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
           dispatch({ type: "LOGIN", payload: response?.data });
         } else {
-          localStorage.removeItem("token");
-          setToken(null); // Clear token state
           dispatch({ type: "LOGOUT" });
           return replace(`/login`);
         }
       } catch (error) {
         console.error(error);
-        localStorage.removeItem("token");
-        setToken(null); // Clear token state
         dispatch({ type: "LOGOUT" });
       }
     };
 
     getUserInfo();
-  }, [token, dispatch, replace]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [replace]);
 
   const value: AuthContextType = {
     ...state,
