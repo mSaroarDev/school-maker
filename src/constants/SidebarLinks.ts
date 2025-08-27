@@ -13,41 +13,85 @@ interface LinkItemProps {
 }
 
 const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
-  const sellerLinks = [
+
+  const adminLinks = [
     {
-      heading: "General",
+      heading: "Menu",
       links: [
         {
-          label: "Overview",
+          label: "Dashboard",
           icon: LuLayoutDashboard,
-          link: "/seller/overview",
+          link: "/dashboard",
+        },
+        {
+          label: "Teachers",
+          icon: BiMessageDetail,
+          link: "/teachers",
+          // count: 0,
+        },
+        {
+          label: "Students",
+          icon: BiMessageDetail,
+          link: "/students",
+          // count: 0,
+        },
+        {
+          label: "Attendence",
+          icon: BiMessageDetail,
+          link: "/attendence",
+          // count: 0,
+        },
+        {
+          label: "Finance",
+          icon: BiMessageDetail,
+          link: "/finance",
+          // count: 0,
+        },
+         {
+          label: "Notices",
+          icon: BiMessageDetail,
+          link: "/notices",
+          // count: 0,
+        },
+        {
+          label: "Calender",
+          icon: BiMessageDetail,
+          link: "/calender",
+          // count: 0,
+        },
+        {
+          label: "Library",
+          icon: BiMessageDetail,
+          link: "/library",
+          // count: 0,
         },
         {
           label: "Messages",
           icon: BiMessageDetail,
-          link: "/seller/chats",
+          link: "/messages",
           // count: 0,
         },
       ],
     },
-    {
-      heading: "Products",
-      links: [
-        { label: "My Store", icon: IoStorefrontOutline, link: "/seller/store" },
-        { label: "Products", icon: BiGift, link: "/seller/products" },
-        // { label: "Orders", icon: GoTasklist, link: "/seller/orders" },
-      ],
-    },
+    // {
+    //   heading: "Students",
+    //   links: [
+    //     { label: "My Store", icon: IoStorefrontOutline, link: "/seller/store" },
+    //     { label: "Products", icon: BiGift, link: "/seller/products" },
+    //     // { label: "Orders", icon: GoTasklist, link: "/seller/orders" },
+    //   ],
+    // },
     {
       heading: "Others",
       links: [
-        { label: "Membership", icon: IoShieldCheckmark, link: "/seller/membership" },
-        { label: "Payments", icon: RiMoneyDollarBoxLine, link: "/seller/payments" },
+        { label: "Profile", icon: IoShieldCheckmark, link: "/profile" },
+        { label: "Settings", icon: RiMoneyDollarBoxLine, link: "/settings" },
+        { label: "Log out", icon: RiMoneyDollarBoxLine, link: "/" },
       ],
     },
   ];
 
-  const adminLinks = [
+  const superAdminLinks = [
     {
       heading: "General",
       links: [
@@ -82,8 +126,8 @@ const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
     },
   ];
 
-  if (loggedInAs === "store-admin" || !isAdmin) return sellerLinks;
-  if (isAdmin) return adminLinks;
+  if(!isAdmin) return adminLinks;
+  if (isAdmin) return superAdminLinks;
 
   return [];
 };

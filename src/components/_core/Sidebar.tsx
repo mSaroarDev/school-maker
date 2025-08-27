@@ -21,7 +21,6 @@ export type ILink = {
 
 const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname();
-  console.log("pathname", pathname);
 
   const { isAdmin } = useAuth();
   const [loggedInAs, setLoggedInAs] = useState("");
