@@ -38,11 +38,11 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
         <div>
           <div className="w-full flex items-center justify-between p-4">
             {width === 250 ? (
-              <h4 className="text-xl font-semibold flex items-center gap-2 text-primary">
+              <h4 className="text-xl flex items-center gap-2 text-primary">
                 <CgUserlane size={24} className="text-primary" /> yourshop
               </h4>
             ) : (
-              <h4 className="text-2xl font-semibold"><CgUserlane size={20} className="text-primary" /></h4>
+              <h4 className="text-2xl"><CgUserlane size={20} className="text-primary" /></h4>
             )}
             <FaRegCircleDot onClick={toggleSidebar} className="cursor-pointer text-primary" size={22} />
           </div>
@@ -56,7 +56,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                     <Link
                       href={link.link}
                       key={linkIndex}
-                      className={`flex items-center justify-between ps-8 px-4 py-2.5 text-[15px] font-medium  cursor-pointer border-s-[3px] transition-all duration-150 ${pathname?.startsWith(link.link) ? 'border-primary text-primary bg-primary/5' : 'border-transparent'} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
+                      className={`flex items-center justify-between ps-8 px-4 py-2.5 text-[15px] cursor-pointer border-s-[3px] transition-all duration-150 ${pathname?.startsWith(link.link) ? 'border-primary text-primary bg-primary/5' : 'border-transparent'} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
                     >
                       <div className="flex items-center gap-3">
                         <link.icon size={20} />
