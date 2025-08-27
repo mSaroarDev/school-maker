@@ -51,12 +51,12 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
             {SidebarLinks({ isAdmin, loggedInAs }).map((section, index) => (
               <div key={index} className="mb-5">
                 <h5 className={`mx-2 ms-8 text-sm transition-all duration-300 ease-in-out ${width === 250 ? "text-gray-700 dark:text-[#1A202C]" : "text-slate-50 dark:text-[#1A202C]"}`}>{section.heading}</h5>
-                <div className="mt-2">
+                <div className="mt-2 px-5">
                   {section.links.map((link: ILink, linkIndex) => (
                     <Link
                       href={link.link}
                       key={linkIndex}
-                      className={`flex items-center justify-between ps-8 px-4 py-2.5 text-[15px] cursor-pointer border-s-[3px] transition-all duration-150 ${pathname?.startsWith(link.link) ? 'border-primary text-primary bg-primary/5' : 'border-transparent'} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
+                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg ${pathname?.startsWith(link.link) ? 'text-primary bg-primary/10' : ''} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
                     >
                       <div className="flex items-center gap-3">
                         <link.icon size={20} />

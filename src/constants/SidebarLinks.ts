@@ -1,11 +1,14 @@
+import { CalendarDays, ContactRound, House, Settings } from "lucide-react";
+import { AiOutlineTeam } from "react-icons/ai";
 import { BiGift, BiMessageDetail } from "react-icons/bi";
 import { FaFilePdf } from "react-icons/fa6";
 import { GoGear } from "react-icons/go";
 import { HiOutlineUserCircle } from "react-icons/hi";
-import { IoShieldCheckmark, IoStorefrontOutline } from "react-icons/io5";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { PiFigmaLogoDuotone } from "react-icons/pi";
+import { IoBookOutline, IoShieldCheckmark, IoStorefrontOutline } from "react-icons/io5";
+import { LuLayoutDashboard, LuNotebookPen } from "react-icons/lu";
+import { PiFigmaLogoDuotone, PiGraduationCapDuotone, PiStudentDuotone } from "react-icons/pi";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
+import { TbMessage2 } from "react-icons/tb";
 
 interface LinkItemProps {
   isAdmin?: boolean;
@@ -20,54 +23,54 @@ const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
       links: [
         {
           label: "Dashboard",
-          icon: LuLayoutDashboard,
+          icon: House,
           link: "/dashboard",
         },
         {
           label: "Teachers",
-          icon: BiMessageDetail,
+          icon: PiGraduationCapDuotone,
           link: "/teachers",
           // count: 0,
         },
         {
           label: "Students",
-          icon: BiMessageDetail,
+          icon: PiStudentDuotone,
           link: "/students",
           // count: 0,
         },
         {
           label: "Attendence",
-          icon: BiMessageDetail,
+          icon: AiOutlineTeam,
           link: "/attendence",
           // count: 0,
         },
         {
           label: "Finance",
-          icon: BiMessageDetail,
+          icon: RiMoneyDollarBoxLine,
           link: "/finance",
           // count: 0,
         },
          {
           label: "Notices",
-          icon: BiMessageDetail,
+          icon: LuNotebookPen,
           link: "/notices",
           // count: 0,
         },
         {
           label: "Calender",
-          icon: BiMessageDetail,
+          icon: CalendarDays,
           link: "/calender",
           // count: 0,
         },
         {
           label: "Library",
-          icon: BiMessageDetail,
+          icon: IoBookOutline,
           link: "/library",
           // count: 0,
         },
         {
           label: "Messages",
-          icon: BiMessageDetail,
+          icon: TbMessage2,
           link: "/messages",
           // count: 0,
         },
@@ -84,9 +87,8 @@ const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
     {
       heading: "Others",
       links: [
-        { label: "Profile", icon: IoShieldCheckmark, link: "/profile" },
-        { label: "Settings", icon: RiMoneyDollarBoxLine, link: "/settings" },
-        { label: "Log out", icon: RiMoneyDollarBoxLine, link: "/" },
+        { label: "Profile", icon: ContactRound, link: "/profile" },
+        { label: "Settings", icon: Settings, link: "/settings" },0
       ],
     },
   ];

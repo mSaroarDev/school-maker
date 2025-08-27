@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import SplashWrapper from "@/providers/SplashWrapper";
 import UIProvider from "@/providers/UIProvider";
 import ReactQueryClientProvider from "@/providers/ReactQueryProvider";
 
-const InterSans = Inter({
-  variable: "--font-inter",
+const InterSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {

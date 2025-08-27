@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-
 const AppNav = () => {
   const [isSticky, setIsSticky] = useState(false);
   const {push} = useRouter();
@@ -33,8 +32,8 @@ const AppNav = () => {
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.3 }}
-        className={`hidden md:block w-full p-4 ${isSticky
-          ? "bg-white dark:bg-gray-900 shadow-md fixed top-0 left-0 z-50"
+        className={`hidden md:block w-full p-4 bg-white dark:bg-gray-900 ${isSticky
+          ? "shadow-md fixed top-0 left-0 z-50"
           : "bg-transparent"
           }`}
         key={isSticky ? "sticky" : "normal"}
