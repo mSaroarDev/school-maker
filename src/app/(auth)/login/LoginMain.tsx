@@ -14,11 +14,12 @@ import { TbLogin2 } from "react-icons/tb";
 import { IoMdArrowBack } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import ErrorLabel from "@/components/_core/ErrorLabel";
-import { TLoginPayload } from "@/api/user/user.interfaces";
+import { TLoginPayload, TLoginResponse } from "@/api/user/user.interfaces";
 import { useUserLogin } from "@/api/user/user.hooks";
 import { showToast } from "@/utils/showToast";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const LoginMain = () => {
   const { replace } = useRouter();
@@ -47,12 +48,19 @@ const LoginMain = () => {
       const res = await userLogin(data);
       if (res?.success) {
         showToast("success", res?.message || "Login successful");
-        replace("/dashboard");
+        // replace("/dashboard");
+        handleLoginSuccess(res);
+        console.log("Login successful, redirecting to dashboard...", res);
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Login failed");
     }
   };
+
+  const handleLoginSuccess = (res: TLoginResponse) => {
+    localStorage.setItem("token", res?.data?.token);
+    Cookies.set("token", res?.data?.token);
+  }
 
   return (
     <>
