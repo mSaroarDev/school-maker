@@ -17,6 +17,7 @@ import { SlEmotsmile } from "react-icons/sl";
 import { AiOutlineComment } from "react-icons/ai";
 import { PiShareFat } from "react-icons/pi";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
+import Link from "next/link";
 
 const ProfilePageMain = () => {
 
@@ -44,7 +45,11 @@ const ProfilePageMain = () => {
             </div>
             <h2 className="font-medium text-lg -mb-2.5">Alizee Thomas</h2>
             <p className="text-sm">New Yourk, US</p>
-            <Button><BiEdit size={18} /> Edit Profile</Button>
+            <Button>
+              <Link href="/profile/update" className="flex items-center gap-2">
+                <BiEdit size={18} /> Edit Profile
+              </Link>
+            </Button>
           </Card>
 
           <Card className="mb-3">

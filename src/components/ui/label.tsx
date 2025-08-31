@@ -15,7 +15,7 @@ function Label({
   ...props
 }: LabelProps) {
   return (
-    <div className="flex items-center gap-1 group">
+    <div className="flex items-center gap-1 group mb-1">
       <LabelPrimitive.Root
         data-slot="label"
         className={cn(
