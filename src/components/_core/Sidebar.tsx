@@ -34,7 +34,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
     <>
       <div
         style={{ width: `${width}px` }}
-        className="hidden fixed top-0 left-0 bottom-0 bg-white transition-all duration-300 ease-in-out overflow-hidden h-full md:flex flex-col">
+        className="hidden fixed top-0 left-0 bottom-0 bg-white dark:bg-dark-card transition-all duration-300 ease-in-out overflow-hidden h-full md:flex flex-col">
         <div>
           <div className="w-full flex items-center justify-between p-4">
             {width === 250 ? (
@@ -50,13 +50,13 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
           <div className="mt-5 overflow-y-scroll h-[calc(100vh-80px)]">
             {SidebarLinks({ isAdmin, loggedInAs }).map((section, index) => (
               <div key={index} className="mb-5">
-                <h5 className={`mx-2 ms-8 text-sm transition-all duration-300 ease-in-out ${width === 250 ? "text-gray-700 dark:text-[#1A202C]" : "text-slate-50 dark:text-[#1A202C]"}`}>{section.heading}</h5>
+                <h5 className={`mx-2 ms-8 text-sm transition-all duration-300 ease-in-out ${width === 250 ? "text-gray-700 dark:text-white" : "text-slate-50 dark:text-[#1A202C]"}`}>{section.heading}</h5>
                 <div className="mt-2 px-5">
                   {section.links.map((link: ILink, linkIndex) => (
                     <Link
                       href={link.link}
                       key={linkIndex}
-                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg ${pathname?.startsWith(link.link) ? 'text-black bg-primary-light' : ''} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
+                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg ${pathname?.startsWith(link.link) ? 'text-black bg-primary-light dark:bg-primary/15' : ''} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
                     >
                       <div className="flex items-center gap-3">
                         <link.icon size={20} />

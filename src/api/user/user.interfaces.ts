@@ -28,6 +28,7 @@ export type TLoginResponse = {
         city?: string;
         country?: string;
       };
+      avatar?: string;
       createdAt: Date;
       updatedAt: Date;
     }

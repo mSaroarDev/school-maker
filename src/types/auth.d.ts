@@ -2,6 +2,7 @@ import { TLoginResponse } from "@/api/institute/institue.interfaces";
 
 export interface AuthState {
   user: TLoginResponse["data"]["user"] | null;
+  avatar?: string;
   loading: boolean;
 };
 

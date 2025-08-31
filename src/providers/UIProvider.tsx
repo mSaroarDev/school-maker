@@ -1,7 +1,12 @@
 "use client";
 import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "./ThemeProvider";
 
-const UIProvider = () => {
+type UIProviderProps = {
+  children: React.ReactNode;
+}
+
+const UIProvider = ({ children }: UIProviderProps) => {
   return (
     <>
       <ToastContainer
@@ -17,6 +22,15 @@ const UIProvider = () => {
         theme="light"
       // transition={Bounce}
       />
+
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
     </>
   );
 };

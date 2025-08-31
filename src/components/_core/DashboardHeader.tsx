@@ -1,6 +1,9 @@
+import { useTheme } from "next-themes";
+import { AiOutlineSun } from "react-icons/ai";
+import { BsCloudMoon } from "react-icons/bs";
 import { GoBellFill } from "react-icons/go";
 import UserDropdown from "./UserDropdown";
-import { BiSolidMessageAltDetail } from "react-icons/bi";
+import { useAuth } from "@/hooks/useAuth";
 
 type DashboardHeaderProps = {
   width: number;
@@ -9,6 +12,11 @@ type DashboardHeaderProps = {
 const DashboardHeader = ({
   width
 }: DashboardHeaderProps) => {
+
+  const { setTheme, theme } = useTheme();
+  const { user } = useAuth();
+  console.log(user);
+
   return (
     <>
       <div
@@ -16,17 +24,23 @@ const DashboardHeader = ({
         style={{ marginLeft: `${width}px`, transition: 'margin-left 0.3s ease-in-out' }}
       >
         <div className="flex items-center justify-end">
-          <div className="size-8 bg-white rounded-full mr-3 flex items-center justify-center hover:shadow-md cursor-pointer">
-            <BiSolidMessageAltDetail size={18} />
+          <div className="size-8 bg-white dark:bg-dark-card rounded-full mr-3 flex items-center justify-center hover:shadow-md cursor-pointer">
+            <span onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+              {theme === "light" ? (
+                <BsCloudMoon size={18} />
+              ) : (
+                <AiOutlineSun size={18} />
+              )}
+            </span>
           </div>
 
-          <div className="size-8 bg-white rounded-full mr-10 flex items-center justify-center hover:shadow-md cursor-pointer">
+          <div className="size-8 bg-white dark:bg-dark-card rounded-full mr-10 flex items-center justify-center hover:shadow-md cursor-pointer">
             <GoBellFill size={18} />
           </div>
 
           <div className="text-right">
-            <h2 className="font-semibold">Saroar Jahan</h2>
-            <p className="text-xs">Software Developer</p>
+            <h2 className="font-semibold">{user?.fullName}</h2>
+            <p className="text-xs">{user?.designation}</p>
           </div>
           <UserDropdown />
         </div>

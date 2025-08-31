@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`
         ${InterSans.className} bg-body-light dark:bg-dark-bg text-foreground min-h-screen
@@ -29,8 +29,9 @@ export default function RootLayout({
       >
         <ReactQueryClientProvider>
           <SplashWrapper>
-            <UIProvider />
-            {children}
+            <UIProvider>
+              {children}
+            </UIProvider>
           </SplashWrapper>
         </ReactQueryClientProvider>
       </body>

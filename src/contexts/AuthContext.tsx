@@ -13,7 +13,28 @@ interface ChildrenProps {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-type User = AuthState["user"];
+type User = {
+  _id: string;
+  instituteId?: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: string;
+  profile?: {
+    gender?: string;
+    dateOfBirth?: Date;
+    bloodGroup?: string;
+    religion?: string;
+    nid?: string;
+    fatherName?: string;
+    motherName?: string;
+    address?: string;
+    zipCode?: string;
+    city?: string;
+    country?: string;
+  } | null;
+  avatar?: string;
+};
 
 const initialState: AuthState = {
   user: {
@@ -22,6 +43,7 @@ const initialState: AuthState = {
     email: "",
     phone: "",
     role: "",
+    isOnline: false,
     profile: {
       gender: "",
       dateOfBirth: new Date(),
@@ -34,10 +56,9 @@ const initialState: AuthState = {
       zipCode: "",
       city: "",
       country: "",
-    },
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    }
   } as User,
+  avatar: "",
   loading: true,
 };
 
@@ -136,7 +157,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
           };
 
-          dispatch({ type: "LOGIN", payload: response?.data });
+          dispatch({ type: "LOGIN", payload: response?.data?.user });
         } else {
           dispatch({ type: "LOGOUT" });
           return replace(`/login`);
