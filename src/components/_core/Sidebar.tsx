@@ -39,7 +39,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
           <div className="w-full flex items-center justify-between p-4">
             {width === 250 ? (
               <h4 className="text-xl flex items-center gap-2 text-primary">
-                <CgUserlane size={24} className="text-primary" /> yourshop
+                <CgUserlane size={24} className="text-primary" /> School Hub
               </h4>
             ) : (
               <h4 className="text-2xl"><CgUserlane size={20} className="text-primary" /></h4>
@@ -56,7 +56,10 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                     <Link
                       href={link.link}
                       key={linkIndex}
-                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg ${pathname?.startsWith(link.link) ? 'text-black bg-primary-light dark:bg-primary/15' : ''} ${pathname !== link.link && 'hover:bg-primary/5 hover:text-primary'}`}
+                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg 
+                        ${pathname?.startsWith(link.link) ? "text-black bg-primary-light dark:bg-primary/15" : ""} 
+                        ${!pathname?.startsWith(link.link) && "hover:bg-primary/5 hover:text-primary"}`}
+
                     >
                       <div className="flex items-center gap-3">
                         <link.icon size={20} />
