@@ -15,4 +15,12 @@ export const userLogn = async (data: { email: string; password: string }) => {
 export const updateProfile = async (data: TUpdateUserPayload) => {
   const res = await request.put("/users/update-profile", data);
   return res.data;
-}
+};
+
+export const changePassword = async (data: {
+  oldPassword: string;
+  newPassword: string;
+}) => {
+  const res = await request.put("/users/change-password", data);
+  return res.data;
+};

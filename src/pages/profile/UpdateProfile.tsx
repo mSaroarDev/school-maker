@@ -345,35 +345,7 @@ const UpdateProfile = () => {
           </form>
         </Card>
 
-        <Card className="col-span-12 lg:col-span-4 h-fit">
-          <form className="grid grid-cols-12 gap-2">
-            <div className="col-span-12 flex items-center gap-2 mb-3">
-              <TbLockPassword size={18} />
-              <h2 className="font-medium text-base">Change Password</h2>
-            </div>
-
-            <div className="col-span-12">
-              <Label>Current Password</Label>
-              <Input type="password" />
-            </div>
-
-            <div className="col-span-12">
-              <Label>New Password</Label>
-              <Input type="password" />
-            </div>
-
-            <div className="col-span-12">
-              <Label>Confirm New Password</Label>
-              <Input type="password" />
-            </div>
-
-            <div className="col-span-12">
-              <Button >
-                Update Password
-              </Button>
-            </div>
-          </form>
-        </Card>
+        
       </div>
 
 
