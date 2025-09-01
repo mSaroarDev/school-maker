@@ -23,6 +23,7 @@ import { GrContactInfo } from "react-icons/gr";
 import { IoCamera } from "react-icons/io5";
 import { PiPlugsConnectedBold } from "react-icons/pi";
 import { TbLockPassword } from "react-icons/tb";
+import ChangePassword from "./ChangePassword";
 
 const UpdateProfile = () => {
   const breadTree = [
@@ -345,10 +346,8 @@ const UpdateProfile = () => {
           </form>
         </Card>
 
-        
+        <ChangePassword />
       </div>
-
-
     </>
   );
 };

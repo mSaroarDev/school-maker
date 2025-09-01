@@ -1,3 +1,4 @@
+"use client";
 import { useChangePassword } from "@/api/user/user.hooks";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
@@ -10,8 +11,8 @@ import { TbLockPassword } from "react-icons/tb";
 
 const ChangePassword = () => {
 
-  const {mutateAsync: changePassword, isPending: isChangingPassword} = useChangePassword();
-  
+  const { mutateAsync: changePassword, isPending: isChangingPassword } = useChangePassword();
+
   const defaultValues = {
     oldPassword: "",
     newPassword: "",
@@ -26,7 +27,7 @@ const ChangePassword = () => {
   });
 
   const onSubmit = async (data: typeof defaultValues) => {
-    if(data.newPassword !== data.confirmNewPassword) {
+    if (data.newPassword !== data.confirmNewPassword) {
       showToast("error", "New password and confirm new password do not match");
       return;
     }
@@ -37,7 +38,7 @@ const ChangePassword = () => {
         newPassword: data.newPassword
       });
 
-      if(res?.success){
+      if (res?.success) {
         showToast("success", res.message || "Password changed successfully");
       }
     } catch (error) {
@@ -48,7 +49,10 @@ const ChangePassword = () => {
   return (
     <>
       <Card className="col-span-12 lg:col-span-4 h-fit">
-        <form className="grid grid-cols-12 gap-2">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-12 gap-2"
+        >
           <div className="col-span-12 flex items-center gap-2 mb-3">
             <TbLockPassword size={18} />
             <h2 className="font-medium text-base">Change Password</h2>
@@ -56,21 +60,39 @@ const ChangePassword = () => {
 
           <div className="col-span-12">
             <Label>Current Password</Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              placeholder="Enter current password"
+              {...register("oldPassword", { required: "Current password is required" })}
+              disabled={isChangingPassword}
+              className={errors.oldPassword ? "border-red-500" : ""}
+            />
           </div>
 
           <div className="col-span-12">
             <Label>New Password</Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              placeholder="Enter new password"
+              {...register("newPassword", { required: "New password is required" })}
+              disabled={isChangingPassword}
+              className={errors.newPassword ? "border-red-500" : ""}
+            />
           </div>
 
           <div className="col-span-12">
             <Label>Confirm New Password</Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              placeholder="Confirm new password"
+              {...register("confirmNewPassword", { required: "Please confirm your new password" })}
+              disabled={isChangingPassword}
+              className={errors.confirmNewPassword ? "border-red-500" : ""}
+            />
           </div>
 
           <div className="col-span-12">
-            <Button>
+            <Button type="submit">
               Update Password
             </Button>
           </div>
