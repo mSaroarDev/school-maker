@@ -13,30 +13,10 @@ interface ChildrenProps {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-type User = {
-  _id: string;
-  instituteId?: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  role: string;
-  profile?: {
-    gender?: string;
-    dateOfBirth?: Date;
-    bloodGroup?: string;
-    religion?: string;
-    nid?: string;
-    fatherName?: string;
-    motherName?: string;
-    address?: string;
-    zipCode?: string;
-    city?: string;
-    country?: string;
-  } | null;
-  avatar?: string;
-};
+// Use the user type from TLoginResponse for full type safety
+type User = TLoginResponse["data"]["data"];
 
-const initialState: AuthState = {
+const initialState = {
   user: {
     _id: "",
     fullName: "",
@@ -56,10 +36,14 @@ const initialState: AuthState = {
       zipCode: "",
       city: "",
       country: "",
-    }
+      bio: "",
+    },
+    updatedAt: new Date(),
+    createdAt: new Date(),
   } as User,
   avatar: "",
   loading: true,
+
 };
 
 type Action =
@@ -71,13 +55,22 @@ type Action =
 function authReducer(state: AuthState, action: Action): AuthState {
   switch (action.type) {
     case "LOGIN":
-      return { user: action.payload, loading: false };
+      console.log("loggin", action.payload);
+      return {
+        user: action.payload,
+        loading: false
+      };
     case "LOGOUT":
-      return { user: null, loading: false };
+      return { user: null, avatar: "", loading: false };
     case "STOP_LOADING":
       return { ...state, loading: false };
     case "SET_USER":
-      return { ...state, user: action.payload, loading: false };
+      console.log("SET_USER action payload:", action.payload);
+      return {
+        ...state,
+        user: action.payload,
+        loading: false
+      };
     default:
       return state;
   }
@@ -113,7 +106,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (res?.success) {
       handleSuccessLogin(res.data.token);
-      dispatch({ type: "LOGIN", payload: res.data.user });
+      dispatch({ type: "LOGIN", payload: res.data.data });
     }
     return res;
   };
@@ -151,13 +144,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const getUserInfo = async () => {
       try {
-        const response: TLoginResponse = await request.get("/users/me");
-        if (response?.success) {
+        const response = await request.get("/users/me");
+        console.log("User info fetched successfully:", response);
+        if (response?.data?.success) {
           if (!response?.data) {
             return;
           };
 
-          dispatch({ type: "LOGIN", payload: response?.data?.user });
+          console.log("Authenticated user data:", response.data?.data);
+
+          dispatch({ type: "LOGIN", payload: response?.data?.data });
         } else {
           dispatch({ type: "LOGOUT" });
           return replace(`/login`);
@@ -169,9 +165,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     getUserInfo();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [replace]);
+  }, [token, replace]);
 
   const value: AuthContextType = {
     ...state,
@@ -184,6 +178,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isModerator: state.user?.role === "Moderator",
     isUser: state.user?.role === "User",
   };
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

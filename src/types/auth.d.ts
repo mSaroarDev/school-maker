@@ -1,7 +1,7 @@
-import { TLoginResponse } from "@/api/institute/institue.interfaces";
+import { TLoginResponse } from "@/api/user/user.interfaces";
 
 export interface AuthState {
-  user: TLoginResponse["data"]["user"] | null;
+  user: TLoginResponse["data"]["data"] | null;
   avatar?: string;
   loading: boolean;
 };

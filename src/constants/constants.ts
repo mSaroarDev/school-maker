@@ -28,3 +28,27 @@ export const shiftsOption = [
   { value: "Day", label: "Day" },
   { value: "Evening", label: "Evening" },
 ];
+
+export const gendersOption = [
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
+];
+
+export const religionsOption = [
+  { value: "Islam", label: "Islam" },
+  { value: "Hinduism", label: "Hinduism" },
+  { value: "Buddhism", label: "Buddhism" },
+  { value: "Christianity", label: "Christianity" },
+  { value: "Other", label: "Other" },
+];
+
+export const bloodGroupsOption = [
+  { value: "A+", label: "A+" },
+  { value: "A-", label: "A-" },
+  { value: "B+", label: "B+" },
+  { value: "B-", label: "B-" },
+  { value: "AB+", label: "AB+" },
+  { value: "AB-", label: "AB-" },
+  { value: "O+", label: "O+" },
+  { value: "O-", label: "O-" },
+];
