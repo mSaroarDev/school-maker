@@ -56,7 +56,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                     <Link
                       href={link.link}
                       key={linkIndex}
-                      className={`flex items-center justify-between px-5 py-3 cursor-pointer transition-all duration-150 rounded-lg 
+                      className={`flex items-center justify-between px-5 py-2.5 cursor-pointer transition-all duration-150 rounded-lg 
                         ${pathname?.startsWith(link.link) ? "text-black bg-primary-light dark:bg-primary/15" : ""} 
                         ${!pathname?.startsWith(link.link) && "hover:bg-primary/5 hover:text-primary"}`}
 
