@@ -13,7 +13,6 @@ interface ChildrenProps {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Use the user type from TLoginResponse for full type safety
 type User = TLoginResponse["data"]["data"];
 
 const initialState = {
@@ -83,7 +82,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const { replace } = useRouter();
 
-  // Initialize token state on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedToken = localStorage.getItem("token");
@@ -93,20 +91,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handleSuccessLogin = (token: string) => {
     localStorage.setItem("token", token);
-    setToken(token); // Update token state
+    setToken(token);
 
     Cookies.set("token", token);
   }
 
   const login = async ({ email, password }: LoginCredentials): Promise<TLoginResponse> => {
     const res = await userLogin({ email, password });
+
     if (!res.success) {
       throw new Error(res.message || "Login failed");
     }
 
     if (res?.success) {
       handleSuccessLogin(res.data.token);
-      dispatch({ type: "LOGIN", payload: res.data.data });
+      dispatch({ type: "LOGIN", payload: res?.data?.user });
     }
     return res;
   };
@@ -117,6 +116,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     Cookies.remove("token");
     dispatch({ type: "LOGOUT" });
+    replace("/login");
   };
 
   const isValidToken = async () => {
@@ -150,9 +150,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (!response?.data) {
             return;
           };
-
-          console.log("Authenticated user data:", response.data?.data);
-
           dispatch({ type: "LOGIN", payload: response?.data?.data });
         } else {
           dispatch({ type: "LOGOUT" });

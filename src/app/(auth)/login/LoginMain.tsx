@@ -1,32 +1,32 @@
 "use client";
+import { TLoginPayload, TLoginResponse } from "@/api/user/user.interfaces";
+import loginImage from "@/assets/images/login.svg";
+import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
+import Cookies from "js-cookie";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaRegEye } from "react-icons/fa6";
 import { HiOutlineMailOpen } from "react-icons/hi";
-import { RiKeyLine } from "react-icons/ri";
-import loginImage from "@/assets/images/login.svg";
-import Image from "next/image";
-import { TbLogin2 } from "react-icons/tb";
 import { IoMdArrowBack } from "react-icons/io";
-import { useForm } from "react-hook-form";
-import ErrorLabel from "@/components/_core/ErrorLabel";
-import { TLoginPayload, TLoginResponse } from "@/api/user/user.interfaces";
-import { useUserLogin } from "@/api/user/user.hooks";
-import { showToast } from "@/utils/showToast";
-import { handleErrorMessage } from "@/utils/handleErrorMessage";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { RiKeyLine } from "react-icons/ri";
+import { TbLogin2 } from "react-icons/tb";
 
 const LoginMain = () => {
   const { replace } = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { mutateAsync: userLogin, isPending: isLogining } = useUserLogin();
+  const {login} = useAuth();
 
   const {
     register,
@@ -45,7 +45,7 @@ const LoginMain = () => {
     }
 
     try {
-      const res = await userLogin(data);
+      const res = await login(data);
       if (res?.success) {
         showToast("success", res?.message || "Login successful");
         replace("/dashboard");
@@ -99,7 +99,7 @@ const LoginMain = () => {
                     placeholder="Enter your email or phone number"
                     {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                     className={`w-full mt-1 pl-10 ${errors.email ? "border-red-500" : ""}`}
-                    disabled={isLogining}
+                    // disabled={isLogining}
                   />
                   <HiOutlineMailOpen size={18} className="absolute bottom-2.5 left-3" />
                 </div>
@@ -117,7 +117,7 @@ const LoginMain = () => {
                     placeholder="Enter your password"
                     {...register("password", { required: true, minLength: 6 })}
                     className={`w-full mt-1 pl-10 ${errors.password ? "border-red-500" : ""}`}
-                    disabled={isLogining}
+                    // disabled={isLogining}
                   >
                   </Input>
                   <RiKeyLine size={18} className="absolute bottom-2.5 left-3" />
@@ -139,7 +139,7 @@ const LoginMain = () => {
                   <Link href="/forgot-password">Forgot Password?</Link>
                 </div>
 
-                <Button isDisabled={isLogining} type="submit" className="w-full">Login </Button>
+                <Button type="submit" className="w-full">Login </Button>
 
                 <Link href="/" className="cursor-pointer mt-5 text-center flex items-center justify-center gap-1">
                   <IoMdArrowBack size={18} />

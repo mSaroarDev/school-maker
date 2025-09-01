@@ -15,7 +15,6 @@ const DashboardHeader = ({
 
   const { setTheme, theme } = useTheme();
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <>
@@ -40,7 +39,7 @@ const DashboardHeader = ({
 
           <div className="text-right">
             <h2 className="font-semibold">{user?.fullName}</h2>
-            <p className="text-xs">{user?.designation}</p>
+            <p className="text-xs capitalize">{user?.role.replace("-", " ")}</p>
           </div>
           <UserDropdown />
         </div>

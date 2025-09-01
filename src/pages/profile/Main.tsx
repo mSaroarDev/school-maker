@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Image from "next/image";
@@ -18,6 +19,8 @@ import { AiOutlineComment } from "react-icons/ai";
 import { PiShareFat } from "react-icons/pi";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
+import avatarImage from "@/assets/images/avatar.jpeg";
 
 const ProfilePageMain = () => {
 
@@ -27,6 +30,8 @@ const ProfilePageMain = () => {
     { name: "Profile" },
   ];
 
+  const {user} = useAuth();
+
   return (
     <>
       <div>
@@ -35,16 +40,16 @@ const ProfilePageMain = () => {
       <div className="grid grid-cols-12 gap-5 mt-5">
         <div className="col-span-12 md:col-span-6 lg:col-span-3">
           <Card className="flex flex-col gap-3 items-center justify-center py-5 mb-3">
-            <div className="relative w-[140px] h-[140px] rounded-full bg-gray-300 animate-pulse overflow-hidden">
+            <div className="relative w-[140px] h-[140px] rounded-full bg-gray-300 overflow-hidden">
               <Image
-                src=""
+                src={user?.avatar || avatarImage}
                 alt="Profile Picture"
                 fill
                 className="object-cover"
               />
             </div>
-            <h2 className="font-medium text-lg -mb-2.5">Alizee Thomas</h2>
-            <p className="text-sm">New Yourk, US</p>
+            <h2 className="font-medium text-lg -mb-2.5">{user?.fullName}</h2>
+            <p className="text-sm">{`${user?.profile?.address} ${user?.profile?.city}`}</p>
             <Button>
               <Link href="/profile/update" className="flex items-center gap-2">
                 <BiEdit size={18} /> Edit Profile
