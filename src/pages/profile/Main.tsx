@@ -41,7 +41,7 @@ const ProfilePageMain = () => {
       <div className="grid grid-cols-12 gap-5 mt-5">
         <div className="col-span-12 md:col-span-6 lg:col-span-3">
           <Card className="flex flex-col gap-3 items-center justify-center py-5 mb-3">
-            <div className="relative w-[140px] h-[140px] rounded-full bg-gray-300 overflow-hidden">
+            <div className="relative w-28 h-28 rounded-full bg-gray-300 overflow-hidden">
               <Image
                 src={user?.avatar || avatarImage}
                 alt="Profile Picture"

@@ -133,7 +133,7 @@ const UpdateProfile = () => {
             </div>
 
             <div className="col-span-12">
-              <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-300">
+              <div className="relative w-28 h-28 rounded-full overflow-hidden bg-gray-300">
                 <Image
                   src={avatarUrl || avatarPlaceholder}
                   alt="Profile Picture"
