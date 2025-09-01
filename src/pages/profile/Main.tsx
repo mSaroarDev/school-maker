@@ -21,6 +21,7 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import avatarImage from "@/assets/images/avatar.jpeg";
+import moment from "moment";
 
 const ProfilePageMain = () => {
 
@@ -49,7 +50,7 @@ const ProfilePageMain = () => {
               />
             </div>
             <h2 className="font-medium text-lg -mb-2.5">{user?.fullName}</h2>
-            <p className="text-sm">{`${user?.profile?.address} ${user?.profile?.city}`}</p>
+            <p className="text-sm">{`${user?.profile?.address}, ${user?.profile?.city}`}</p>
             <Button>
               <Link href="/profile/update" className="flex items-center gap-2">
                 <BiEdit size={18} /> Edit Profile
@@ -59,6 +60,11 @@ const ProfilePageMain = () => {
 
           <Card className="mb-3">
             <h3 className="font-medium mb-3">About Me</h3>
+            <div className="mt-3">
+              <p className="text-sm text-dark-card-heading">
+                {user?.profile?.bio || ""}
+              </p>
+            </div>
           </Card>
 
           <Card className="p-0">
@@ -68,27 +74,27 @@ const ProfilePageMain = () => {
                 <AccordionContent>
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><GrLocation size={18} /> Address</h4>
-                    <p className="text-sm text-dark-card-heading">123 Main St, New York, NY 10001</p>
+                    <p className="text-sm text-dark-card-heading">{`${user?.profile?.address}, ${user?.profile?.city}`}</p>
                   </div>
 
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><BiPaperPlane size={18} /> Email</h4>
                     <p className="text-sm text-dark-card-heading">
-                      expamle@gafdaf.com
+                      {user?.email}
                     </p>
                   </div>
 
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><MdOutlineCall size={18} /> Mobile</h4>
                     <p className="text-sm text-dark-card-heading">
-                      +880 1234 56789
+                      {user?.phone || "N/A"}
                     </p>
                   </div>
 
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><FaRegCalendarAlt size={18} /> Birth Date</h4>
                     <p className="text-sm text-dark-card-heading">
-                      January 1, 1990
+                      {moment(user?.profile?.dateOfBirth).format("MMMM D, YYYY") || "N/A"}
                     </p>
                   </div>
                 </AccordionContent>
@@ -130,16 +136,16 @@ const ProfilePageMain = () => {
               {[1, 2, 3].map((_, index) => (
                 <Card style={{ paddingBottom: 0 }} key={index} className="post-card mb-3 last:mb-0">
                   <div className="flex items-center justify-between">
-                    <div className="h-11 w-11 rounded-full overflow-hidden relative ring ring-primary">
+                    <div className="h-9 w-9 rounded-full overflow-hidden relative ring ring-primary">
                       <Image
-                        src=""
+                        src={user?.avatar || avatarImage}
                         alt="Profile Picture"
                         fill
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="ml-3 flex-1">
-                      <h4 className="font-medium">Alizee Thomas</h4>
+                      <h4 className="font-medium">{user?.fullName}</h4>
                       <p className="text-sm text-gray-500">2 hours ago</p>
                     </div>
                   </div>
