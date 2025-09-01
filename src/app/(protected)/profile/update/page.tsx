@@ -6,6 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import Image from "next/image";
+import { BiEdit } from "react-icons/bi";
+import { GrContactInfo } from "react-icons/gr";
+import { PiPlugsConnectedBold } from "react-icons/pi";
+import { TbLockPassword } from "react-icons/tb";
 import Select from "react-select";
 
 const page = () => {
@@ -26,8 +30,9 @@ const page = () => {
       <div className="grid grid-cols-12 gap-5">
         <Card className="col-span-12 lg:col-span-8">
           <form className="grid grid-cols-12 gap-5">
-            <div className="col-span-12">
-              <h2 className="font-medium text-base mb-3">Update Profile</h2>
+            <div className="col-span-12 flex items-center gap-2">
+              <BiEdit size={18} />
+              <h2 className="font-medium text-base">Update Profile</h2>
             </div>
 
             <div className="col-span-12">
@@ -102,7 +107,8 @@ const page = () => {
               <Input />
             </div>
 
-            <div className="col-span-12 mt-7">
+            <div className="col-span-12 flex items-center gap-2 mt-5">
+              <PiPlugsConnectedBold size={18} />
               <h2 className="font-medium text-base">Connect Info Profile</h2>
             </div>
 
@@ -116,7 +122,8 @@ const page = () => {
               <Input />
             </div>
 
-             <div className="col-span-12 mt-7">
+            <div className="col-span-12 flex items-center gap-2 mt-3">
+              <GrContactInfo size={18} />
               <h2 className="font-medium text-base">About Me</h2>
             </div>
 
@@ -136,8 +143,9 @@ const page = () => {
 
         <Card className="col-span-12 lg:col-span-4 h-fit">
           <form className="grid grid-cols-12 gap-2">
-            <div className="col-span-12">
-              <h2 className="font-medium text-base mb-3">Change Password</h2>
+            <div className="col-span-12 flex items-center gap-2 mb-3">
+              <TbLockPassword size={18} />
+              <h2 className="font-medium text-base">Change Password</h2>
             </div>
 
             <div className="col-span-12">
