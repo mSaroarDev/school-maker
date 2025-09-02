@@ -1,18 +1,22 @@
 import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
 import { Teacher } from "@/api/teachers/teachers.interfaces";
-import Image from "next/image";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
 import CustomDataTable from "@/components/_core/CustomDataTable";
-import { MdMoreVert } from "react-icons/md";
+import Image from "next/image";
 import { useState } from "react";
+import { MdMoreVert } from "react-icons/md";
 
-const TeachersList = () => {
+interface ITeachersListProps {
+  search: string;
+}
 
+const TeachersList = ({search}: ITeachersListProps) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const { data: teachers, isPending } = useGetAllTeachers({
     currPage: currPage,
     limit: limit,
+    search: search
   });
 
   const desktopColumns = [

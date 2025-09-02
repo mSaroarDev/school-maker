@@ -48,4 +48,5 @@ export type Teacher = {
 export type TGetTeacherPayload = {
   currPage: number;
   limit: number;
+  search?: string;
 }

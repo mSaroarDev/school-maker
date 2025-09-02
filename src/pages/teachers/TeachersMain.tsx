@@ -1,11 +1,24 @@
 "use client";
 
 import Card from "@/components/ui/card";
+import { useEffect, useState } from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
 import TeachersList from "./TeachersList";
 
 const TeachersMain = () => {
+  const [query, setQuery] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
+
+  useEffect(() => {
+    if (query.length === 0 || query.length > 2) {
+      setTimeout(() => {
+        setSearch(query);
+      }, 1000);
+    }
+  }, [query]);
+
+
   return (
     <>
       <Card>
@@ -17,6 +30,8 @@ const TeachersMain = () => {
               <input
                 className="outline-none py-1.5"
                 placeholder="Search teachers..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
             </div>
 
@@ -25,7 +40,9 @@ const TeachersMain = () => {
           </div>
         </div>
 
-        <TeachersList />
+        <TeachersList 
+          search={search}
+        />
       </Card>
     </>
   );
