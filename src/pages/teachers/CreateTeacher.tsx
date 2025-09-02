@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { PiMagicWand } from "react-icons/pi";
-import avatarImage from "@/assets/images/avatar.jpeg";
 import { LuHandshake, LuSwitchCamera } from "react-icons/lu";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -16,6 +15,10 @@ import StepProgress from "@/components/_core/StepProgress";
 import { TiContacts } from "react-icons/ti";
 import { FaUserGraduate } from "react-icons/fa6";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
+import { Button } from "@/components/ui/button";
+import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
 
 const CreateTeacher = () => {
   const params = useParams();
@@ -29,14 +32,13 @@ const CreateTeacher = () => {
     { name: "New Teacher" },
   ];
 
+  const [step, setStep] = useState(1);
   const steps = useMemo(() => ([
     { stepId: 1, stepName: "Basic Info", desc: "Enter basic information", icon: <LuHandshake size={18} /> },
     { stepId: 2, stepName: "Contacts", desc: "Provide contact details", icon: <TiContacts size={18} /> },
     { stepId: 3, stepName: "Education", desc: "Add education details", icon: <FaUserGraduate size={18} /> },
     { stepId: 4, stepName: "Salary", desc: "Set salary details", icon: <RiMoneyDollarBoxLine size={18} /> },
   ]), []);
-
-  const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
 
   return (
     <div className="w-full max-w-7xl">
@@ -47,7 +49,7 @@ const CreateTeacher = () => {
       <div className="grid grid-cols-12 gap-3">
         <Card className="col-span-3">
           <StepProgress
-            currStepId={1}
+            currStepId={step}
             steps={steps}
             direction="col"
           />
@@ -58,55 +60,15 @@ const CreateTeacher = () => {
             <h3 className="font-semibold text-base">Add New Teacher</h3>
           </div>
 
-          <div className="mt-5">
-            <div className="w-24 h-24 relative rounded-full overflow-hidden ring ring-primary/40">
-              <Image
-                src={avatarCldImage || avatarImage}
-                alt="Avatar"
-                fill
-                className="object-cover"
-              />
+          {step === 1 && <Step1
+            step={step}
+            setStep={setStep}
+          />}
 
-              <div className="absolute bg-black/30 top-0 bottom-0 left-0 right-0 flex items-center justify-center">
-                <LuSwitchCamera size={22} />
-              </div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-12 gap-3">
-              <div className="col-span-12 lg:col-span-6">
-                <Label>Full Name</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-3">
-                <Label>Designation</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-3">
-                <Label>Employee Id</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-4">
-                <Label>Joining Date</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-4">
-                <Label>Gender</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-4">
-                <Label>Blood Group</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-4">
-                <Label>Date of Birth</Label>
-                <Input />
-              </div>
-              <div className="col-span-6 lg:col-span-4">
-                <Label>NID Number</Label>
-                <Input />
-              </div>
-            </div>
-          </div>
+          {step === 2 && <Step2
+            step={step}
+            setStep={setStep}
+          />}
         </Card>
       </div>
     </div>
