@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
 
 const CreateTeacher = () => {
   const params = useParams();
@@ -47,14 +49,14 @@ const CreateTeacher = () => {
       </div>
 
       <div className="grid grid-cols-12 gap-3">
-        <Card className="col-span-3">
+        <Card className="col-span-3 h-fit">
           <StepProgress
             currStepId={step}
             steps={steps}
             direction="col"
           />
         </Card>
-        <Card className="col-span-12 lg:col-span-9">
+        <Card className="col-span-12 lg:col-span-9 h-fit">
           <div className="flex items-center gap-2">
             <PiMagicWand size={18} />
             <h3 className="font-semibold text-base">Add New Teacher</h3>
@@ -66,6 +68,16 @@ const CreateTeacher = () => {
           />}
 
           {step === 2 && <Step2
+            step={step}
+            setStep={setStep}
+          />}
+
+          {step === 3 && <Step3
+            step={step}
+            setStep={setStep}
+          />}
+
+           {step === 4 && <Step4
             step={step}
             setStep={setStep}
           />}
