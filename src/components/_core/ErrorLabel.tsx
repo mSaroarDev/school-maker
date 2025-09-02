@@ -1,5 +1,5 @@
 type ErrorLabelProps = {
-    msg: string;
+    msg?: string;
 }
 
 const ErrorLabel = ({
@@ -7,7 +7,7 @@ const ErrorLabel = ({
 }: ErrorLabelProps) => {
     return (
         <>
-            <span className="text-xs text-red-500">{msg}</span>
+            <span className="text-xs text-red-500">{msg as string || "This field is required"}</span>
         </>
     );
 };

@@ -7,6 +7,7 @@ import avatarImage from "@/assets/images/avatar.jpeg";
 import { useState } from "react";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+import { GoPlus } from "react-icons/go";
 
 type Step4Props = {
   step: number;
@@ -42,6 +43,10 @@ const Step4 = ({
             </tr>
           </tbody>
         </table>
+
+        <div className="flex items-center justify-end">
+          <Button variant="outline" className="mt-3"><GoPlus size={18} /> Add More</Button>
+        </div>  
 
         <div className="flex items-center justify-between mt-5">
           <Button onClick={() => setStep(3)} variant="outline"><IoArrowBack size={18} /> Previous</Button>

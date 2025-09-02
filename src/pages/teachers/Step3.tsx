@@ -7,6 +7,7 @@ import avatarImage from "@/assets/images/avatar.jpeg";
 import { useState } from "react";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+import { GoPlus } from "react-icons/go";
 
 type Step3Props = {
   step: number;
@@ -35,17 +36,21 @@ const Step3 = ({
           </thead>
           <tbody>
             <tr>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
               <td className="border text-center">
                 <RxCross2 size={20} className="mx-auto text-red-500 cursor-pointer" />
               </td>
             </tr>
           </tbody>
         </table>
+
+        <div className="flex items-center justify-end">
+          <Button variant="outline" className="mt-3"><GoPlus size={18} /> Add More</Button>
+        </div>
 
         <div className="flex items-center justify-between mt-5">
           <Button onClick={() => setStep(2)} variant="outline"><IoArrowBack size={18} /> Previous</Button>

@@ -22,7 +22,6 @@ import { BiEdit } from "react-icons/bi";
 import { GrContactInfo } from "react-icons/gr";
 import { IoCamera } from "react-icons/io5";
 import { PiPlugsConnectedBold } from "react-icons/pi";
-import { TbLockPassword } from "react-icons/tb";
 import ChangePassword from "./ChangePassword";
 
 const UpdateProfile = () => {
