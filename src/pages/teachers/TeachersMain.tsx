@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
 import TeachersList from "./TeachersList";
+import { useRouter } from "next/navigation";
 
 const TeachersMain = () => {
   const [query, setQuery] = useState<string>("");
   const [search, setSearch] = useState<string>("");
+  const {push} = useRouter();
 
   useEffect(() => {
     if (query.length === 0 || query.length > 2) {
@@ -21,6 +23,7 @@ const TeachersMain = () => {
 
   return (
     <>
+    
       <Card>
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold">All Teachers</h3>
@@ -36,7 +39,7 @@ const TeachersMain = () => {
             </div>
 
             <button className="header-buttons"><FiFilter size={18} /></button>
-            <button className="header-buttons"><LuPlus size={18} /></button>
+            <button onClick={()=> push("/teachers/create")} className="header-buttons"><LuPlus size={18} /></button>
           </div>
         </div>
 
