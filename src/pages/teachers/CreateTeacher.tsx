@@ -149,6 +149,11 @@ const CreateTeacher = () => {
           {step === 4 && <Step4
             step={step}
             setStep={setStep}
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
           />}
         </Card>
       </div>

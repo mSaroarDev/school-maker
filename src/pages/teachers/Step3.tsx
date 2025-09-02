@@ -31,7 +31,6 @@ const Step3 = ({
   getValues
 }: Step3Props) => {
   const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
-  console.log("Qualifications: ", getValues().qualification);
 
   const { fields, append, remove } = useFieldArray({
     control,
