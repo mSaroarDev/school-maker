@@ -5,6 +5,7 @@ import TableSkeleton from "./skeleton/TableSkeleton";
 import NoData from "./NoDataa";
 import { useTheme } from "next-themes";
 import TablePagination from "./TablePagination";
+import { darkDataTableStyles, dataTableStyles, mobileDarkDataTableStyles, mobileLightDataTableStyles } from "@/assets/styles/DatatableStyles";
 
 interface IDatatableProps<T> {
   data: T[];
@@ -51,35 +52,39 @@ const CustomDataTable = <T,>({
   const { theme } = useTheme();
 
   // Determine which styles to use based on device and theme
-  // const getStyles = () => {
-  //   if (isMobile) {
-  //     return theme === "light" ? mobileLightDataTableStyles : mobileDarkDataTableStyles;
-  //   }
-  //   return theme === "light" ? dataTableStyles : darkDataTableStyles;
-  // };
+  const customStyles = {
+    headRow: {
+      style: {
+        display: isMobile ? 'none' : '',
+        ...(theme === "light" ? dataTableStyles.headRow.style : darkDataTableStyles.headRow.style)
+      }
+    },
+    table: {
+      style: {
+        backgroundColor: 'transparent',
+      }
+    },
+    tableWrapper: {
+      style: {
+        backgroundColor: 'transparent',
+      }
+    }
+  };
+
+  const getStyles = () => {
+    if (isMobile) {
+      return theme === "light" ? mobileLightDataTableStyles : mobileDarkDataTableStyles;
+    }
+    return theme === "light" ? dataTableStyles : darkDataTableStyles;
+  };
 
   return (
     <div className="w-full overflow-hidden">
       <DataTable
-        // customStyles={{
-        //   ...getStyles(),
-        //   headRow: {
-        //     style: {
-        //       display: isMobile ? 'none' : '',
-        //       ...(theme === "light" ? dataTableStyles.headRow.style : darkDataTableStyles.headRow.style)
-        //     }
-        //   },
-        //   table: {
-        //     style: {
-        //       backgroundColor: 'transparent',
-        //     }
-        //   },
-        //   tableWrapper: {
-        //     style: {
-        //       backgroundColor: 'transparent',
-        //     }
-        //   }
-        // }}
+        customStyles={{
+          ...getStyles(),
+          ...customStyles
+        }}
         columns={isMobile ? mobileColumns ?? [] : columns}
         data={data}
         progressPending={progressPending}

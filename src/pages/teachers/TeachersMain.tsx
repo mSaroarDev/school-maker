@@ -1,6 +1,5 @@
 "use client";
 
-import CustomDataTable from "@/components/_core/CustomDataTable";
 import Card from "@/components/ui/card";
 import { FiFilter, FiSearch } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
