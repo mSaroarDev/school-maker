@@ -13,10 +13,10 @@ import ErrorLabel from "@/components/_core/ErrorLabel";
 type Step2Props = {
   step: number;
   setStep: (step: number) => void;
-    control: Control<TTeacherPayload>;
-    errors?: FieldErrors<TTeacherPayload>;
-    register: UseFormRegister<TTeacherPayload>;
-    setValue: UseFormSetValue<TTeacherPayload>
+  control: Control<TTeacherPayload>;
+  errors?: FieldErrors<TTeacherPayload>;
+  register: UseFormRegister<TTeacherPayload>;
+  setValue: UseFormSetValue<TTeacherPayload>
 }
 
 const Step2 = ({
@@ -35,7 +35,7 @@ const Step2 = ({
         <div className="mt-5 grid grid-cols-12 gap-3">
           <div className="col-span-12 lg:col-span-4">
             <Label>Phone No</Label>
-            <Input 
+            <Input
               type="text"
               placeholder="+8801XXXXXXXXX"
               {...register("phoneNumber", { required: "Phone No is required" })}
@@ -45,7 +45,7 @@ const Step2 = ({
           </div>
           <div className="col-span-12 lg:col-span-4">
             <Label>Emergency Contact</Label>
-            <Input 
+            <Input
               type="text"
               placeholder="+8801XXXXXXXXX"
               {...register("familyInformation.emergencyContact", { required: "Emergency Contact is required" })}
@@ -55,11 +55,11 @@ const Step2 = ({
           </div>
           <div className="col-span-6 lg:col-span-4">
             <Label>Email</Label>
-            <Input 
+            <Input
               type="email"
               placeholder=""
-              {...register("email", { 
-                required: "Email is required", 
+              {...register("email", {
+                required: "Email is required",
                 pattern: {
                   value: /^\S+@\S+$/i,
                   message: "Invalid email address"
@@ -71,7 +71,7 @@ const Step2 = ({
           </div>
           <div className="col-span-12 lg:col-span-6">
             <Label>Father Name</Label>
-            <Input 
+            <Input
               {...register("familyInformation.fatherName", { required: "Father Name is required" })}
               className={errors?.familyInformation?.fatherName ? "border-red-500" : ""}
               placeholder="Mr. John Doe"
@@ -80,7 +80,7 @@ const Step2 = ({
           </div>
           <div className="col-span-12 lg:col-span-6">
             <Label>Mother Name</Label>
-            <Input 
+            <Input
               {...register("familyInformation.motherName", { required: "Mother Name is required" })}
               className={errors?.familyInformation?.motherName ? "border-red-500" : ""}
               placeholder="Mrs. Jane Doe"
@@ -89,7 +89,7 @@ const Step2 = ({
           </div>
           <div className="col-span-12">
             <Label>Current Address</Label>
-            <Input 
+            <Input
               {...register("currentAddress", { required: "Current Address is required" })}
               className={errors?.currentAddress ? "border-red-500" : ""}
               placeholder="House #12, Road #5, Dhaka, Bangladesh"
@@ -98,7 +98,7 @@ const Step2 = ({
           </div>
           <div className="col-span-12">
             <Label>Permanant Address</Label>
-            <Input 
+            <Input
               {...register("permanentAddress", { required: "Permanant Address is required" })}
               className={errors?.permanentAddress ? "border-red-500" : ""}
               placeholder="Village X, District Y, Bangladesh"

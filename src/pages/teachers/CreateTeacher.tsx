@@ -59,14 +59,14 @@ const CreateTeacher = () => {
         "institueName": "Dhaka University",
         "degree": "B.Sc in Mathematics",
         "passingYear": 2012,
-        "result": "First Class",
+        "result": "3.75",
         "board": "National"
       },
       {
         "institueName": "Dhaka College",
         "degree": "HSC",
         "passingYear": 2008,
-        "result": "GPA 5.00",
+        "result": "5.00",
         "board": "Dhaka"
       }
     ],
@@ -92,7 +92,8 @@ const CreateTeacher = () => {
     handleSubmit,
     formState: { errors },
     control,
-    setValue
+    setValue,
+    getValues
   } = useForm({
     defaultValues
   });
@@ -138,6 +139,11 @@ const CreateTeacher = () => {
           {step === 3 && <Step3
             step={step}
             setStep={setStep}
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
           />}
 
           {step === 4 && <Step4
