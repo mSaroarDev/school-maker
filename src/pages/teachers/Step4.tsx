@@ -51,9 +51,9 @@ const Step4 = ({
           </thead>
           <tbody>
             <tr>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
-              <td className="border"><Input /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
+              <td className="border"><Input className="border-0" /></td>
               <td className="border text-center">
                 <RxCross2 size={20} className="mx-auto text-red-500 cursor-pointer" />
               </td>
