@@ -20,7 +20,7 @@ const Layout = ({
     <>
       <Sidebar width={isSidebarOpen ? 250 : 80} toggleSidebar={toggleSidebar} />
       <DashboardHeader width={isSidebarOpen ? 250 : 80}  />
-      <div className={`${isSidebarOpen ? 'md:ml-[250px]' : 'md:ml-[80px]'} transition-all duration-300 ease-in-out p-5`}>
+      <div className={`${isSidebarOpen ? 'md:ml-[250px]' : 'md:ml-[80px]'} transition-all duration-300 ease-in-out p-3 md:p-5`}>
         {children}
       </div>
     </>

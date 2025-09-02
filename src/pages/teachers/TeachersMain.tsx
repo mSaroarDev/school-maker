@@ -12,7 +12,7 @@ const TeachersMain = () => {
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold">All Teachers</h3>
           <div className="flex items-center gap-2">
-            <div className="border border-primary/30 rounded-full flex items-center gap-2 px-2">
+            <div className="hidden border border-primary/30 rounded-full md:flex items-center gap-2 px-2">
               <FiSearch size={20} className="text-primary/50" />
               <input
                 className="outline-none py-1.5"

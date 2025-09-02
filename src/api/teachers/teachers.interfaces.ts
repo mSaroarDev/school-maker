@@ -43,4 +43,9 @@ export type Teacher = {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
+};
+
+export type TGetTeacherPayload = {
+  currPage: number;
+  limit: number;
 }
