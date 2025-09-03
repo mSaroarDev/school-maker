@@ -50,14 +50,37 @@ const Step4 = ({
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="border"><Input className="border-0" /></td>
-              <td className="border"><Input className="border-0" /></td>
-              <td className="border"><Input className="border-0" /></td>
+            {getValues().salaryHistory?.map((salary, index)=> (
+              <tr key={index}>
+              <td className="border">
+                <Input 
+                  {...register(`salaryHistory.${index}.salaryType` as const, { required: "Salary Type is required" })}
+                  placeholder="e.g. Basic Salary"
+                  defaultValue={salary.salaryType}
+                  className={errors?.salaryHistory?.[index]?.salaryType ? "border-2 border-red-500" : "border-0"}
+                />
+              </td>
+              <td className="border">
+                <Input 
+                  {...register(`salaryHistory.${index}.effectedFrom` as const, { required: "Effected Date is required" })}
+                  type="date" 
+                  defaultValue={salary.effectedFrom}
+                  className={errors?.salaryHistory?.[index]?.effectedFrom ? "border-2 border-red-500" : "border-0"}
+                />
+              </td>
+              <td className="border">
+                <Input 
+                  {...register(`salaryHistory.${index}.amount` as const, { required: "Amount is required" })}
+                  placeholder="e.g. 25000"
+                  defaultValue={salary.amount}
+                  className={errors?.salaryHistory?.[index]?.amount ? "border-2 border-red-500" : "border-0"}
+                />
+              </td>
               <td className="border text-center">
-                <RxCross2 size={20} className="mx-auto text-red-500 cursor-pointer" />
+                <RxCross2 onClick={()=> remove(index)} size={20} className="mx-auto text-red-500 cursor-pointer" />
               </td>
             </tr>
+            ))}
           </tbody>
         </table>
 
