@@ -1,15 +1,11 @@
+import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-label";
-import Image from "next/image";
-import { LuSwitchCamera } from "react-icons/lu";
-import avatarImage from "@/assets/images/avatar.jpeg";
 import { useState } from "react";
+import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { GoPlus } from "react-icons/go";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import { GoPlus } from "react-icons/go";
-import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 
 type Step4Props = {
   step: number;
@@ -98,7 +94,7 @@ const Step4 = ({
 
         <div className="flex items-center justify-between mt-5">
           <Button onClick={() => setStep(3)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
-          <Button onClick={() => setStep(4)}>Next <IoArrowForwardSharp size={18} /></Button>
+          <Button onClick={() => setStep(5)}>Next <IoArrowForwardSharp size={18} /></Button>
         </div>
       </div>
     </>

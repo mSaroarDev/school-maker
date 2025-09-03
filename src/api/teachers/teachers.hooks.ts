@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllTeachers } from "./teachers.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createTeacher, getAllTeachers } from "./teachers.api";
 import { TGetTeacherPayload } from "./teachers.interfaces";
 
 export const useGetAllTeachers = (payload: TGetTeacherPayload) => {
@@ -12,4 +12,16 @@ export const useGetAllTeachers = (payload: TGetTeacherPayload) => {
   });
 
   return query;
+};
+
+export const useCreateTeacher = () => {
+  const queryClient = useQueryClient();
+  const data = useMutation({
+    mutationFn: createTeacher,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["teachers"] });
+    }
+  });
+
+  return data;
 }

@@ -70,16 +70,9 @@ export type TTeacherPayload = {
     result: string;
     board: string;
   }[];
-  isFormer: boolean;
   leftDate?: Date;
-  professionalQualifications: {
-    degree: string;
-    institution: string;
-    passingYear: string;
-    result: string;
-    board: string;
-  }[];
   teachingSubjects: string[];
+  classes: string[];
   salaryHistory: { salaryType: string, amount: string, effectedFrom: string }[];
   remarks?: string;
 };
