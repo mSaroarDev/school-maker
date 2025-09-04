@@ -1,11 +1,7 @@
 "use client";
 import { useAuth } from "@/hooks/useAuth";
 import { usePathname, useRouter } from "next/navigation";
-import { BiGift, BiMessageDetail } from "react-icons/bi";
-import { IoStorefrontOutline } from "react-icons/io5";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { PiFigmaLogoDuotone } from "react-icons/pi";
-import { RiMenuUnfold2Line, RiMoneyDollarBoxLine } from "react-icons/ri";
+import { RiMenuUnfold2Line } from "react-icons/ri";
 
 import {
   Sheet,
@@ -15,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
+import Image from "next/image";
 
 
 const MobileMenuItems = () => {
@@ -22,14 +19,6 @@ const MobileMenuItems = () => {
 
   const { user, logout } = useAuth();
   const { push } = useRouter();
-
-  const handleButtonClick = () => {
-    if (user?._id) {
-      logout();
-    } else {
-      push("/login");
-    }
-  }
 
   return (
     <>
@@ -42,31 +31,24 @@ const MobileMenuItems = () => {
             <RiMenuUnfold2Line size={20} />
             <span className="md:hidden">Menus</span>
           </button>
-
-          {/* <button
-            // onClick={onOpen}
-            className="more-action-button hidden md:flex flex-col items-center justify-center text-xs font-medium gap-1"
-          >
-            <RiMenuUnfold2Line size={20} />
-            <span className="md:hidden">Menus</span>
-          </button> */}
         </SheetTrigger>
         <SheetContent>
-          <SheetHeader>
+          {/* <SheetHeader>
             <SheetTitle>Edit profile</SheetTitle>
             <SheetDescription>
               Make changes to your profile here. Click save when you&apos;re done.
             </SheetDescription>
-          </SheetHeader>
-          <div>
+          </SheetHeader> */}
+          {user?._id && (
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="w-24 h-24 rounded-full relative overflow-hidden">
 
-          </div>
-          {/* <SheetFooter>
-            <Button type="submit">Save changes</Button>
-            <SheetClose asChild>
-              <Button variant="outline">Close</Button>
-            </SheetClose>
-          </SheetFooter> */}
+                </div>
+              </div>
+            </div>
+          )}
+
         </SheetContent>
       </Sheet>
 

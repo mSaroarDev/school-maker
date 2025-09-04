@@ -1,14 +1,10 @@
 "use client";
+import { House } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AiTwotoneMessage } from "react-icons/ai";
-import { HiOutlineShoppingCart } from "react-icons/hi";
-import { LuCircleUserRound, LuNotebookPen, LuWallet } from "react-icons/lu";
-import { MdOutlineExplore } from "react-icons/md";
-import { RiHome9Line, RiMenuUnfold2Line } from "react-icons/ri";
-import MobileMenuItems from "./MobileMenuItems";
-import { House } from "lucide-react";
 import { FiUsers } from "react-icons/fi";
+import { LuNotebookPen, LuWallet } from "react-icons/lu";
+import MobileMenuItems from "./MobileMenuItems";
 
 const MobileBottomNav = () => {
 
