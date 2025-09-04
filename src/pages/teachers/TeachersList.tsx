@@ -1,5 +1,5 @@
 import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
-import { Teacher } from "@/api/teachers/teachers.interfaces";
+import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const TeachersList = ({search}: ITeachersListProps) => {
   const desktopColumns = [
     {
       name: "Teacher Name",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 relative rounded-full overflow-hidden">
             <Image
@@ -41,32 +41,32 @@ const TeachersList = ({search}: ITeachersListProps) => {
     },
     {
       name: "Emp ID",
-      selector: (row: Teacher) => row?.employeeId,
+      selector: (row: TTeacherPayloadTeacher) => row?.employeeId,
     },
     {
       name: "Subject",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         row?.teachingSubjects?.length ? row.teachingSubjects.slice(0, 3).join(", ") : "N/A"
       ),
     },
     {
       name: "Class",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         row?.classes?.length ? row.classes.slice(0, 3).join(", ") : "N/A"
       ),
     },
     {
       name: "Phone No",
-      cell: (row: Teacher) => row?.phoneNumber || "N/A",
+      cell: (row: TTeacherPayloadTeacher) => row?.phoneNumber || "N/A",
     },
     {
       name: "Address",
-      cell: (row: Teacher) => row?.currentAddress || "N/A",
+      cell: (row: TTeacherPayloadTeacher) => row?.currentAddress || "N/A",
     },
     {
       name: "Action",
       width: "100px",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         <button className="more-action-button"><MdMoreVert size={20} /></button>
       )
     }
@@ -75,7 +75,7 @@ const TeachersList = ({search}: ITeachersListProps) => {
   const mobileColumns = [
     {
       name: "Teacher Name",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
           <div className="w-14 h-10 relative rounded-sm ring-primary/20 overflow-hidden ring">
             <Image
@@ -95,7 +95,7 @@ const TeachersList = ({search}: ITeachersListProps) => {
     {
       name: "Action",
       width: "50px",
-      cell: (row: Teacher) => (
+      cell: (row: TTeacherPayloadTeacher) => (
         <button className="more-action-button"><MdMoreVert size={20} /></button>
       )
     }
