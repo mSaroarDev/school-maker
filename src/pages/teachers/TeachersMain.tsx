@@ -23,7 +23,6 @@ const TeachersMain = () => {
 
   return (
     <>
-    
       <Card>
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold">All Teachers</h3>

@@ -74,7 +74,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
             />
           </div>
           <div>
-            <h3 className="font-semibold">{row?.fullName}</h3>
+            <h3 onClick={()=> push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.email}</p>
           </div>
         </div>
@@ -136,7 +136,6 @@ const TeachersList = ({ search }: ITeachersListProps) => {
 
           </DropdownMenuContent>
         </DropdownMenu>
-
       )
     }
   ];
@@ -155,7 +154,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
             />
           </div>
           <div>
-            <h3 className="font-semibold">{row?.fullName}</h3>
+            <h3 onClick={()=> push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.email}</p>
           </div>
         </div>
@@ -165,7 +164,34 @@ const TeachersList = ({ search }: ITeachersListProps) => {
       name: "Action",
       width: "50px",
       cell: (row: TTeacherPayloadTeacher) => (
-        <button className="more-action-button"><MdMoreVert size={20} /></button>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="more-action-button">
+            <MdMoreVert size={20} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Action</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => push(`/teachers/profile/${row?._id}`)}
+            >
+              <PiUserSquareFill size={18} /> View Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => push(`/teachers/${row?._id}`)}
+            >
+              <BiEdit size={18} /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+            >
+              <HiTrash size={18} /> Delete
+            </DropdownMenuItem>
+
+          </DropdownMenuContent>
+        </DropdownMenu>
       )
     }
   ];

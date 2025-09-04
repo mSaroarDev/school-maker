@@ -68,11 +68,14 @@ const ProfilePageMain = () => {
             <p className="text-sm">{`${user?.profile?.address || user?.designation}
               ${user?.profile?.city ? ", " : ""}
             ${user?.profile?.city || ""}`}</p>
-            <Button>
-              <Link href="/profile/update" className="flex items-center gap-2">
-                <BiEdit size={18} /> Edit Profile
-              </Link>
-            </Button>
+
+            {!teacherId && (
+              <Button>
+                <Link href="/profile/update" className="flex items-center gap-2">
+                  <BiEdit size={18} /> Edit Profile
+                </Link>
+              </Button>
+            )}
           </Card>
 
           <Card className="mb-3">
@@ -124,7 +127,6 @@ const ProfilePageMain = () => {
               </Accordion>
             </Card>
           )}
-
 
           <Card className="mb-3">
             <Accordion type="single" defaultValue="item-1" collapsible className="-my-4">
