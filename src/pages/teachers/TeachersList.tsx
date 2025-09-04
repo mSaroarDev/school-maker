@@ -45,11 +45,15 @@ const TeachersList = ({search}: ITeachersListProps) => {
     },
     {
       name: "Subject",
-      cell: (row: Teacher) => "N/A",
+      cell: (row: Teacher) => (
+        row?.teachingSubjects?.length ? row.teachingSubjects.slice(0, 3).join(", ") : "N/A"
+      ),
     },
     {
       name: "Class",
-      cell: (row: Teacher) => "N/A",
+      cell: (row: Teacher) => (
+        row?.classes?.length ? row.classes.slice(0, 3).join(", ") : "N/A"
+      ),
     },
     {
       name: "Phone No",
@@ -108,6 +112,7 @@ const TeachersList = ({search}: ITeachersListProps) => {
         limit={limit}
         setLimit={setLimit}
         totalResults={teachers?.totalResults || 0}
+        progressPending={isPending}
       />
     </>
   );
