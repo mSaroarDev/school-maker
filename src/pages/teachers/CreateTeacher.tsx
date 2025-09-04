@@ -24,7 +24,7 @@ import { handleErrorMessage } from "@/utils/handleErrorMessage";
 const CreateTeacher = () => {
   const params = useParams();
   const teacherId = params ? params.teacherId : null;
-  const {back} = useRouter();
+  const { back } = useRouter();
 
   const breadTree = [
     { name: teacherId === "create" ? "Add New Teacher" : "Edit Teacher" },
@@ -43,54 +43,42 @@ const CreateTeacher = () => {
   ]), []);
 
   const defaultValues: TTeacherPayload = {
-    "avatar": "https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg",
-    "fullName": "John Doe",
-    "designation": "Senior Teacher",
-    "joiningDate": "2022-08-15",
-    "gender": "Male",
-    "bloodGroup": "O+",
-    "dateOfBirth": "1990-05-20",
-    "employeeId": "EMP-12346",
-    "nidNumber": "1987654325",
-    "phoneNumber": "+8801712345678",
-    "email": "johndoe@example.com",
-    "familyInformation": {
-      "fatherName": "Robert Doe",
-      "motherName": "Anna Doe",
-      "emergencyContact": "+8801987654321"
+    avatar: "",
+    fullName: "",
+    designation: "",
+    joiningDate: "",
+    gender: "",
+    bloodGroup: "",
+    dateOfBirth: "",
+    employeeId: "",
+    nidNumber: "",
+    phoneNumber: "",
+    email: "",
+    familyInformation: {
+      fatherName: "",
+      motherName: "",
+      emergencyContact: ""
     },
-    "currentAddress": "House #12, Road #5, Dhaka, Bangladesh",
-    "permanentAddress": "Village X, District Y, Bangladesh",
-    "qualification": [
+    currentAddress: "",
+    permanentAddress: "",
+    qualification: [
       {
-        "institueName": "Dhaka University",
-        "degree": "B.Sc in Mathematics",
-        "passingYear": 2012,
-        "result": "3.75",
-        "board": "National"
-      },
-      {
-        "institueName": "Dhaka College",
-        "degree": "HSC",
-        "passingYear": 2008,
-        "result": "5.00",
-        "board": "Dhaka"
+        institueName: "",
+        degree: "",
+        passingYear: 0,
+        result: "",
+        board: ""
       }
     ],
-    "salaryHistory": [
+    salaryHistory: [
       {
-        "salaryType": "Basic",
-        "amount": "30000",
-        "effectedFrom": "2022-08-15"
-      },
-      {
-        "salaryType": "Allowance",
-        "amount": "5000",
-        "effectedFrom": "2023-01-01"
+        salaryType: "",
+        amount: "",
+        effectedFrom: ""
       }
     ],
     classes: [],
-    "teachingSubjects": []
+    teachingSubjects: []
   }
 
   const {
@@ -104,11 +92,11 @@ const CreateTeacher = () => {
     defaultValues
   });
 
-  const {mutateAsync: createTeacher, isPending: isCreating} = useCreateTeacher();
+  const { mutateAsync: createTeacher, isPending: isCreating } = useCreateTeacher();
   const handleCreateTeacher = async (data: TTeacherPayload) => {
     try {
       const res = teacherId === "create" ? await createTeacher(data) : null;
-      if(res?.success){
+      if (res?.success) {
         showToast("success", res?.message || "Teacher created");
         back();
       }
