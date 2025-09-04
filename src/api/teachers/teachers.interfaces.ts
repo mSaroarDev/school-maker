@@ -95,4 +95,12 @@ export type TGetTeacherById = {
 export type TUpdateTeacherPayload = {
   teacherId: string;
   data: TTeacherPayload;
+};
+
+export type TQualification = {
+  degree: string;
+  institueName: string;
+  passingYear: string;
+  result: string;
+  board: string;
 }

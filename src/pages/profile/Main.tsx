@@ -13,7 +13,7 @@ import { GrLocation } from "react-icons/gr";
 import { MdOutlineCall } from "react-icons/md";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { HiPaperAirplane } from "react-icons/hi";
-import { IoImageOutline } from "react-icons/io5";
+import { IoImageOutline, IoTransgenderOutline } from "react-icons/io5";
 import { SlEmotsmile } from "react-icons/sl";
 import { AiOutlineComment } from "react-icons/ai";
 import { PiShareFat } from "react-icons/pi";
@@ -22,8 +22,22 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import avatarImage from "@/assets/images/avatar.jpeg";
 import moment from "moment";
+import { useParams } from "next/navigation";
+import { useGetTeacherById } from "@/api/teachers/teachers.hooks";
+import { Badge } from "@/components/ui/badge"
+import { TQualification } from "@/api/teachers/teachers.interfaces";
+import { RiBookmark3Line } from "react-icons/ri";
 
 const ProfilePageMain = () => {
+
+  const params = useParams();
+  const teacherId = params ? params.teacherId : null;
+
+  const { data: teacherData, isPending: isGeting } = useGetTeacherById({
+    teacherId: teacherId as string,
+    options: { enabled: teacherId !== null && teacherId !== undefined }
+  });
+
 
   const breadTree = [
     { name: "Profile" },
@@ -31,12 +45,13 @@ const ProfilePageMain = () => {
     { name: "Profile" },
   ];
 
-  const {user} = useAuth();
+  const { user: currLoggedUser } = useAuth();
+  const user = teacherId ? teacherData?.data : currLoggedUser;
 
   return (
     <>
       <div>
-        <BreadcrumbsComponent breadTree={breadTree} />
+        <BreadcrumbsComponent breadTree={breadTree} showBackButton />
       </div>
       <div className="grid grid-cols-12 gap-5 mt-5">
         <div className="col-span-12 md:col-span-6 lg:col-span-3">
@@ -50,7 +65,9 @@ const ProfilePageMain = () => {
               />
             </div>
             <h2 className="font-medium text-lg -mb-2.5">{user?.fullName}</h2>
-            <p className="text-sm">{`${user?.profile?.address}, ${user?.profile?.city}`}</p>
+            <p className="text-sm">{`${user?.profile?.address || user?.designation}
+              ${user?.profile?.city ? ", " : ""}
+            ${user?.profile?.city || ""}`}</p>
             <Button>
               <Link href="/profile/update" className="flex items-center gap-2">
                 <BiEdit size={18} /> Edit Profile
@@ -67,14 +84,60 @@ const ProfilePageMain = () => {
             </div>
           </Card>
 
-          <Card className="p-0">
-            <Accordion type="single" collapsible className="-my-4">
+          {user?.profile?.bio && (
+            <Card className="mb-3">
+              <Accordion type="single" defaultValue="item-1" collapsible className="-my-4">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Info</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><GrLocation size={18} /> Address</h4>
+                      <p className="text-sm text-dark-card-heading">{`
+                      ${user?.profile?.address || user?.currentAddress}
+                      ${user?.profile?.city ? ", " : ""}
+                      ${user?.profile?.city || ""}
+                    `}</p>
+                    </div>
+
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><BiPaperPlane size={18} /> Email</h4>
+                      <p className="text-sm text-dark-card-heading">
+                        {user?.email}
+                      </p>
+                    </div>
+
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><MdOutlineCall size={18} /> Mobile</h4>
+                      <p className="text-sm text-dark-card-heading">
+                        {user?.phone || user?.phoneNumber || "N/A"}
+                      </p>
+                    </div>
+
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><FaRegCalendarAlt size={18} /> Birth Date</h4>
+                      <p className="text-sm text-dark-card-heading">
+                        {moment(user?.profile?.dateOfBirth).format("MMMM D, YYYY") || "N/A"}
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </Card>
+          )}
+
+
+          <Card className="mb-3">
+            <Accordion type="single" defaultValue="item-1" collapsible className="-my-4">
               <AccordionItem value="item-1">
                 <AccordionTrigger>Info</AccordionTrigger>
                 <AccordionContent>
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><GrLocation size={18} /> Address</h4>
-                    <p className="text-sm text-dark-card-heading">{`${user?.profile?.address}, ${user?.profile?.city}`}</p>
+                    <p className="text-sm text-dark-card-heading">{`
+                      ${user?.profile?.address || user?.currentAddress}
+                      ${user?.profile?.city ? ", " : ""}
+                      ${user?.profile?.city || ""}
+                    `}</p>
                   </div>
 
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
@@ -87,11 +150,11 @@ const ProfilePageMain = () => {
                   <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><MdOutlineCall size={18} /> Mobile</h4>
                     <p className="text-sm text-dark-card-heading">
-                      {user?.phone || "N/A"}
+                      {user?.phone || user?.phoneNumber || "N/A"}
                     </p>
                   </div>
 
-                  <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                  <div className="border-b border-gray-300 dark:border-gray-600 py-2">
                     <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph"><FaRegCalendarAlt size={18} /> Birth Date</h4>
                     <p className="text-sm text-dark-card-heading">
                       {moment(user?.profile?.dateOfBirth).format("MMMM D, YYYY") || "N/A"}
@@ -101,6 +164,70 @@ const ProfilePageMain = () => {
               </AccordionItem>
             </Accordion>
           </Card>
+
+          {user?.familyInformation && (
+            <Card className="mb-3">
+              <Accordion type="single" defaultValue="item-1" collapsible className="-my-4">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Family Info</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph">
+                        <IoTransgenderOutline size={18} /> Father Name
+                      </h4>
+                      <p className="text-sm text-dark-card-heading">{user?.familyInformation?.fatherName}</p>
+                    </div>
+
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2 mb-5">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph">
+                        <IoTransgenderOutline size={18} /> Mother Name
+                      </h4>
+                      <p className="text-sm text-dark-card-heading">
+                        {user?.familyInformation?.motherName}
+                      </p>
+                    </div>
+
+                    <div className="border-b border-gray-300 dark:border-gray-600 py-2">
+                      <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph">
+                        <MdOutlineCall size={18} /> Emergency Contact
+                      </h4>
+                      <p className="text-sm text-dark-card-heading">
+                        {user?.familyInformation?.emergencyContact || "N/A"}
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </Card>
+          )}
+
+          {user?.qualification && (
+            <Card className="mb-3">
+              <Accordion type="single" defaultValue="item-1" collapsible className="-my-4">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Education</AccordionTrigger>
+                  <AccordionContent>
+                    {user?.qualification.map((edu: TQualification, index: string) => (
+                      <div key={index} className="border-b border-gray-300 dark:border-gray-600 py-2">
+                        <h4 className="flex items-center gap-2 mb-2 text-dark-card-paragraph">
+                          <RiBookmark3Line size={18} /> {edu?.degree}
+                        </h4>
+                        <p className="text-sm text-dark-card-heading">
+                          {edu?.institueName}, {edu?.passingYear}
+                          <Badge
+                            className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums ml-2"
+                            variant="outline"
+                          >
+                            {edu?.result}
+                          </Badge>
+                        </p>
+                      </div>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </Card>
+          )}
         </div>
 
         <div className="col-span-12 md:col-span-6">
