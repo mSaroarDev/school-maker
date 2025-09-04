@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTeacher, getAllTeachers } from "./teachers.api";
-import { TGetTeacherPayload } from "./teachers.interfaces";
+import { createTeacher, getAllTeachers, getTeacherById, updateTeacher } from "./teachers.api";
+import { TGetTeacherById, TGetTeacherPayload, TUpdateTeacherPayload } from "./teachers.interfaces";
 
 export const useGetAllTeachers = (payload: TGetTeacherPayload) => {
   const query = useQuery({
@@ -24,4 +24,32 @@ export const useCreateTeacher = () => {
   });
 
   return data;
-}
+};
+
+export const useGetTeacherById = ({
+  teacherId,
+  options
+}: TGetTeacherById) => {
+  const query = useQuery({
+    queryKey: ["teachers", teacherId],
+    queryFn: ()=> getTeacherById(teacherId),
+    staleTime: 5 * 60 * 1000,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    enabled: options.enabled
+  });
+
+  return query;
+};
+
+export const useUpdateTeacher = () => {
+  const queryClient = useQueryClient();
+  const res = useMutation({
+    mutationFn: updateTeacher,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["teachers"] });
+    }
+  });
+
+  return res;
+};

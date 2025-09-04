@@ -82,4 +82,16 @@ export type TGetTeacherPayload = {
   currPage: number;
   limit: number;
   search?: string;
+};
+
+export type TGetTeacherById = {
+  teacherId: string;
+  options: {
+    enabled: boolean;
+  }
+};
+
+export type TUpdateTeacherPayload = {
+  teacherId: string;
+  data: TTeacherPayload;
 }

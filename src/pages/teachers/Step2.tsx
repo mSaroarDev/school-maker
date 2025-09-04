@@ -1,33 +1,22 @@
+import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
+import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import { LuSwitchCamera } from "react-icons/lu";
-import avatarImage from "@/assets/images/avatar.jpeg";
-import { useState } from "react";
-import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
-import { Control, FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Label } from "@/components/ui/label";
-import ErrorLabel from "@/components/_core/ErrorLabel";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 
 type Step2Props = {
-  step: number;
   setStep: (step: number) => void;
-  control: Control<TTeacherPayload>;
   errors?: FieldErrors<TTeacherPayload>;
   register: UseFormRegister<TTeacherPayload>;
-  setValue: UseFormSetValue<TTeacherPayload>
 }
 
 const Step2 = ({
-  step,
   setStep,
-  control,
   errors,
   register,
-  setValue
 }: Step2Props) => {
-  const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
 
   return (
     <>

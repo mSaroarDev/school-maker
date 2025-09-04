@@ -16,7 +16,6 @@ import "flatpickr/dist/themes/light.css";
 import Flatpickr from "react-flatpickr";
 
 type Step1Props = {
-  step: number;
   setStep: (step: number) => void;
   control: Control<TTeacherPayload>;
   errors?: FieldErrors<TTeacherPayload>;
@@ -26,7 +25,6 @@ type Step1Props = {
 }
 
 const Step1 = ({
-  step,
   setStep,
   control,
   errors,

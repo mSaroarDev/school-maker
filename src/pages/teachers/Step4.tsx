@@ -1,16 +1,14 @@
 import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import "flatpickr/dist/themes/light.css";
+import Flatpickr from "react-flatpickr";
 import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { GoPlus } from "react-icons/go";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import "flatpickr/dist/themes/light.css";
-import Flatpickr from "react-flatpickr";
 
 type Step4Props = {
-  step: number;
   setStep: (step: number) => void;
   control: Control<TTeacherPayload>;
   errors?: FieldErrors<TTeacherPayload>;
@@ -20,7 +18,6 @@ type Step4Props = {
 }
 
 const Step4 = ({
-  step,
   setStep,
   control,
   errors,
@@ -28,9 +25,8 @@ const Step4 = ({
   setValue,
   getValues
 }: Step4Props) => {
-  const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
 
-  const {append, fields, remove} = useFieldArray({
+  const {append, remove} = useFieldArray({
     control,
     name: "salaryHistory"
   })

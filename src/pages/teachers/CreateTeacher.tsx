@@ -4,7 +4,7 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import StepProgress from "@/components/_core/StepProgress";
 import Card from "@/components/ui/card";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaUserGraduate } from "react-icons/fa6";
 import { LuHandshake } from "react-icons/lu";
@@ -17,7 +17,7 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { MdOutlineMenuBook } from "react-icons/md";
-import { useCreateTeacher } from "@/api/teachers/teachers.hooks";
+import { useCreateTeacher, useGetTeacherById, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { showToast } from "@/utils/showToast";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 
@@ -87,15 +87,24 @@ const CreateTeacher = () => {
     formState: { errors },
     control,
     setValue,
-    getValues
+    getValues,
+    reset
   } = useForm({
     defaultValues
   });
 
+  
+  const { data: teacherData, isPending: isGeting } = useGetTeacherById({
+    teacherId: teacherId as string,
+    options: { enabled: teacherId !== "create" }
+  });
+
   const { mutateAsync: createTeacher, isPending: isCreating } = useCreateTeacher();
+  const { mutateAsync: updateTeacher, isPending: isUpdating } = useUpdateTeacher();
+
   const handleCreateTeacher = async (data: TTeacherPayload) => {
     try {
-      const res = teacherId === "create" ? await createTeacher(data) : null;
+      const res = teacherId === "create" ? await createTeacher(data) : await updateTeacher({teacherId: teacherId as string, data});
       if (res?.success) {
         showToast("success", res?.message || "Teacher created");
         back();
@@ -103,7 +112,13 @@ const CreateTeacher = () => {
     } catch (error) {
       showToast("error", handleErrorMessage(error));
     }
-  }
+  };
+
+  useEffect(() => {
+    if (teacherId !== "create") {
+      reset(teacherData?.data);
+    }
+  }, [teacherId, teacherData, reset]);
 
   return (
     <div className="w-full max-w-7xl">
@@ -126,7 +141,6 @@ const CreateTeacher = () => {
           </div>
 
           {step === 1 && <Step1
-            step={step}
             setStep={setStep}
             register={register}
             errors={errors}
@@ -136,26 +150,20 @@ const CreateTeacher = () => {
           />}
 
           {step === 2 && <Step2
-            step={step}
             setStep={setStep}
             register={register}
             errors={errors}
-            control={control}
-            setValue={setValue}
           />}
 
           {step === 3 && <Step3
-            step={step}
             setStep={setStep}
             register={register}
             errors={errors}
             control={control}
-            setValue={setValue}
             getValues={getValues}
           />}
 
           {step === 4 && <Step4
-            step={step}
             setStep={setStep}
             register={register}
             errors={errors}
@@ -165,15 +173,12 @@ const CreateTeacher = () => {
           />}
 
           {step === 5 && <Step5
-            step={step}
             setStep={setStep}
-            register={register}
             errors={errors}
             control={control}
-            setValue={setValue}
-            getValues={getValues}
             handleCreateTeacher={handleCreateTeacher}
             handleSubmit={handleSubmit}
+            isLoading={isCreating || isUpdating || isGeting}
           />}
         </Card>
       </div>

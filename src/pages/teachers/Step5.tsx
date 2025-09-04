@@ -1,44 +1,28 @@
 import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import { ClassesOptions, SubjectsOptions } from "@/constants/constants";
-import { useState } from "react";
-import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { GoPlus } from "react-icons/go";
+import { Control, FieldErrors } from "react-hook-form";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
-import { RxCross2 } from "react-icons/rx";
 
 type Step5Props = {
-  step: number;
   setStep: (step: number) => void;
   control: Control<TTeacherPayload>;
   errors?: FieldErrors<TTeacherPayload>;
-  register: UseFormRegister<TTeacherPayload>;
-  setValue: UseFormSetValue<TTeacherPayload>;
-  getValues: () => TTeacherPayload;
   handleCreateTeacher: (data: TTeacherPayload) => void;
   handleSubmit: (fn: (data: TTeacherPayload) => void) => (e?: React.BaseSyntheticEvent) => void;
+  isLoading: boolean;
 }
 
 const Step5 = ({
-  step,
   setStep,
   control,
   errors,
-  register,
-  setValue,
-  getValues,
   handleCreateTeacher,
-  handleSubmit
+  handleSubmit,
+  isLoading
 }: Step5Props) => {
-  const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
-
-  const {append, fields, remove} = useFieldArray({
-    control,
-    name: "salaryHistory"
-  })
 
   return (
     <>
@@ -69,7 +53,7 @@ const Step5 = ({
 
         <div className="flex items-center justify-between mt-5">
           <Button onClick={() => setStep(3)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
-          <Button type="submit">Submit <IoArrowForwardSharp size={18} /></Button>
+          <Button type="submit" isLoading={isLoading} disabled={isLoading}>Submit <IoArrowForwardSharp size={18} /></Button>
         </div>
       </form>
     </>

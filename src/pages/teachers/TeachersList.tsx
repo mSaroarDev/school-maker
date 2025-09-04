@@ -5,12 +5,24 @@ import CustomDataTable from "@/components/_core/CustomDataTable";
 import Image from "next/image";
 import { useState } from "react";
 import { MdMoreVert } from "react-icons/md";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useRouter } from "next/navigation";
+import { PiUserSquareFill } from "react-icons/pi";
+import { BiEdit } from "react-icons/bi";
+import { HiTrash } from "react-icons/hi";
 
 interface ITeachersListProps {
   search: string;
 }
 
-const TeachersList = ({search}: ITeachersListProps) => {
+const TeachersList = ({ search }: ITeachersListProps) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const { data: teachers, isPending } = useGetAllTeachers({
@@ -18,6 +30,8 @@ const TeachersList = ({search}: ITeachersListProps) => {
     limit: limit,
     search: search
   });
+
+  const {push} = useRouter();
 
   const desktopColumns = [
     {
@@ -67,7 +81,35 @@ const TeachersList = ({search}: ITeachersListProps) => {
       name: "Action",
       width: "100px",
       cell: (row: TTeacherPayloadTeacher) => (
-        <button className="more-action-button"><MdMoreVert size={20} /></button>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="more-action-button">
+            <MdMoreVert size={20} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Action</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer" 
+              onClick={()=> push(`/teachers/profile/${row?._id}`)}
+            >
+              <PiUserSquareFill size={18} /> View Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer" 
+              onClick={()=> push(`/teachers/${row?._id}`)}
+            >
+              <BiEdit size={18} /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer" 
+              // onClick={()=> push(`/teachers/profile/${row?._id}`)}
+            >
+              <HiTrash size={18} /> Delete
+            </DropdownMenuItem>
+            
+          </DropdownMenuContent>
+        </DropdownMenu>
+
       )
     }
   ];
