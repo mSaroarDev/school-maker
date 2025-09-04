@@ -12,6 +12,8 @@ import { useState } from "react";
 import { Control, FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { LuSwitchCamera } from "react-icons/lu";
+import "flatpickr/dist/themes/light.css";
+import Flatpickr from "react-flatpickr";
 
 type Step1Props = {
   step: number;
@@ -19,7 +21,8 @@ type Step1Props = {
   control: Control<TTeacherPayload>;
   errors?: FieldErrors<TTeacherPayload>;
   register: UseFormRegister<TTeacherPayload>;
-  setValue: UseFormSetValue<TTeacherPayload>
+  setValue: UseFormSetValue<TTeacherPayload>;
+  getValues: () => TTeacherPayload;
 }
 
 const Step1 = ({
@@ -28,7 +31,8 @@ const Step1 = ({
   control,
   errors,
   register,
-  setValue
+  setValue,
+  getValues
 }: Step1Props) => {
   const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
 
@@ -95,10 +99,19 @@ const Step1 = ({
           </div>
           <div className="col-span-6 lg:col-span-4">
             <Label>Joining Date</Label>
-            <Input
-              type="date"
-              {...register("joiningDate", { required: "Joining Date is required" })}
-              className={errors?.joiningDate ? "border-red-500" : ""}
+            <Flatpickr
+              onChange={(dateSelected: Date[]) => {
+                setValue("joiningDate", dateSelected[0]?.toISOString() || "");
+              }}
+              className={`w-full px-3 py-2 border rounded-sm ${errors?.joiningDate ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none`}
+              placeholder="Select Date"
+              options={{
+                dateFormat: "Y-m-d",
+                maxDate: new Date(),
+                enableTime: false,
+                mode: "single"
+              }}
+              value={getValues().joiningDate || ""}
             />
             {errors?.joiningDate && <ErrorLabel msg={errors.joiningDate?.message as string} />}
           </div>
@@ -124,16 +137,25 @@ const Step1 = ({
           </div>
           <div className="col-span-6 lg:col-span-4">
             <Label>Date of Birth</Label>
-            <Input 
-              type="date"
-              {...register("dateOfBirth", { required: "Date of Birth is required" })}
-              className={errors?.dateOfBirth ? "border-red-500" : ""}
+            <Flatpickr 
+              onChange={(dateSelected: Date[]) => {
+                setValue("dateOfBirth", dateSelected[0]?.toISOString() || "");
+              }}
+              className={`w-full px-3 py-2 border rounded-sm ${errors?.dateOfBirth ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none`}
+              placeholder="Select Date"
+              options={{
+                dateFormat: "Y-m-d",
+                maxDate: new Date(),
+                enableTime: false,
+                mode: "single"
+              }}
+              value={getValues().dateOfBirth || ""}
             />
             {errors?.dateOfBirth && <ErrorLabel msg={errors.dateOfBirth?.message as string} />}
           </div>
           <div className="col-span-6 lg:col-span-4">
             <Label>NID Number</Label>
-            <Input 
+            <Input
               placeholder="NID Number"
               {...register("nidNumber", { required: "NID Number is required" })}
               className={errors?.nidNumber ? "border-red-500" : ""}

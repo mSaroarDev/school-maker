@@ -132,6 +132,7 @@ const CreateTeacher = () => {
             errors={errors}
             control={control}
             setValue={setValue}
+            getValues={getValues}
           />}
 
           {step === 2 && <Step2
