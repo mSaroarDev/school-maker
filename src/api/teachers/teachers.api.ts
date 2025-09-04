@@ -16,7 +16,7 @@ export const getTeacherById = async (teacherId: string) => {
   return res?.data;
 };
 
-export const updateTeacher = async (payload: TUpdateTeacherPayload) => {
+export const updateTeacher = async (payload: {teacherId: string, data: Partial<TTeacherPayload>}) => {
   const res = await request.put(`/teachers/update/${payload.teacherId}`, payload.data);
   return res?.data;
 }

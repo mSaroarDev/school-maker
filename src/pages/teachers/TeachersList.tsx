@@ -1,10 +1,7 @@
-import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
+import { useGetAllTeachers, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
 import CustomDataTable from "@/components/_core/CustomDataTable";
-import Image from "next/image";
-import { useState } from "react";
-import { MdMoreVert } from "react-icons/md";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +9,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { PiUserSquareFill } from "react-icons/pi";
+import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
+import { MdMoreVert } from "react-icons/md";
+import { PiUserSquareFill } from "react-icons/pi";
 
 interface ITeachersListProps {
   search: string;
@@ -31,7 +34,31 @@ const TeachersList = ({ search }: ITeachersListProps) => {
     search: search
   });
 
-  const {push} = useRouter();
+  const { push } = useRouter();
+
+  const { mutateAsync: updateTeacher } = useUpdateTeacher();
+  const handleUpdateTeacher = (teacherId: string) => {
+    showConfirmModal({
+      title: "Are you sure?",
+      text: "You want to delete this teacher",
+      confirmText: "Yes, Delete",
+      cancelText: "No, Cancel",
+      func: async () => {
+        try {
+          const res = await updateTeacher({
+            teacherId,
+            data: { isDeleted: true }
+          });
+
+          if (res?.success) {
+            showToast("success", "Teacher Info Deleted");
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error));
+        }
+      }
+    });
+  }
 
   const desktopColumns = [
     {
@@ -89,24 +116,24 @@ const TeachersList = ({ search }: ITeachersListProps) => {
             <DropdownMenuLabel>Action</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="cursor-pointer" 
-              onClick={()=> push(`/teachers/profile/${row?._id}`)}
+              className="cursor-pointer"
+              onClick={() => push(`/teachers/profile/${row?._id}`)}
             >
               <PiUserSquareFill size={18} /> View Profile
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="cursor-pointer" 
-              onClick={()=> push(`/teachers/${row?._id}`)}
+              className="cursor-pointer"
+              onClick={() => push(`/teachers/${row?._id}`)}
             >
               <BiEdit size={18} /> Edit
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="cursor-pointer" 
-              // onClick={()=> push(`/teachers/profile/${row?._id}`)}
+              className="cursor-pointer"
+              onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>
-            
+
           </DropdownMenuContent>
         </DropdownMenu>
 
