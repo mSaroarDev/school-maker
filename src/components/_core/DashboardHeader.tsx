@@ -4,6 +4,7 @@ import { BsCloudMoon } from "react-icons/bs";
 import { GoBellFill } from "react-icons/go";
 import UserDropdown from "./UserDropdown";
 import { useAuth } from "@/hooks/useAuth";
+import MobileHeader from "./MobileHeader";
 
 type DashboardHeaderProps = {
   width: number;
@@ -19,7 +20,7 @@ const DashboardHeader = ({
   return (
     <>
       <div
-        className="py-2 flex items-center justify-end"
+        className="hidden py-2 md:flex items-center justify-end"
         style={{ marginLeft: `${width}px`, transition: 'margin-left 0.3s ease-in-out' }}
       >
         <div className="flex items-center justify-end">
@@ -43,6 +44,10 @@ const DashboardHeader = ({
           </div>
           <UserDropdown />
         </div>
+      </div>
+
+      <div className="md:hidden">
+        <MobileHeader />
       </div>
     </>
   );
