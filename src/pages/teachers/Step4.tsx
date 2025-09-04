@@ -6,6 +6,8 @@ import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue }
 import { GoPlus } from "react-icons/go";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+import "flatpickr/dist/themes/light.css";
+import Flatpickr from "react-flatpickr";
 
 type Step4Props = {
   step: number;
@@ -56,20 +58,29 @@ const Step4 = ({
                   className={errors?.salaryHistory?.[index]?.salaryType ? "border-2 border-red-500" : "border-0"}
                 />
               </td>
-              <td className="border">
-                <Input 
-                  {...register(`salaryHistory.${index}.effectedFrom` as const, { required: "Effected Date is required" })}
-                  type="date" 
-                  defaultValue={salary.effectedFrom}
-                  className={errors?.salaryHistory?.[index]?.effectedFrom ? "border-2 border-red-500" : "border-0"}
-                />
+              <td className="border text-center">
+                <Flatpickr
+                onChange={(date) => {
+                  const formattedDate = date.length ? date[0].toISOString().split('T')[0] : "";
+                  setValue(`salaryHistory.${index}.effectedFrom` as const, formattedDate);
+                }}
+                value={salary.effectedFrom}
+                className={`text-center ${errors?.salaryHistory?.[index]?.effectedFrom ? "w-full border-2 border-red-500 px-3 py-2 rounded-md" : "w-full border-0 px-3 py-2 rounded-md"}`}
+                placeholder="Select Date"
+                options={{
+                  dateFormat: "d M, Y",
+                  maxDate: new Date(),
+                  enableTime: false,
+                  mode: "single"
+                }}
+              />
               </td>
-              <td className="border">
+              <td className="border text-center">
                 <Input 
                   {...register(`salaryHistory.${index}.amount` as const, { required: "Amount is required" })}
                   placeholder="e.g. 25000"
                   defaultValue={salary.amount}
-                  className={errors?.salaryHistory?.[index]?.amount ? "border-2 border-red-500" : "border-0"}
+                  className={`text-center ${errors?.salaryHistory?.[index]?.amount ? "border-2 border-red-500" : "border-0"}`}
                 />
               </td>
               <td className="border text-center">
