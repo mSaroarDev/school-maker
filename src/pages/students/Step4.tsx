@@ -126,8 +126,8 @@ const Step4 = ({
       </div>
 
       <div className="flex items-center justify-between mt-5">
-        <Button onClick={() => setStep(1)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
-        <Button onClick={() => setStep(3)}>Next <IoArrowForwardSharp size={18} /></Button>
+        <Button onClick={() => setStep(3)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
+        <Button onClick={() => setStep(5)}>Next <IoArrowForwardSharp size={18} /></Button>
       </div>
     </>
   );
