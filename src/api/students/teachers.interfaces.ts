@@ -1,3 +1,4 @@
+import { TClass } from './../../../../server/src/app/modules/classes/classes.interfaces';
 export type TGetStudentsPayload = {
   currPage?: number;
   limit?: number;
@@ -82,4 +83,39 @@ export type TStudentByIdPayload = {
     enabled: boolean;
   };
   data: Partial<TStudents>;
-}
+};
+
+type TClassResponse = {
+  _id: string;
+  instituteId: string;
+  displayName: string;
+  classValue: string;
+  createdBy: string | null;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type TStudentResponse = {
+  _id: string;
+  instituteId: string;
+  avatar?: string;
+  fullName: string;
+  studentId: string;
+  session: string;
+  class: TClassResponse;
+  section: string;
+  rollNo: number;
+  registrationNo: number;
+  basicInformation: BasicInformation;
+  contactInformation: TContactInformation;
+  gurdianInformation: TGurdianInformation;
+  previousInstitute: TPreviousInstitute[];
+  financialStatus?: string;
+  documents?: TDocument[];
+  status: "active" | "inactive" | "graduated" | "suspended" | "expelled";
+  isDeleted: boolean;
+  createdBy?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
