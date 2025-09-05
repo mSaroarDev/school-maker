@@ -65,7 +65,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
       name: "Teacher Name",
       cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 relative rounded-full overflow-hidden">
+          <div className="flex-shrink-0 w-10 h-10 relative rounded-full overflow-hidden">
             <Image
               src={row?.avatar || AvatarPlaceholder}
               alt={row?.fullName}
@@ -145,7 +145,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
       name: "Teacher Name",
       cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
-          <div className="w-14 h-10 relative rounded-sm ring-primary/20 overflow-hidden ring">
+          <div className="flex-shrink-0 w-14 h-10 relative rounded-sm ring-primary/20 overflow-hidden ring">
             <Image
               src={row?.avatar || AvatarPlaceholder}
               alt={row?.fullName}

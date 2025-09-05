@@ -15,6 +15,9 @@ import { CldUploadButton } from "next-cloudinary";
 import { useState } from "react";
 import avatarImage from "@/assets/images/avatar.jpeg";
 import { LuSwitchCamera } from "react-icons/lu";
+import { useGetAllClasses } from "@/api/class/class.hooks";
+import { TClassesFullResponse, TClassResponse } from "@/api/class/class.interfaces";
+import { useGetAllSessions } from "@/api/session/sessions.hooks";
 
 type Step1Props = {
   setStep: (step: number) => void;
@@ -34,7 +37,9 @@ const Step1 = ({
   getValues
 }: Step1Props) => {
   const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
-  
+  const { data: classes, isPending: isLoadigClasses } = useGetAllClasses();
+  const { data: sessions, isPending: isLoadingSessions } = useGetAllSessions();
+
   return (
     <>
       <h3 className="font-medium text-lg flex items-center gap-2">
@@ -94,19 +99,25 @@ const Step1 = ({
         </div>
         <div className="col-span-6 md:col-span-3">
           <Label>Session</Label>
-          <Input
-            {...register("session", { required: "Session is required" })}
-            placeholder="2022-2023"
-            className={errors?.session ? "border-red-500" : ""}
+          <SelectComponent
+            control={control}
+            name="section"
+            errors={errors}
+            options={
+              sessions?.data?.map((session: { _id: string; sessionName: string; }) => ({ label: session.sessionName, value: session._id })) || []
+            }
+            isLoading={isLoadingSessions}
           />
           {errors?.session && <ErrorLabel msg={errors.session?.message as string} />}
         </div>
         <div className="col-span-6 md:col-span-3">
           <Label>Current Class</Label>
-          <Input
-            {...register("class", { required: "Class is required" })}
-            placeholder="8"
-            className={errors?.class ? "border-red-500" : ""}
+          <SelectComponent
+            control={control}
+            name="class"
+            errors={errors}
+            options={classes?.data?.map((cls: TClassResponse) => ({ label: cls.displayName, value: cls._id })) || []}
+            isLoading={isLoadigClasses}
           />
           {errors?.class && <ErrorLabel msg={errors.class?.message as string} />}
         </div>
