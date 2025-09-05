@@ -43,12 +43,12 @@ type TGurdianInformation = {
 };
 
 type TPreviousInstitute = {
-  instituteName?: string;
+  name?: string;
   department?: string;
   class?: string;
-  from?: Date | string;
-  to?: Date | string;
-  reasonOfLeaving?: string;
+  address?: string;
+  year?: string;
+  result?: string;
 }
 
 type TDocument = {

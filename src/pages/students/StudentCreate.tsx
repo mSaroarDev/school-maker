@@ -12,6 +12,9 @@ import { TiContacts } from "react-icons/ti";
 import Step1 from "./Step1";
 import { useForm } from "react-hook-form";
 import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
 
 const StudentCreate = () => {
   const breadTree = [
@@ -124,8 +127,35 @@ const StudentCreate = () => {
           />
         </Card>
 
-        <Card className="col-span-12 lg:col-span-8 h-fit">
+        <Card className="col-span-12 lg:col-span-9 h-fit">
           {step === 1 && <Step1
+            setStep={setStep}
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
+          />}
+
+          {step === 2 && <Step2
+            setStep={setStep}
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
+          />}
+
+          {step === 3 && <Step3
+            setStep={setStep}
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
+          />}
+
+          {step === 4 && <Step4
             setStep={setStep}
             register={register}
             errors={errors}

@@ -140,3 +140,18 @@ export const SubjectsOptions = [
   { value: "Public Health", label: "Public Health" },
   { value: "Other", label: "Other" },
 ];
+
+export const resultOptions = [
+  { value: "A+", label: "A+" },
+  { value: "A", label: "A" },
+  { value: "A-", label: "A-" },
+  { value: "B+", label: "B+" },
+  { value: "B", label: "B" },
+  { value: "B-", label: "B-" },
+  { value: "C+", label: "C+" },
+  { value: "C", label: "C" },
+  { value: "D", label: "D" },
+  { value: "F", label: "F" },
+  { value: "Pass", label: "Pass" },
+  { value: "Fail", label: "Fail" },
+]
