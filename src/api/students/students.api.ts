@@ -1,12 +1,12 @@
 import request from "../apiRequest";
-import { TGetStudentsPayload, TStudentByIdPayload, TStudents } from "./teachers.interfaces";
+import { TGetStudentsPayload, TStudentByIdPayload, TStudents, TStudentsCreatePayload } from "./teachers.interfaces";
 
 export const getAllStudents = async (payload: TGetStudentsPayload) => {
   const res = await request.get("/students", { params: payload });
   return res?.data;
 };
 
-export const createStudent = async (payload: TStudents) => {
+export const createStudent = async (payload: TStudentsCreatePayload) => {
   const res = await request.post("/students/create", payload);
   return res?.data;
 };

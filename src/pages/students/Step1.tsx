@@ -10,6 +10,11 @@ import { IoArrowForwardSharp } from "react-icons/io5";
 import { MdOutlineEditNote } from "react-icons/md";
 import "flatpickr/dist/themes/light.css";
 import Flatpickr from "react-flatpickr";
+import Image from "next/image";
+import { CldUploadButton } from "next-cloudinary";
+import { useState } from "react";
+import avatarImage from "@/assets/images/avatar.jpeg";
+import { LuSwitchCamera } from "react-icons/lu";
 
 type Step1Props = {
   setStep: (step: number) => void;
@@ -28,6 +33,8 @@ const Step1 = ({
   setValue,
   getValues
 }: Step1Props) => {
+  const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
+  
   return (
     <>
       <h3 className="font-medium text-lg flex items-center gap-2">
@@ -36,6 +43,37 @@ const Step1 = ({
       </h3>
 
       <div className="my-5 grid grid-cols-12 gap-3">
+        <div className="col-span-12 w-24 h-24 relative rounded-full overflow-hidden ring ring-primary/40">
+          <Image
+            src={avatarCldImage || avatarImage}
+            alt="Avatar"
+            fill
+            className="object-cover"
+          />
+
+          <div className="absolute bg-black/30 hover:bg-primary/30 top-0 bottom-0 left-0 right-0 flex items-center justify-center cursor-pointer transition-all duration-150">
+            <CldUploadButton
+              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+              options={{ maxFiles: 1, singleUploadAutoClose: false, sources: ["local", "google_drive"] }}
+              onSuccess={(result) => {
+                console.log("Upload Success: ", result.info);
+                if (typeof result.info === "object" && "secure_url" in result.info) {
+                  setAvatarCldImage((result.info as { secure_url: string }).secure_url || "");
+                  setValue("avatar", (result.info as { secure_url: string }).secure_url || "");
+                } else {
+                  setValue("avatar", "");
+                }
+              }}
+              onError={(error) => {
+                console.error("Upload Error: ", error);
+              }}
+            >
+              <LuSwitchCamera size={22} className="cursor-pointer" />
+            </CldUploadButton>
+          </div>
+        </div>
+
+
         <div className="col-span-12 md:col-span-6">
           <Label>Full Name</Label>
           <Input
@@ -148,7 +186,7 @@ const Step1 = ({
         </div>
         <div className="col-span-6 md:col-span-3">
           <Label>Religion</Label>
-          <SelectComponent 
+          <SelectComponent
             control={control}
             name="basicInformation.religion"
             errors={errors}
@@ -158,7 +196,7 @@ const Step1 = ({
         </div>
         <div className="col-span-6 md:col-span-3">
           <Label>Blood Group</Label>
-          <SelectComponent 
+          <SelectComponent
             control={control}
             name="basicInformation.bloodGroup"
             errors={errors}
@@ -167,7 +205,7 @@ const Step1 = ({
         </div>
         <div className="col-span-12 md:col-span-4">
           <Label>Birth Registration No</Label>
-          <Input 
+          <Input
             {...register("basicInformation.nidNumber")}
             placeholder="Birth Registration No"
             className={errors?.basicInformation?.nidNumber ? "border-red-500" : ""}

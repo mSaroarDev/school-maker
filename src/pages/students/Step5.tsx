@@ -1,8 +1,12 @@
+import { useCreateStudent } from "@/api/students/teachers.hooks";
 import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
 import "flatpickr/dist/themes/light.css";
 import { CldUploadButton } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
@@ -35,9 +39,22 @@ const Step5 = ({
     name: "documents"
   });
 
+  const {mutateAsync: createStudent, isPending} = useCreateStudent();
+  const {back} = useRouter();
+
   const [documents, setDocuments] = useState<{ documentName: string; documentUrl: string }[]>(getValues().documents || []);
-  const onSubmit = (data: TStudentsCreatePayload) => {
-    console.log("Form Data Submitted: ", data);
+  const onSubmit = async (data: TStudentsCreatePayload) => {
+    try {
+      const res = await createStudent(data);
+      if(res?.success){
+        showToast("success", res?.message || "Student created successfully");
+        back();
+      } else {
+        showToast("error", res?.message || "Failed to create student");
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error));
+    }
   }
 
   return (
@@ -147,7 +164,13 @@ const Step5 = ({
 
       <div className="flex items-center justify-between mt-5">
         <Button type="button" onClick={() => setStep(4)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
-        <Button type="submit">Next <IoArrowForwardSharp size={18} /></Button>
+        <Button 
+          type="submit"
+          isLoading={isPending}
+          isDisabled={documents.length === 0 || isPending}
+        >
+          Next <IoArrowForwardSharp size={18} />
+        </Button>
       </div>
     </form>
   );
