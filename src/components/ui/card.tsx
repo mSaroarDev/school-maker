@@ -16,8 +16,8 @@ const Card = ({
       <div
         style={style}
         className={clsx(
-          "bg-white dark:bg-dark-card rounded-lg",
-          !className.includes("p-") && "p-2 md:p-3 lg:p-4", // apply default only if no padding passed
+          "bg-white dark:bg-dark-card rounded-lg overflow-hidden",
+          !className.includes("p-") || !className.includes("px-") || !className.includes("py-") && "p-2 md:p-3 lg:p-4",
           className
         )}      >
         {children}

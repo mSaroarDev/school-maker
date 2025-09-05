@@ -1,7 +1,9 @@
 "use client";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import ModuleTabs from "@/components/_core/ModuleTabs";
+import Card from "@/components/ui/card";
 import { useState } from "react";
+import InstituteSettingsTab from "./InstituteSettingsTab";
 
 const SettingsMain = () => {
   const breadTree = [
@@ -18,12 +20,12 @@ const SettingsMain = () => {
       icon: "",
     },
     {
-      tabId: 3,
+      tabId: 2,
       label: "Institute",
       icon: ""
     },
     {
-      tabId: 5,
+      tabId: 3,
       label: "Others",
       icon: ""
     }
@@ -41,6 +43,12 @@ const SettingsMain = () => {
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
+
+        <div>
+          {selectedTab === 2 && (
+            <InstituteSettingsTab />
+          )}
+        </div>
       </div>
     </>
   );
