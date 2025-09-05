@@ -21,7 +21,7 @@ const UserDropdown = () => {
   const {push} = useRouter();
 
   return (
-    <div className="px-2 pr-5 cursor-pointer">
+    <div className="md:px-2 md:pr-5 cursor-pointer">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar>
