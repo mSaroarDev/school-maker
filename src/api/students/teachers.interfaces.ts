@@ -12,7 +12,7 @@ type BasicInformation = {
   fatherName?: string;
   motherName?: string;
   gender?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | string;
   religion?: string;
   bloodGroup?: string;
   nidNumber?: string;
@@ -43,11 +43,11 @@ type TGurdianInformation = {
 };
 
 type TPreviousInstitute = {
-  instituteName: string;
-  department: string;
-  class: string;
-  from: Date;
-  to: Date;
+  instituteName?: string;
+  department?: string;
+  class?: string;
+  from?: Date | string;
+  to?: Date | string;
   reasonOfLeaving?: string;
 }
 
@@ -118,4 +118,21 @@ export type TStudentResponse = {
   createdBy?: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type TStudentsCreatePayload = {
+  avatar?: string;
+  fullName: string;
+  studentId: string;
+  session: string;
+  class: string;
+  section: string;
+  rollNo: number;
+  registrationNo: number;
+  basicInformation: BasicInformation;
+  contactInformation: TContactInformation;
+  gurdianInformation: TGurdianInformation;
+  previousInstitute?: TPreviousInstitute[];
+  financialStatus?: string;
+  documents?: TDocument[];
 };

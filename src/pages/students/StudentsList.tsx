@@ -21,13 +21,11 @@ import { useGetAllStudents } from "@/api/students/teachers.hooks";
 import moment from "moment";
 
 const StudentsList = () => {
+  const { push } = useRouter();
   const { data: students, isPending } = useGetAllStudents({
     limit: 10,
     currPage: 1,
   });
-  const { push } = useRouter();
-
-  console.log(students);
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);

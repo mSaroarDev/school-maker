@@ -2,16 +2,16 @@ import StudentsMain from "@/pages/students/StudentsMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: `Students - ${process.env.NEXT_PUBLIC_COMPANY_NAME}`,
-    description: 'Students page',
+  title: `Students - ${process.env.NEXT_PUBLIC_COMPANY_NAME}`,
+  description: 'Students page',
 }
 
 const page = () => {
-    return (
-        <>
-          <StudentsMain />
-        </>
-    );
+  return (
+    <>
+      <StudentsMain />
+    </>
+  );
 };
 
 export default page;

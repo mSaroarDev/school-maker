@@ -37,8 +37,8 @@ const DashboardHeader = ({
 
         <div className="flex items-center justify-end">
 
-          <div className="size-8 bg-white dark:bg-dark-card rounded-full mr-3 flex items-center justify-center hover:shadow-md cursor-pointer">
-            <span onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+          <div onClick={() => setTheme(theme === "light" ? "dark" : "light")} className="size-8 bg-white dark:bg-dark-card rounded-full mr-3 flex items-center justify-center hover:shadow-md cursor-pointer">
+            <span>
               {theme === "light" ? (
                 <BsCloudMoon size={18} />
               ) : (
