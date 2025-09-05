@@ -26,7 +26,7 @@ const Step4 = ({
   getValues
 }: Step4Props) => {
 
-  const {append, remove} = useFieldArray({
+  const { append, remove } = useFieldArray({
     control,
     name: "salaryHistory"
   })
@@ -44,52 +44,52 @@ const Step4 = ({
             </tr>
           </thead>
           <tbody>
-            {getValues().salaryHistory?.map((salary, index)=> (
+            {getValues().salaryHistory?.map((salary, index) => (
               <tr key={index}>
-              <td className="border">
-                <Input 
-                  {...register(`salaryHistory.${index}.salaryType` as const, { required: "Salary Type is required" })}
-                  placeholder="e.g. Basic Salary"
-                  defaultValue={salary.salaryType}
-                  className={errors?.salaryHistory?.[index]?.salaryType ? "border-2 border-red-500" : "border-0"}
-                />
-              </td>
-              <td className="border text-center">
-                <Flatpickr
-                onChange={(date) => {
-                  const formattedDate = date.length ? date[0].toISOString().split('T')[0] : "";
-                  setValue(`salaryHistory.${index}.effectedFrom` as const, formattedDate);
-                }}
-                value={salary.effectedFrom}
-                className={`text-center ${errors?.salaryHistory?.[index]?.effectedFrom ? "w-full border-2 border-red-500 px-3 py-2 rounded-md" : "w-full border-0 px-3 py-2 rounded-md"}`}
-                placeholder="Select Date"
-                options={{
-                  dateFormat: "d M, Y",
-                  maxDate: new Date(),
-                  enableTime: false,
-                  mode: "single"
-                }}
-              />
-              </td>
-              <td className="border text-center">
-                <Input 
-                  {...register(`salaryHistory.${index}.amount` as const, { required: "Amount is required" })}
-                  placeholder="e.g. 25000"
-                  defaultValue={salary.amount}
-                  className={`text-center ${errors?.salaryHistory?.[index]?.amount ? "border-2 border-red-500" : "border-0"}`}
-                />
-              </td>
-              <td className="border text-center">
-                <RxCross2 onClick={()=> remove(index)} size={20} className="mx-auto text-red-500 cursor-pointer" />
-              </td>
-            </tr>
+                <td className="border">
+                  <Input
+                    {...register(`salaryHistory.${index}.salaryType` as const, { required: "Salary Type is required" })}
+                    placeholder="e.g. Basic Salary"
+                    defaultValue={salary.salaryType}
+                    className={errors?.salaryHistory?.[index]?.salaryType ? "border-2 border-red-500" : "border-0"}
+                  />
+                </td>
+                <td className="border text-center">
+                  <Flatpickr
+                    onChange={(date) => {
+                      const formattedDate = date.length ? date[0].toISOString().split('T')[0] : "";
+                      setValue(`salaryHistory.${index}.effectedFrom` as const, formattedDate);
+                    }}
+                    value={salary.effectedFrom}
+                    className={`text-center ${errors?.salaryHistory?.[index]?.effectedFrom ? "w-full border-2 border-red-500 px-3 py-2 rounded-md" : "w-full border-0 px-3 py-2 rounded-md"}`}
+                    placeholder="Select Date"
+                    options={{
+                      dateFormat: "d M, Y",
+                      maxDate: new Date(),
+                      enableTime: false,
+                      mode: "single"
+                    }}
+                  />
+                </td>
+                <td className="border text-center">
+                  <Input
+                    {...register(`salaryHistory.${index}.amount` as const, { required: "Amount is required" })}
+                    placeholder="e.g. 25000"
+                    defaultValue={salary.amount}
+                    className={`text-center ${errors?.salaryHistory?.[index]?.amount ? "border-2 border-red-500" : "border-0"}`}
+                  />
+                </td>
+                <td className="border text-center">
+                  <RxCross2 onClick={() => remove(index)} size={20} className="mx-auto text-red-500 cursor-pointer" />
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
 
         <div className="flex items-center justify-end">
-          <Button 
-            onClick={()=> {
+          <Button
+            onClick={() => {
               append({
                 salaryType: "",
                 amount: "",

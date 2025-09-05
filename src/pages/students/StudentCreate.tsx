@@ -107,7 +107,8 @@ const StudentCreate = () => {
     register,
     setValue,
     getValues,
-    formState: { errors }
+    formState: { errors },
+    handleSubmit
   } = useForm<TStudentsCreatePayload>({
     defaultValues
   });
@@ -172,6 +173,7 @@ const StudentCreate = () => {
             control={control}
             setValue={setValue}
             getValues={getValues}
+            handleSubmit={handleSubmit}
           />}
         </Card>
       </div>
