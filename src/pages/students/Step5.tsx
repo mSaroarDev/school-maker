@@ -61,7 +61,7 @@ const Step5 = ({
               <tr key={index}>
                 <td className="border text-center">
                   <Input
-                    {...register(`previousInstitute.${index}.name` as const, { required: "Document Name is required" })}
+                    {...register(`documents.${index}.documentName` as const, { required: "Document Name is required" })}
                     placeholder="e.g. Birth Certificate"
                     defaultValue={doc?.documentName}
                     className="border-0"
@@ -74,20 +74,20 @@ const Step5 = ({
                     <CldUploadButton
                       uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
                       options={{ maxFiles: 1, singleUploadAutoClose: false, sources: ["local", "google_drive"] }}
-                      // onSuccess={(result) => {
-                      //   if (typeof result.info === "object" && "secure_url" in result.info) {
-                      //     const url = (result.info as { secure_url: string }).secure_url || "";
-                      //     const name = (result.info as { original_filename: string }).original_filename || "";
-                      //     const newDocuments = [...documents];
-                      //     newDocuments[index] = { documentName: name, documentUrl: url };
-                      //     setDocuments(newDocuments);
-                      //     setValue(`documents.${index}.documentUrl` as const, url);
-                      //     setValue(`documents.${index}.documentName` as const, name);
-                      //   } else {
-                      //     setValue(`documents.${index}.documentUrl` as const, "");
-                      //     setValue(`documents.${index}.documentName` as const, "");
-                      //   }
-                      // }}
+                      onSuccess={(result) => {
+                        if (typeof result.info === "object" && "secure_url" in result.info) {
+                          const url = (result.info as { secure_url: string }).secure_url || "";
+                          const name = (result.info as { original_filename: string }).original_filename || "";
+                          const newDocuments = [...documents];
+                          newDocuments[index] = { documentName: name, documentUrl: url };
+                          setDocuments(newDocuments);
+                          setValue(`documents.${index}.documentUrl` as const, url);
+                          setValue(`documents.${index}.documentName` as const, name);
+                        } else {
+                          setValue(`documents.${index}.documentUrl` as const, "");
+                          setValue(`documents.${index}.documentName` as const, "");
+                        }
+                      }}
                       onError={(error) => {
                         console.error("Upload Error: ", error);
                       }}

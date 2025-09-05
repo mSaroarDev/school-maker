@@ -74,21 +74,21 @@ const Step4 = ({
                 <td className="border text-center">
                   <Input
                     {...register(`previousInstitute.${index}.department` as const, { required: "Address is required" })}
-                    placeholder="Address"
+                    placeholder="Department"
                     className={`text-center ${errors?.previousInstitute?.[index]?.department ? "border-red-500" : ""}`}
                   />
                 </td>
                 <td className="border text-center">
                   <Input
                     {...register(`previousInstitute.${index}.class` as const, { required: "Address is required" })}
-                    placeholder="Address"
+                    placeholder="Class"
                     className={`text-center ${errors?.previousInstitute?.[index]?.class ? "border-red-500" : ""}`}
                   />
                 </td>
                 <td className="border text-center">
                   <Input
                     {...register(`previousInstitute.${index}.year` as const, { required: "Address is required" })}
-                    placeholder="Address"
+                    placeholder="Year"
                     className={`text-center ${errors?.previousInstitute?.[index]?.year ? "border-red-500" : ""}`}
                   />
                 </td>
@@ -97,7 +97,7 @@ const Step4 = ({
                     control={control}
                     name={`previousInstitute.${index}.result` as const}
                     options={resultOptions}
-                    placeholder="Select Result"
+                    placeholder="Result"
                     className={`text-center ${errors?.previousInstitute?.[index]?.result ? "border-red-500" : ""}`}
                   />
                 </td>
