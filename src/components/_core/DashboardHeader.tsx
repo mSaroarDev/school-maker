@@ -5,6 +5,7 @@ import { GoBellFill } from "react-icons/go";
 import UserDropdown from "./UserDropdown";
 import { useAuth } from "@/hooks/useAuth";
 import MobileHeader from "./MobileHeader";
+import { FiSearch } from "react-icons/fi";
 
 type DashboardHeaderProps = {
   width: number;
@@ -20,10 +21,22 @@ const DashboardHeader = ({
   return (
     <>
       <div
-        className="hidden py-2 md:flex items-center justify-end"
+        className="hidden py-2 md:flex items-center justify-between pl-5"
         style={{ marginLeft: `${width}px`, transition: 'margin-left 0.3s ease-in-out' }}
       >
+
+        <div className="hidden border border-primary/30 rounded-full md:flex items-center gap-2 px-2">
+          <FiSearch size={20} className="text-primary/50" />
+          <input
+            className="outline-none py-1.5"
+            placeholder="Search anything..."
+            // value={query}
+            // onChange={(e) => setQuery?.(e.target.value)}
+          />
+        </div>
+
         <div className="flex items-center justify-end">
+
           <div className="size-8 bg-white dark:bg-dark-card rounded-full mr-3 flex items-center justify-center hover:shadow-md cursor-pointer">
             <span onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               {theme === "light" ? (

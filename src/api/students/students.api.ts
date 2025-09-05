@@ -3,7 +3,7 @@ import { TGetStudentsPayload, TStudentByIdPayload, TStudents } from "./teachers.
 
 export const getAllStudents = async (payload: TGetStudentsPayload) => {
   const res = await request.get("/students", { params: payload });
-  return res?.data?.data;
+  return res?.data;
 };
 
 export const createStudent = async (payload: TStudents) => {

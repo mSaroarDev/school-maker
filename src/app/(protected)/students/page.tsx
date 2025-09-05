@@ -1,3 +1,4 @@
+import StudentsMain from "@/pages/students/StudentsMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 const page = () => {
     return (
         <>
-            <h1>page</h1>
+          <StudentsMain />
         </>
     );
 };
