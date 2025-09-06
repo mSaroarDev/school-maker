@@ -13,4 +13,9 @@ export type TClassesFullResponse = {
   message: string;
   data: TClassResponse[];
   totalResults: number;
+};
+
+export type TCreateClassPayload = {
+  displayName: string;
+  classValue: string;
 }
