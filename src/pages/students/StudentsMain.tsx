@@ -1,7 +1,7 @@
-import HeaderComponent from "@/components/_core/HeaderComponent";
-import StudentsList from "./StudentsList";
-import Card from "@/components/ui/card";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
+import HeaderComponent from "@/components/_core/HeaderComponent";
+import Card from "@/components/ui/card";
+import StudentsList from "./StudentsList";
 
 const StudentsMain = () => {
   const breadTree = [

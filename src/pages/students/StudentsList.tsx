@@ -1,4 +1,8 @@
 "use client";
+import { useGetAllStudents, useUpdateStudent } from "@/api/students/students.hooks";
+import { TStudentResponse } from "@/api/students/students.interfaces";
+import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
+import CustomDataTable from "@/components/_core/CustomDataTable";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,18 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
+import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
-import { MdMoreVert } from "react-icons/md";
-import { PiUserSquareFill } from "react-icons/pi";
+import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
-import CustomDataTable from "@/components/_core/CustomDataTable";
-import { useState } from "react";
-import { TStudentResponse } from "@/api/students/students.interfaces";
-import { useGetAllStudents } from "@/api/students/students.hooks";
-import moment from "moment";
+import { MdMoreVert } from "react-icons/md";
+import { PiUserSquareFill } from "react-icons/pi";
 
 const StudentsList = () => {
   const { push } = useRouter();
@@ -26,6 +29,8 @@ const StudentsList = () => {
     limit: 10,
     currPage: 1,
   });
+
+  const { mutateAsync: updateStudent, isPending: isUpdating } = useUpdateStudent();
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
@@ -95,7 +100,7 @@ const StudentsList = () => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-            // onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+            onClick={() => handleUpdate(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>
@@ -151,7 +156,7 @@ const StudentsList = () => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-            // onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+            onClick={() => handleUpdate(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>
@@ -161,6 +166,29 @@ const StudentsList = () => {
       )
     }
   ];
+
+  const handleUpdate = (studentId: string) => {
+    showConfirmModal({
+      title: "Are you sure?",
+      text: "You want to update the status of this student.",
+      confirmText: "Yes, Update it",
+      cancelText: "No, Keep it",
+      func: async () => {
+        try {
+          const res = await updateStudent({
+            studentId,
+            data: { isDeleted: true }
+          });
+
+          if (res?.success) {
+            showToast("success", "Student deleted");
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error));
+        }
+      }
+    })
+  }
 
   return (
     <>
