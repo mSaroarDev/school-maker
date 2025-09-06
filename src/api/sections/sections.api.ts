@@ -7,6 +7,6 @@ export const getAllSections = async () => {
 };
 
 export const createSection = async (payload: TSection) => {
-  const res = await request.post('/sections', payload);
+  const res = await request.post('/sections/create', payload);
   return res.data;
 };

@@ -5,6 +5,7 @@ import { PiProjectorScreenDuotone } from "react-icons/pi";
 import { MdOutlineShowChart } from "react-icons/md";
 import { AiOutlineBlock } from "react-icons/ai";
 import SessionsSettingsTab from "./SessionsSettingsTab";
+import SectionsSettingsTab from "./SectionSettingsTab";
 
 const InstituteSettingsTab = () => {
   const [selectedOption, setSelectedOption] = useState("classes");
@@ -17,7 +18,7 @@ const InstituteSettingsTab = () => {
     return (
         <>
           <div className="grid grid-cols-12 gap-5">
-            <Card className="col-span-12 md:col-span-4 lg:col-span-3 px-0 pb-1">
+            <Card className="col-span-12 md:col-span-4 lg:col-span-3 px-0 pb-2 h-fit">
               <h4 className="pt-3 px-4 text-base">Options</h4>
               <hr className="mt-3" />
               <div className="">
@@ -33,13 +34,17 @@ const InstituteSettingsTab = () => {
                 ))}
               </div>
             </Card>
-            <Card className="col-span-12 md:col-span-8 lg:col-span-5 p-4">
+            <Card className="col-span-12 md:col-span-8 lg:col-span-5 p-4 h-fit">
               {selectedOption === "classes" && (
                 <ClassesSettingsTab />
               )}
 
               {selectedOption === "sessions" && (
                 <SessionsSettingsTab />
+              )}
+
+              {selectedOption === "sections" && (
+                <SectionsSettingsTab />
               )}
             </Card>
           </div>
