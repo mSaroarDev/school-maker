@@ -143,3 +143,8 @@ export type TGetStudentById = {
     enabled: boolean;
   }
 }
+
+export type TUpdateStudentPayload = {
+  studentId: string;
+  data: Partial<TStudentsCreatePayload>;
+}

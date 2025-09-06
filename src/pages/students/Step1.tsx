@@ -1,6 +1,7 @@
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
 import { useGetAllSections } from "@/api/sections/section.hooks";
+import { TSection } from "@/api/sections/sections.types";
 import { useGetAllSessions } from "@/api/session/sessions.hooks";
 import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import avatarImage from "@/assets/images/avatar.jpeg";
@@ -103,7 +104,7 @@ const Step1 = ({
           <Label>Session</Label>
           <SelectComponent
             control={control}
-            name="section"
+            name="session"
             errors={errors}
             options={
               sessions?.data?.map((session: { _id: string; sessionName: string; }) => ({ label: session.sessionName, value: session._id })) || []
@@ -130,7 +131,7 @@ const Step1 = ({
             name="section"
             errors={errors}
             options={
-              sections?.data?.map((section: { _id: string; sectionName: string; }) => ({ label: section.sectionName, value: section._id })) || []
+              sections?.data?.map((section: TSection) => ({ label: section.sectionName, value: section._id })) || []
             }
             isLoading={isLoadingSections}
           />

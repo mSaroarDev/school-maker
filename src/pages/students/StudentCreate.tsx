@@ -123,7 +123,10 @@ const StudentCreate = () => {
 
   useEffect(() => {
     if (studentId !== "create" && student) {
-      reset(student?.data)
+      reset({
+        ...student?.data,
+        // section: typeof student.data.section === 'object' ? student.data.section._id : student.data.section
+      })
     }
   }, [studentId, student, reset]);
 
@@ -188,6 +191,7 @@ const StudentCreate = () => {
             setValue={setValue}
             getValues={getValues}
             handleSubmit={handleSubmit}
+            studentId={studentId}
           />}
         </Card>
       </div>

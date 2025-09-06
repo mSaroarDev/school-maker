@@ -1,4 +1,4 @@
-import { useCreateStudent } from "@/api/students/students.hooks";
+import { useCreateStudent, useUpdateStudent } from "@/api/students/students.hooks";
 import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,7 @@ type Step5Props = {
   setValue: UseFormSetValue<TStudentsCreatePayload>;
   getValues: () => TStudentsCreatePayload;
   handleSubmit: (fn: (data: TStudentsCreatePayload) => void) => (e?: React.BaseSyntheticEvent) => void;
+  studentId: string | string[];
 }
 
 const Step5 = ({
@@ -32,7 +33,8 @@ const Step5 = ({
   register,
   setValue,
   getValues,
-  handleSubmit
+  handleSubmit,
+  studentId
 }: Step5Props) => {
   const { append, remove } = useFieldArray({
     control,
@@ -40,12 +42,13 @@ const Step5 = ({
   });
 
   const {mutateAsync: createStudent, isPending} = useCreateStudent();
+  const {mutateAsync: updateStudent, isPending: isUpdating} = useUpdateStudent();
   const {back} = useRouter();
 
   const [documents, setDocuments] = useState<{ documentName: string; documentUrl: string }[]>(getValues().documents || []);
   const onSubmit = async (data: TStudentsCreatePayload) => {
     try {
-      const res = await createStudent(data);
+      const res = studentId === "create" ? await createStudent(data) : await updateStudent({studentId: studentId as string, data});
       if(res?.success){
         showToast("success", res?.message || "Student created successfully");
         back();
@@ -166,8 +169,8 @@ const Step5 = ({
         <Button type="button" onClick={() => setStep(4)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
         <Button 
           type="submit"
-          isLoading={isPending}
-          isDisabled={documents.length === 0 || isPending}
+          isLoading={isPending || isUpdating}
+          isDisabled={documents.length === 0 || isPending || isUpdating}
         >
           Next <IoArrowForwardSharp size={18} />
         </Button>
