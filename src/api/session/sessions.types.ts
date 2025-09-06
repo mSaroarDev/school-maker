@@ -14,3 +14,8 @@ export type TSessionsFullResponse = {
   data: TSession[];
   totalResults: number;
 };
+
+export type TCreateSessionPayload = {
+  sessionName: string;
+  year: number;
+}

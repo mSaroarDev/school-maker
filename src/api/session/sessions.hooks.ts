@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllSessions } from "./sessions.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createSession, getAllSessions } from "./sessions.api";
 
 export const useGetAllSessions = () => {
   const query = useQuery({
@@ -12,3 +12,15 @@ export const useGetAllSessions = () => {
 
   return query;
 };
+
+export const useCreateSession = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: createSession,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+    },
+  });
+
+  return mutation;
+}
