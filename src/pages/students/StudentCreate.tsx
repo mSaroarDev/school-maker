@@ -1,22 +1,21 @@
 "use client";
+import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import StepProgress from "@/components/_core/StepProgress";
 import Card from "@/components/ui/card";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { CgAttachment } from "react-icons/cg";
 import { LuHandshake } from "react-icons/lu";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { RiParentLine } from "react-icons/ri";
 import { TiContacts } from "react-icons/ti";
 import Step1 from "./Step1";
-import { useForm } from "react-hook-form";
-import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
-import { useGetAllClasses } from "@/api/class/class.hooks";
 
 const StudentCreate = () => {
   const breadTree = [

@@ -1,23 +1,24 @@
+import { useGetAllClasses } from "@/api/class/class.hooks";
+import { TClassResponse } from "@/api/class/class.interfaces";
+import { useGetAllSections } from "@/api/sections/section.hooks";
+import { useGetAllSessions } from "@/api/session/sessions.hooks";
 import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import avatarImage from "@/assets/images/avatar.jpeg";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import { bloodGroupsOption, gendersOption, religionsOption } from "@/constants/constants";
+import "flatpickr/dist/themes/light.css";
+import { CldUploadButton } from "next-cloudinary";
+import Image from "next/image";
+import { useState } from "react";
+import Flatpickr from "react-flatpickr";
 import { Control, FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { IoArrowForwardSharp } from "react-icons/io5";
-import { MdOutlineEditNote } from "react-icons/md";
-import "flatpickr/dist/themes/light.css";
-import Flatpickr from "react-flatpickr";
-import Image from "next/image";
-import { CldUploadButton } from "next-cloudinary";
-import { useState } from "react";
-import avatarImage from "@/assets/images/avatar.jpeg";
 import { LuSwitchCamera } from "react-icons/lu";
-import { useGetAllClasses } from "@/api/class/class.hooks";
-import { TClassesFullResponse, TClassResponse } from "@/api/class/class.interfaces";
-import { useGetAllSessions } from "@/api/session/sessions.hooks";
+import { MdOutlineEditNote } from "react-icons/md";
 
 type Step1Props = {
   setStep: (step: number) => void;
@@ -39,6 +40,7 @@ const Step1 = ({
   const [avatarCldImage, setAvatarCldImage] = useState<string | null>(null);
   const { data: classes, isPending: isLoadigClasses } = useGetAllClasses();
   const { data: sessions, isPending: isLoadingSessions } = useGetAllSessions();
+  const { data: sections, isPending: isLoadingSections } = useGetAllSections();
 
   return (
     <>
@@ -123,10 +125,14 @@ const Step1 = ({
         </div>
         <div className="col-span-6 md:col-span-3">
           <Label>Section</Label>
-          <Input
-            {...register("section", { required: "Section is required" })}
-            placeholder="A"
-            className={errors?.section ? "border-red-500" : ""}
+          <SelectComponent
+            control={control}
+            name="section"
+            errors={errors}
+            options={
+              sections?.data?.map((section: { _id: string; sectionName: string; }) => ({ label: section.sectionName, value: section._id })) || []
+            }
+            isLoading={isLoadingSections}
           />
           {errors?.section && <ErrorLabel msg={errors.section?.message as string} />}
         </div>
