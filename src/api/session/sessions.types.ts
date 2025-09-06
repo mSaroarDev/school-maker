@@ -17,5 +17,5 @@ export type TSessionsFullResponse = {
 
 export type TCreateSessionPayload = {
   sessionName: string;
-  year: number;
-}
+  year: number | null;
+};

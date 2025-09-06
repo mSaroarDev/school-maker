@@ -4,6 +4,7 @@ import ClassesSettingsTab from "./ClassesSettingsTab";
 import { PiProjectorScreenDuotone } from "react-icons/pi";
 import { MdOutlineShowChart } from "react-icons/md";
 import { AiOutlineBlock } from "react-icons/ai";
+import SessionsSettingsTab from "./SessionsSettingsTab";
 
 const InstituteSettingsTab = () => {
   const [selectedOption, setSelectedOption] = useState("classes");
@@ -35,6 +36,10 @@ const InstituteSettingsTab = () => {
             <Card className="col-span-12 md:col-span-8 lg:col-span-5 p-4">
               {selectedOption === "classes" && (
                 <ClassesSettingsTab />
+              )}
+
+              {selectedOption === "sessions" && (
+                <SessionsSettingsTab />
               )}
             </Card>
           </div>
