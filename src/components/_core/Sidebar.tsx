@@ -6,6 +6,8 @@ import { CgUserlane } from "react-icons/cg";
 import { usePathname } from "next/navigation";
 import SidebarLinks from "@/constants/SidebarLinks";
 import Link from "next/link";
+import Image from "next/image";
+import logoImage from "@/assets/images/logoipsum.png";
 
 interface SidebarProps {
   width: number;
@@ -38,8 +40,13 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
         <div>
           <div className="w-full flex items-center justify-between p-4">
             {width === 250 ? (
-              <h4 className="text-xl flex items-center gap-2 text-primary">
-                <CgUserlane size={24} className="text-primary" /> School Hub
+              <h4 className="text-lg flex items-center gap-2 text-primary">
+                <Image 
+                  src={logoImage}
+                  alt="Logo"
+                  height={24}
+                  width={130}
+                />
               </h4>
             ) : (
               <h4 className="text-2xl"><CgUserlane size={20} className="text-primary" /></h4>
