@@ -6,9 +6,10 @@ interface IConfirmModalProps {
   confirmText?: string;
   cancelText?: string;
   func: () => void;
+  target?: HTMLElement | string;
 };
 
-export const showConfirmModal = ({ title, text, confirmText, cancelText, func }: IConfirmModalProps) => {
+export const showConfirmModal = ({ title, text, confirmText, cancelText, func, target }: IConfirmModalProps) => {
 
   const renderText = () => {
     switch (text) {
@@ -32,6 +33,7 @@ export const showConfirmModal = ({ title, text, confirmText, cancelText, func }:
     confirmButtonText: confirmText || "Yes, Save it",
     denyButtonText: cancelText || `Don't save`,
     icon: "question",
+    target: target || document.body,
   }).then((result) => {
     if (result.isConfirmed) {
       return func();
