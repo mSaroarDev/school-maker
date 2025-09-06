@@ -15,13 +15,19 @@ const DashboardHeader = ({
   width
 }: DashboardHeaderProps) => {
 
+  console.log('width in header:', width);
+
   const { setTheme, theme } = useTheme();
   const { user } = useAuth();
 
   return (
-    <>
+    <div className={`fixed top-0 left-0 right-0 z-50`}
+      // style={{
+      //   marginLeft: `${0}px`, 
+      // }}
+    >
       <div
-        className="hidden py-2 md:flex items-center justify-between pl-5"
+        className={`hidden py-2 md:flex items-center justify-between pl-5 ${theme === "light" ? "bg-white" : "bg-dark-card"} border-b border-primary/10 h-16`}
         style={{ marginLeft: `${width}px`, transition: 'margin-left 0.3s ease-in-out' }}
       >
 
@@ -62,7 +68,7 @@ const DashboardHeader = ({
       <div className="md:hidden">
         <MobileHeader />
       </div>
-    </>
+    </div>
   );
 };
 
