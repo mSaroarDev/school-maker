@@ -56,6 +56,8 @@ const StudentProfile = () => {
                 />
               </div>
               <div>
+                <p className="text-gray-600 py-0.5">SID: {student?.data?.studentId}</p>
+
                 <h2 className="text-3xl font-medium mb-2">{student?.data?.fullName}</h2>
                 <p className="text-gray-600 py-0.5">
                   Class: {
