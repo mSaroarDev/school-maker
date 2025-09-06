@@ -76,7 +76,7 @@ const StudentProfile = () => {
               <div className="h-60 w-full bg-slate-100 rounded-lg"></div>
             </div>
 
-            <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">
+            <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="h-40 w-full bg-slate-100 rounded-lg"></div>
               <div className="h-40 w-full bg-slate-100 rounded-lg"></div>
             </div>
