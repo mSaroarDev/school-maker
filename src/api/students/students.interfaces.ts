@@ -1,4 +1,4 @@
-import { TClass } from './../../../../server/src/app/modules/classes/classes.interfaces';
+import { TClass } from '../../../../server/src/app/modules/classes/classes.interfaces';
 export type TGetStudentsPayload = {
   currPage?: number;
   limit?: number;
@@ -136,3 +136,10 @@ export type TStudentsCreatePayload = {
   financialStatus?: string;
   documents?: TDocument[];
 };
+
+export type TGetStudentById = {
+  studentId: string;
+  options: {
+    enabled: boolean;
+  }
+}

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createStudent, getAllStudents, getStudentById, updateStudent } from "./students.api";
-import { TGetStudentsPayload } from "./teachers.interfaces";
+import { TGetStudentById, TGetStudentsPayload } from "./students.interfaces";
 
 export const useGetAllStudents = (payload: TGetStudentsPayload) => {
   const query = useQuery({
@@ -38,13 +38,14 @@ export const useUpdateStudent = () => {
   return res;
 };
 
-export const useGetStudentById = (studentId: string) => {
+export const useGetStudentById = (payload: TGetStudentById) => {
   const query = useQuery({
-    queryKey: ["students", studentId],
-    queryFn: () => getStudentById(studentId),
+    queryKey: ["students", payload],
+    queryFn: () => getStudentById(payload),
     staleTime: 5 * 60 * 1000,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+    enabled: payload?.options?.enabled ?? false,
   });
 
   return query;

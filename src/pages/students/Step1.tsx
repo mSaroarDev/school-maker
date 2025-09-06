@@ -2,7 +2,7 @@ import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
 import { useGetAllSections } from "@/api/sections/section.hooks";
 import { useGetAllSessions } from "@/api/session/sessions.hooks";
-import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import avatarImage from "@/assets/images/avatar.jpeg";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
-import { useCreateStudent } from "@/api/students/teachers.hooks";
-import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import { useCreateStudent } from "@/api/students/students.hooks";
+import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";

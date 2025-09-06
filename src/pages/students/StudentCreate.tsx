@@ -1,10 +1,10 @@
 "use client";
-import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import StepProgress from "@/components/_core/StepProgress";
 import Card from "@/components/ui/card";
 import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CgAttachment } from "react-icons/cg";
 import { LuHandshake } from "react-icons/lu";
@@ -16,6 +16,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
+import { useGetStudentById } from "@/api/students/students.hooks";
 
 const StudentCreate = () => {
   const breadTree = [
@@ -25,8 +26,6 @@ const StudentCreate = () => {
     { name: "Add New Students" },
   ];
 
-  const params = useParams();
-  const studentId = params?.studentId ? params.studentId : "No ID";
   const [step, setStep] = useState(1);
   const steps = useMemo(() => ([
     { stepId: 1, stepName: "Basic Info", desc: "Enter basic information", icon: <LuHandshake size={18} /> },
@@ -35,6 +34,14 @@ const StudentCreate = () => {
     { stepId: 4, stepName: "Previous Institutes", desc: "Previous Institute details", icon: <MdOutlineMapsHomeWork size={18} /> },
     { stepId: 5, stepName: "Documets", desc: "Submic Documents", icon: <CgAttachment size={18} /> },
   ]), []);
+
+  const params = useParams();
+  const studentId = params?.studentId ? params.studentId : "create";
+  const { data: student } = useGetStudentById({
+    studentId: studentId as string,
+    options: { enabled: studentId !== "create" }
+  })
+
 
   const defaultValues = {
     "avatar": "https://example.com/avatar.jpg",
@@ -108,10 +115,17 @@ const StudentCreate = () => {
     setValue,
     getValues,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    reset
   } = useForm<TStudentsCreatePayload>({
     defaultValues
   });
+
+  useEffect(() => {
+    if (studentId !== "create" && student) {
+      reset(student?.data)
+    }
+  }, [studentId, student, reset]);
 
   return (
     <>

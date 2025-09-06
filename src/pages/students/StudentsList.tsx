@@ -16,8 +16,8 @@ import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import { useState } from "react";
-import { TStudentResponse } from "@/api/students/teachers.interfaces";
-import { useGetAllStudents } from "@/api/students/teachers.hooks";
+import { TStudentResponse } from "@/api/students/students.interfaces";
+import { useGetAllStudents } from "@/api/students/students.hooks";
 import moment from "moment";
 
 const StudentsList = () => {

@@ -1,4 +1,4 @@
-import { TStudentsCreatePayload } from "@/api/students/teachers.interfaces";
+import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
