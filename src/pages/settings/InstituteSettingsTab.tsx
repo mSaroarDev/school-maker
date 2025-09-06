@@ -32,7 +32,7 @@ const InstituteSettingsTab = () => {
                 ))}
               </div>
             </Card>
-            <Card className="col-span-12 md:col-span-8 lg:col-span-9 p-4">
+            <Card className="col-span-12 md:col-span-8 lg:col-span-5 p-4">
               {selectedOption === "classes" && (
                 <ClassesSettingsTab />
               )}

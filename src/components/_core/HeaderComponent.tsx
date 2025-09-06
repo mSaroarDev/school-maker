@@ -11,6 +11,8 @@ type HeaderComponentProps = {
   createLink?: string;
   filterComponent?: React.ReactNode;
   showSearch?: boolean;
+  createButtonFunction?: () => void;
+  extraComponent?: React.ReactNode;
 }
 
 const HeaderComponent = ({
@@ -19,10 +21,10 @@ const HeaderComponent = ({
   setQuery,
   title,
   createLink,
-  filterComponent
+  filterComponent,
+  createButtonFunction,
+  extraComponent
 }: HeaderComponentProps) => {
-
-  console.log("query", query)
   const { push } = useRouter();
 
   return (
@@ -42,6 +44,7 @@ const HeaderComponent = ({
             </div>
           )}
 
+          {extraComponent && extraComponent}
 
           {filterComponent && (
             <button className="header-buttons"><FiFilter size={18} /></button>
@@ -49,6 +52,10 @@ const HeaderComponent = ({
 
           {createLink && (
             <button onClick={() => push(createLink)} className="header-buttons"><LuPlus size={18} /></button>
+          )}
+
+          {createButtonFunction && (
+            <button onClick={createButtonFunction} className="header-buttons"><LuPlus size={18} /></button>
           )}
         </div>
       </div>
