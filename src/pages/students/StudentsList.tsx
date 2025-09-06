@@ -30,7 +30,7 @@ const StudentsList = () => {
     currPage: 1,
   });
 
-  const { mutateAsync: updateStudent, isPending: isUpdating } = useUpdateStudent();
+  const { mutateAsync: updateStudent } = useUpdateStudent();
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
@@ -49,7 +49,7 @@ const StudentsList = () => {
             />
           </div>
           <div>
-            <h3 onClick={() => push(`/teachers/profile/${row?._id}`)} className="font-medium">{row?.fullName}</h3>
+            <h3 onClick={() => push(`/students/profile/${row?._id}`)} className="font-medium hover:underline">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.contactInformation?.email}</p>
           </div>
         </div>
