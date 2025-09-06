@@ -144,13 +144,13 @@ const StudentsList = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => push(`/teachers/profile/${row?._id}`)}
+              onClick={() => push(`/students/profile/${row?._id}`)}
             >
               <PiUserSquareFill size={18} /> View Profile
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => push(`/teachers/${row?._id}`)}
+              onClick={() => push(`/students/${row?._id}`)}
             >
               <BiEdit size={18} /> Edit
             </DropdownMenuItem>
