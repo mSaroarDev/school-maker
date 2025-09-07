@@ -63,18 +63,25 @@ const AttendenceMain = () => {
   const columns = [
     {
       name: "Student Name",
-      selector: (row) => row?.student?.fullName,
+      cell: (row) => (
+        <div className="flex items-center gap-2">
+          <img
+            src={row.profileImage || "/default-profile.png"}
+            alt="Profile"
+            className="w-8 h-8 rounded-full object-cover"
+          />
+          <span className="font-medium">{row?.student?.fullName}</span>
+        </div>
+      ),
       sortable: true,
-      width: "200px",
     },
     ...uniqueDates.map((dateObj, index) => {
       const dayOfWeek = moment(dateObj.date).day();
       const isWeekend = dayOfWeek === 5 || dayOfWeek === 6;
 
       return {
-        name: moment(dateObj.date).format("DD"), // Display Day (01, 02...)
+        name: moment(dateObj.date).format("DD"),
         width: "90px",
-        center: true,
         cell: (row) => {
           if (isWeekend) {
             return <span className="text-gray-400 w-full mx-auto">-</span>;
@@ -86,17 +93,19 @@ const AttendenceMain = () => {
           );
 
           if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
-            return <FaRegCircle size={18} className="text-primary" />; // No data
+            return <div className="w-full text-center pl-1.5">
+              <FaRegCircle size={18} className="text-primary" />
+            </div>
           }
 
           return attendanceRecord.isPresent ? (
-            <IoCheckmarkCircle size={22} className="text-primary" /> // Present
+            <div className="w-full text-center pl-1.5"><IoCheckmarkCircle size={22} className="text-primary" /></div> // Present
           ) : (
-            <AiFillCloseCircle size={20} className="text-red-500" /> // Absent
+            <div className="w-full text-center pl-1.5"><AiFillCloseCircle size={20} className="text-red-500" /></div> // Absent
           );
         },
         id: `day-${index}`,
-        style: isWeekend ? { backgroundColor: "#f3f4f6" } : {},
+        style: isWeekend ? { backgroundColor: "#f3f4f6" } : {display: 'flex', justifyContent: 'center'},
       };
     }),
   ];
