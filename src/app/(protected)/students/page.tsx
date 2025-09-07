@@ -2,7 +2,7 @@ import StudentsMain from "@/pages/students/StudentsMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: `Students - ${process.env.NEXT_PUBLIC_COMPANY_NAME}`,
+  title: `Students - ${process.env.NEXT_PUBLIC_APP_NAME}`,
   description: 'Students page',
 }
 

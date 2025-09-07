@@ -3,7 +3,7 @@ import StudentCreate from "@/pages/students/StudentCreate";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: `Create Student - ${process.env.NEXT_PUBLIC_COMPANY_NAME}`,
+  title: `Create Student - ${process.env.NEXT_PUBLIC_APP_NAME}`,
   description: 'Create Student page',
 }
 
