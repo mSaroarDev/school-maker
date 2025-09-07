@@ -15,7 +15,7 @@ import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaRegCircle } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
@@ -49,6 +49,8 @@ const AttendenceMain = () => {
     defaultValues: filters
   });
 
+  const [attendanceRecords, setAttendanceRecords] = useState();
+
   const { data: attendence } = useGetAllAttendence({
     classId: "68b094ab5617f1ce94ddb9d5",
     year: getValues("year"),
@@ -58,7 +60,7 @@ const AttendenceMain = () => {
 
   console.log("Attendence Data:", attendence);
 
-  const uniqueDates = attendence?.data?.[0]?.data || [];
+  const uniqueDates = attendanceRecords?.data?.[0]?.data || [];
 
   const columns = [
     {
@@ -94,7 +96,15 @@ const AttendenceMain = () => {
 
           if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
             return <div className="w-full text-center pl-1.5">
-              <FaRegCircle size={18} className="text-primary" />
+              <FaRegCircle
+                onClick={() => handleUpdateAttendance({
+                  studentId: row.student._id,
+                  date: moment(dateObj.date).format("YYYY-MM-DD"),
+                  isPresent: true
+                })}
+                size={18}
+                className="text-primary"
+              />
             </div>
           }
 
@@ -105,21 +115,32 @@ const AttendenceMain = () => {
           );
         },
         id: `day-${index}`,
-        style: isWeekend ? { backgroundColor: "#f3f4f6" } : {display: 'flex', justifyContent: 'center'},
+        style: isWeekend ? { backgroundColor: "#f3f4f6" } : { display: 'flex', justifyContent: 'center' },
       };
     }),
   ];
 
-
   const onSubmit = (data: typeof filters) => {
     console.log(data);
   };
+
+  const handleUpdateAttendance = (payload: { studentId: string, date: string, isPresent: boolean }) => {
+    console.log("Update attendance:", {
+      ...payload,
+      classId: getValues("classId"),
+      date: moment(payload.date).format("YYYY-MM-DD"),
+    });
+  }
 
   useEffect(() => {
     if (classes?.data?.length && !getValues("classId")) {
       setValue("classId", classes.data[0]._id.toString());
     }
   }, [classes, setValue, getValues]);
+
+  useEffect(() => {
+    setAttendanceRecords(attendence);
+  }, [attendence]);
 
   return (
     <>
