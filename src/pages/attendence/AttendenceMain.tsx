@@ -1,6 +1,6 @@
 "use client";
 import { useGetAllAttendence, useUpdateAttendence } from "@/api/attendence/attendence.hooks";
-import { TAttendenceResponse, TData, TStudent, TUpdateAttendencePayload } from "@/api/attendence/attendence.types";
+import { TAttendenceResponse, TData, TUpdateAttendencePayload } from "@/api/attendence/attendence.types";
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
@@ -42,8 +42,6 @@ const AttendenceMain = () => {
     setValue,
     getValues,
     handleSubmit,
-    register,
-    formState: { errors },
   } = useForm({
     defaultValues: filters
   });
