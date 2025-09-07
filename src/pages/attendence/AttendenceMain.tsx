@@ -1,4 +1,5 @@
 "use client";
+import { useGetAllAttendence } from "@/api/attendence/attendence.hooks";
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
 import { TStudentResponse } from "@/api/students/students.interfaces";
@@ -28,44 +29,6 @@ const AttendenceMain = () => {
     { name: "Attendence" },
   ];
 
-  const columns = [
-  {
-    name: "Student Name",
-    selector: (row) => row?.student?.fullName,
-    sortable: true,
-  },
-  ...attDummyData[0].data.map((dateObj, index) => {
-    const dayOfWeek = moment(dateObj.date).day();
-    const isWeekend = dayOfWeek === 5 || dayOfWeek === 6;
-
-    return {
-      name: moment(dateObj.date).format("DD"),
-      width: "90px",
-      cell: (row) => {
-        if (isWeekend) {
-          return <span className="text-gray-400 w-full mx-auto">-</span>;
-        }
-
-        const attendanceRecord = row?.data.find(
-          (d) => moment(d.date).isSame(dateObj.date, "day")
-        );
-
-        if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
-          return <FaRegCircle size={18} className="text-primary" />;
-        }
-
-        return attendanceRecord.isPresent ? (
-          <IoCheckmarkCircle size={22} className="text-primary" />
-        ) : (
-          <AiFillCloseCircle size={20} className="text-red-500" />
-        );
-      },
-      id: `day-${index}`,
-      style: isWeekend ? { backgroundColor: '#f3f4f6' } : {},
-    };
-  }),
-];
-
   const { data: classes, isPending } = useGetAllClasses();
 
   const filters = {
@@ -85,6 +48,59 @@ const AttendenceMain = () => {
   } = useForm({
     defaultValues: filters
   });
+
+  const { data: attendence } = useGetAllAttendence({
+    classId: "68b094ab5617f1ce94ddb9d5",
+    year: getValues("year"),
+    month: getValues("month"),
+    week: getValues("week"),
+  });
+
+  console.log("Attendence Data:", attendence);
+
+  const uniqueDates = attendence?.data?.[0]?.data || [];
+
+  const columns = [
+    {
+      name: "Student Name",
+      selector: (row) => row?.student?.fullName,
+      sortable: true,
+      width: "200px",
+    },
+    ...uniqueDates.map((dateObj, index) => {
+      const dayOfWeek = moment(dateObj.date).day();
+      const isWeekend = dayOfWeek === 5 || dayOfWeek === 6;
+
+      return {
+        name: moment(dateObj.date).format("DD"), // Display Day (01, 02...)
+        width: "90px",
+        center: true,
+        cell: (row) => {
+          if (isWeekend) {
+            return <span className="text-gray-400 w-full mx-auto">-</span>;
+          }
+
+          // Find attendance record for this date
+          const attendanceRecord = row.data.find((d) =>
+            moment(d.date).isSame(dateObj.date, "day")
+          );
+
+          if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
+            return <FaRegCircle size={18} className="text-primary" />; // No data
+          }
+
+          return attendanceRecord.isPresent ? (
+            <IoCheckmarkCircle size={22} className="text-primary" /> // Present
+          ) : (
+            <AiFillCloseCircle size={20} className="text-red-500" /> // Absent
+          );
+        },
+        id: `day-${index}`,
+        style: isWeekend ? { backgroundColor: "#f3f4f6" } : {},
+      };
+    }),
+  ];
+
 
   const onSubmit = (data: typeof filters) => {
     console.log(data);
@@ -117,7 +133,7 @@ const AttendenceMain = () => {
                   name="year"
                   rules={{ required: "Select Year" }}
                 />
-                
+
                 <SelectComponent
                   options={monthOptions}
                   placeholder="Month"
@@ -151,7 +167,7 @@ const AttendenceMain = () => {
 
         <CustomDataTable
           columns={columns}
-          data={attDummyData}
+          data={attendence?.data || []}
           highlightOnHover={false}
           pointerOnHover={false}
           extraStyles={{
