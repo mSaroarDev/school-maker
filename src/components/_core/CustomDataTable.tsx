@@ -30,6 +30,7 @@ interface IDatatableProps<T> {
   setLimit?: (limit: number) => void;
   itemsPerPageOptions?: number[];
   selectableRows?: boolean;
+  extraStyles?: object;
 }
 
 const CustomDataTable = <T,>({
@@ -46,6 +47,8 @@ const CustomDataTable = <T,>({
   setLimit = () => { },
   itemsPerPageOptions = [10, 20, 50, 100],
   selectableRows = false,
+  highlightOnHover = true,
+  extraStyles
 }: IDatatableProps<T>) => {
 
   const { isMobile } = useDeviceDetect();
@@ -83,7 +86,8 @@ const CustomDataTable = <T,>({
       <DataTable
         customStyles={{
           ...getStyles(),
-          ...customStyles
+          ...customStyles,
+          ...extraStyles
         }}
         columns={isMobile ? mobileColumns ?? [] : columns}
         data={data}
@@ -93,7 +97,7 @@ const CustomDataTable = <T,>({
         onRowClicked={onRowClicked || undefined}
         striped={theme === "light" && !isMobile}
         pointerOnHover
-        highlightOnHover={theme === "light" && !isMobile}
+        highlightOnHover={highlightOnHover && theme === "light" && !isMobile}
         selectableRows={selectableRows}
         pagination
         paginationServer
