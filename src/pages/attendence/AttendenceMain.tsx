@@ -1,8 +1,8 @@
 "use client";
 import { useGetAllAttendence, useUpdateAttendence } from "@/api/attendence/attendence.hooks";
+import { TAttendenceResponse, TData, TStudent, TUpdateAttendencePayload } from "@/api/attendence/attendence.types";
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
-import { TStudentResponse } from "@/api/students/students.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
@@ -10,17 +10,16 @@ import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import SelectComponent from "@/components/ui/select";
 import { monthOptions, weekOptions, yearsOptions } from "@/constants/constants";
-import { attDummyData } from "@/dummy/attendenceData";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import moment from "moment";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaRegCircle } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import Select from "react-select";
 
 const AttendenceMain = () => {
   const breadTree = [
@@ -49,7 +48,7 @@ const AttendenceMain = () => {
     defaultValues: filters
   });
 
-  const [attendanceRecords, setAttendanceRecords] = useState();
+  const [attendanceRecords, setAttendanceRecords] = useState<TAttendenceResponse | undefined>();
 
   const watchedClassId = watch("classId");
   const watchedYear = watch("year");
@@ -68,13 +67,16 @@ const AttendenceMain = () => {
   const columns = [
     {
       name: "Student Name",
-      cell: (row) => (
+      cell: (row: TData) => (
         <div className="flex items-center gap-2">
-          <img
-            src={row.profileImage || "/default-profile.png"}
-            alt="Profile"
-            className="w-8 h-8 rounded-full object-cover"
-          />
+          <div className="w-8 h-8 relative flex-shrink-0">
+            <Image
+              src={row.student?.avatar || "/default-profile.png"}
+              alt="Profile"
+              fill
+              className="object-cover"
+            />
+          </div>
           <span className="font-medium">{row?.student?.fullName}</span>
         </div>
       ),
@@ -87,7 +89,7 @@ const AttendenceMain = () => {
       return {
         name: moment(dateObj.date).format("DD"),
         width: "90px",
-        cell: (row) => {
+        cell: (row: TData) => {
           if (isWeekend) {
             return <span className="text-gray-400 w-full mx-auto">-</span>;
           }
@@ -149,7 +151,7 @@ const AttendenceMain = () => {
 
   const { mutateAsync: updateAttendence } = useUpdateAttendence();
 
-  const handleUpdateAttendance = async (payload: { studentId: string, date: string, isPresent?: boolean }) => {
+  const handleUpdateAttendance = async (payload: TUpdateAttendencePayload) => {
     console.log("Update attendance:", {
       ...payload,
       classId: getValues("classId"),
