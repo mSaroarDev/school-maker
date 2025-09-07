@@ -1,13 +1,11 @@
+import { TStudentResponse } from "../students/students.interfaces";
+
 type TAttendenceData = {
   date: string;
   isPresent?: boolean | null;
 }
 
-export type TStudent = {
-  _id: string;
-  avatar: string;
-  fullName: string;
-}
+export type TStudent = TStudentResponse;
 
 export type TData = {
   data: TAttendenceData[];
