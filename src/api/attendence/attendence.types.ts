@@ -18,6 +18,7 @@ export type TAttendenceResponse = {
   success: boolean;
   message: string;
   data: TData[];
+  totalResults: number;
 };
 
 export type TGetAttendencePayload = {

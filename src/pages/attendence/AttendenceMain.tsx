@@ -6,7 +6,6 @@ import { TClassResponse } from "@/api/class/class.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
-import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import SelectComponent from "@/components/ui/select";
 import { monthOptions, weekOptions, yearsOptions } from "@/constants/constants";
@@ -18,7 +17,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaRegCircle } from "react-icons/fa6";
-import { FiFilter } from "react-icons/fi";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
 const AttendenceMain = () => {
@@ -53,6 +51,9 @@ const AttendenceMain = () => {
   const watchedMonth = watch("month");
   const watchedWeek = watch("week");
 
+  const [currPage, setCurrPage] = useState(1);
+  const [llimit, setLimit] = useState(10);
+
   const { data: attendence } = useGetAllAttendence({
     classId: watchedClassId,
     year: watchedYear,
@@ -66,8 +67,8 @@ const AttendenceMain = () => {
     {
       name: "Student Name",
       cell: (row: TData) => (
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 relative flex-shrink-0">
+        <div className="flex items-center gap-2 min-w-[250px]">
+          <div className="w-8 h-8 relative flex-shrink-0 ring-1 ring-primary/50 rounded-full overflow-hidden">
             <Image
               src={row.student?.avatar || "/default-profile.png"}
               alt="Profile"
@@ -228,7 +229,6 @@ const AttendenceMain = () => {
                   name="classId"
                   rules={{ required: "Select Class" }}
                 />
-                <Button type="submit" onClick={() => console.log("Button pressed")}><FiFilter size={18} /> Filter</Button>
               </div>
             </form>
           }
@@ -239,6 +239,11 @@ const AttendenceMain = () => {
           data={attendence?.data || []}
           highlightOnHover={false}
           pointerOnHover={false}
+          currPage={currPage}
+          setCurrPage={setCurrPage}
+          limit={llimit}
+          setLimit={setLimit}
+          totalResults={attendence?.totalResults || 0}
           extraStyles={{
             rows: {
               style: {

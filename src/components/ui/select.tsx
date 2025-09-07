@@ -1,3 +1,4 @@
+"use client";
 import {
   Control,
   Controller,
@@ -82,7 +83,9 @@ function SelectComponent<
 
   type ThemeKey = keyof typeof themes;
 
-  const currentTheme = themes[(theme as ThemeKey) ?? "light"];
+  // Fixed theme selection to prevent undefined access
+  const themeKey: ThemeKey = theme === "dark" ? "dark" : "light";
+  const currentTheme = themes[themeKey];
 
   const customStyles: StylesConfig<OptionType, boolean> = {
     control: (provided, state) => ({
@@ -100,7 +103,6 @@ function SelectComponent<
         : `0 1px 2px 0 ${currentTheme.shadow}`,
       transition: 'all 0.2s ease-in-out',
       outline: 'none',
-      // minHeight: '40px',
       cursor: 'pointer',
       '&:hover': {
         borderColor: hasError 
@@ -154,7 +156,6 @@ function SelectComponent<
       borderRadius: '6px',
       boxShadow: `0 10px 15px -3px ${currentTheme.shadow}, 0 4px 6px -2px ${currentTheme.shadow}`,
       zIndex: 9999,
-      // Prevent overflow and ensure proper positioning
       position: 'absolute',
       width: '100%',
       maxHeight: '200px',
@@ -165,7 +166,6 @@ function SelectComponent<
       maxHeight: '200px',
       overflowY: 'auto',
       padding: '4px 0',
-      // Custom scrollbar styling
       '&::-webkit-scrollbar': {
         width: '6px',
       },
@@ -242,10 +242,10 @@ function SelectComponent<
             options={options}
             isMulti={isMulti}
             placeholder={placeholder}
-            menuPlacement="auto" // Automatically adjust menu position to prevent overflow
-            menuPosition="absolute" // Use absolute positioning for better control
-            menuShouldBlockScroll={false} // Prevent body scroll blocking
-            closeMenuOnScroll={false} // Keep menu open on scroll
+            menuPlacement="auto"
+            menuPosition="absolute"
+            menuShouldBlockScroll={false}
+            closeMenuOnScroll={false}
             value={
               isMulti
                 ? options.filter((option) =>
@@ -270,7 +270,6 @@ function SelectComponent<
             name={field.name}
             styles={customStyles}
             classNamePrefix="react-select"
-            // Additional props to prevent overflow
             isSearchable={rest.isSearchable !== false}
             isClearable={rest.isClearable}
             maxMenuHeight={200}
