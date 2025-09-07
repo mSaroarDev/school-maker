@@ -13,7 +13,7 @@ import { attDummyData } from "@/dummy/attendenceData";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaRegCircle } from "react-icons/fa6";
@@ -29,52 +29,50 @@ const AttendenceMain = () => {
   ];
 
   const columns = [
-    {
-      name: "Student Name",
-      selector: (row: TStudentResponse) => row?.studentId?.fullName,
-      sortable: true,
-    },
-    ...attDummyData[0].studentId.data.map((dateObj, index) => {
-      const dayOfWeek = moment(dateObj.date).day(); // 0=Sunday, 1=Monday, ..., 5=Friday, 6=Saturday
-      const isWeekend = dayOfWeek === 2 || dayOfWeek === 3; // Friday or Saturday
+  {
+    name: "Student Name",
+    selector: (row) => row?.student?.fullName,
+    sortable: true,
+  },
+  ...attDummyData[0].data.map((dateObj, index) => {
+    const dayOfWeek = moment(dateObj.date).day();
+    const isWeekend = dayOfWeek === 5 || dayOfWeek === 6;
 
-      return {
-        name: moment(dateObj.date).format("DD"),
-        width: "90px",
-        cell: (row) => {
-          if (isWeekend) {
-            return <span className="text-gray-400">-</span>;
-          }
+    return {
+      name: moment(dateObj.date).format("DD"),
+      width: "90px",
+      cell: (row) => {
+        if (isWeekend) {
+          return <span className="text-gray-400 w-full mx-auto">-</span>;
+        }
 
-          const attendanceRecord = row?.studentId?.data.find(
-            (d) => moment(d.date).isSame(dateObj.date, "day")
-          );
+        const attendanceRecord = row?.data.find(
+          (d) => moment(d.date).isSame(dateObj.date, "day")
+        );
 
-          if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
-            return <FaRegCircle size={20} className="text-primary" />;
-          }
+        if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
+          return <FaRegCircle size={18} className="text-primary" />;
+        }
 
-          return attendanceRecord.isPresent ? (
-            <IoCheckmarkCircle size={22} className="text-primary" />
-          ) : (
-            <AiFillCloseCircle size={20} className="text-red-500" />
-          );
-        },
-        id: `day-${index}`,
-        style: isWeekend ? { backgroundColor: '#f3f4f6' } : {},
-      };
-    }),
-  ];
+        return attendanceRecord.isPresent ? (
+          <IoCheckmarkCircle size={22} className="text-primary" />
+        ) : (
+          <AiFillCloseCircle size={20} className="text-red-500" />
+        );
+      },
+      id: `day-${index}`,
+      style: isWeekend ? { backgroundColor: '#f3f4f6' } : {},
+    };
+  }),
+];
 
   const { data: classes, isPending } = useGetAllClasses();
-
-  console.log("Classes:", classes?.data[0]?._id);
 
   const filters = {
     year: new Date().getFullYear().toString(),
     month: monthOptions[new Date().getMonth()].value,
     week: weekOptions[0].value,
-    classId: classes?.data[0]?._id.toString() || "",
+    classId: "",
   }
   const {
     control,
@@ -92,9 +90,11 @@ const AttendenceMain = () => {
     console.log(data);
   };
 
-  if (isPending) {
-    return <div>Loading...</div>
-  }
+  useEffect(() => {
+    if (classes?.data?.length && !getValues("classId")) {
+      setValue("classId", classes.data[0]._id.toString());
+    }
+  }, [classes, setValue, getValues]);
 
   return (
     <>
