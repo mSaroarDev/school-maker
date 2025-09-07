@@ -154,4 +154,31 @@ export const resultOptions = [
   { value: "F", label: "F" },
   { value: "Pass", label: "Pass" },
   { value: "Fail", label: "Fail" },
+];
+
+export const yearsOptions = Array.from({ length: 50 }, (_, i) => {
+  const year = new Date().getFullYear() - i;
+  return { value: year.toString(), label: year.toString() };
+});
+
+export const monthOptions = [
+  { value: "01", label: "January" },
+  { value: "02", label: "February" },
+  { value: "03", label: "March" },
+  { value: "04", label: "April" },
+  { value: "05", label: "May" },
+  { value: "06", label: "June" },
+  { value: "07", label: "July" },
+  { value: "08", label: "August" },
+  { value: "09", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" },
+];
+
+export const weekOptions = [
+  { value: "1-2", label: "Week 1-2" },
+  { value: "2-3", label: "Week 2-3" },
+  { value: "3-4", label: "Week 3-4" },
+  { value: "4-5", label: "Week 4-5" },
 ]
