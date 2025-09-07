@@ -151,12 +151,6 @@ const AttendenceMain = () => {
   const { mutateAsync: updateAttendence } = useUpdateAttendence();
 
   const handleUpdateAttendance = async (payload: TUpdateAttendencePayload) => {
-    console.log("Update attendance:", {
-      ...payload,
-      classId: getValues("classId"),
-      date: moment(payload.date).format("YYYY-MM-DD"),
-    });
-
     try {
       const res = await updateAttendence({
         ...payload,
