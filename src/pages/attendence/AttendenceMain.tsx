@@ -1,5 +1,5 @@
 "use client";
-import { useGetAllAttendence } from "@/api/attendence/attendence.hooks";
+import { useGetAllAttendence, useUpdateAttendence } from "@/api/attendence/attendence.hooks";
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { TClassResponse } from "@/api/class/class.interfaces";
 import { TStudentResponse } from "@/api/students/students.interfaces";
@@ -51,14 +51,17 @@ const AttendenceMain = () => {
 
   const [attendanceRecords, setAttendanceRecords] = useState();
 
-  const { data: attendence } = useGetAllAttendence({
-    classId: "68b094ab5617f1ce94ddb9d5",
-    year: getValues("year"),
-    month: getValues("month"),
-    week: getValues("week"),
-  });
+  const watchedClassId = watch("classId");
+  const watchedYear = watch("year");
+  const watchedMonth = watch("month");
+  const watchedWeek = watch("week");
 
-  console.log("Attendence Data:", attendence);
+  const { data: attendence } = useGetAllAttendence({
+    classId: watchedClassId,
+    year: watchedYear,
+    month: watchedMonth,
+    week: watchedWeek,
+  });
 
   const uniqueDates = attendanceRecords?.data?.[0]?.data || [];
 
@@ -94,7 +97,7 @@ const AttendenceMain = () => {
             moment(d.date).isSame(dateObj.date, "day")
           );
 
-          if (!attendanceRecord || attendanceRecord.isPresent === undefined) {
+          if (!attendanceRecord || attendanceRecord.isPresent === undefined || attendanceRecord.isPresent === null) {
             return <div className="w-full text-center pl-1.5">
               <FaRegCircle
                 onClick={() => handleUpdateAttendance({
@@ -109,9 +112,29 @@ const AttendenceMain = () => {
           }
 
           return attendanceRecord.isPresent ? (
-            <div className="w-full text-center pl-1.5"><IoCheckmarkCircle size={22} className="text-primary" /></div> // Present
+            <div className="w-full text-center pl-1.5">
+              <IoCheckmarkCircle
+                onClick={() => handleUpdateAttendance({
+                  studentId: row.student._id,
+                  date: moment(dateObj.date).format("YYYY-MM-DD"),
+                  isPresent: false
+                })}
+                size={22}
+                className="text-primary"
+              />
+            </div> // Present
           ) : (
-            <div className="w-full text-center pl-1.5"><AiFillCloseCircle size={20} className="text-red-500" /></div> // Absent
+            <div className="w-full text-center pl-1.5">
+              <AiFillCloseCircle
+                onClick={() => handleUpdateAttendance({
+                  studentId: row.student._id,
+                  date: moment(dateObj.date).format("YYYY-MM-DD"),
+                  isPresent: null
+                })}
+                size={20}
+                className="text-red-500"
+              />
+            </div>
           );
         },
         id: `day-${index}`,
@@ -124,12 +147,28 @@ const AttendenceMain = () => {
     console.log(data);
   };
 
-  const handleUpdateAttendance = (payload: { studentId: string, date: string, isPresent: boolean }) => {
+  const { mutateAsync: updateAttendence } = useUpdateAttendence();
+
+  const handleUpdateAttendance = async (payload: { studentId: string, date: string, isPresent?: boolean }) => {
     console.log("Update attendance:", {
       ...payload,
       classId: getValues("classId"),
       date: moment(payload.date).format("YYYY-MM-DD"),
     });
+
+    try {
+      const res = await updateAttendence({
+        ...payload,
+        classId: getValues("classId"),
+        date: moment(payload.date).format("YYYY-MM-DD"),
+      })
+
+      if (res?.success) {
+        showToast("success", "Attendance updated successfully");
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error))
+    }
   }
 
   useEffect(() => {
