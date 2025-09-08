@@ -1,25 +1,26 @@
 "use client";
+import { useGetAllNotice } from "@/api/notices/notices.hooks";
+import { TNoticeResponse } from "@/api/notices/notices.types";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import { NoticesBreadTree } from "@/helpers/breadcrumbs";
+import { useAuth } from "@/hooks/useAuth";
+import CreateNotice from "@/pages/notices/CreateNotice";
+import { htmlToPlainText } from "@/utils/htmlToPlainText";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { BiPaperPlane } from "react-icons/bi";
 import { FaRegEye } from "react-icons/fa6";
-import CreateNotice from "@/pages/notices/CreateNotice";
-import { useGetAllNotice } from "@/api/notices/notices.hooks";
-import { useAuth } from "@/hooks/useAuth";
-import { TNoticeResponse } from "@/api/notices/notices.types";
 import { GoMegaphone } from "react-icons/go";
-import moment from "moment";
-import { htmlToPlainText } from "@/utils/htmlToPlainText";
-import { useRouter } from "next/navigation";
 
 const NoticesMain = () => {
   const { user } = useAuth();
 
-  const { push } = useRouter();
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
 
   const renderDate = (dateString: string) => (
     <Badge variant="secondary">{moment(dateString).format("DD MMM, YYYY")}</Badge>
@@ -39,7 +40,18 @@ const NoticesMain = () => {
   const {
     data: noticesData,
     // isPending: noticesLoading,
-  } = useGetAllNotice({ currPage: 1, limit: 10, instituteId: user?.instituteId || "" });
+  } = useGetAllNotice({
+    currPage: 1,
+    limit: 10,
+    instituteId: user?.instituteId || "",
+    search: search
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSearch(query);
+    }, 1000);
+  }, [query]);
 
   return (
     <>
@@ -51,6 +63,9 @@ const NoticesMain = () => {
         <Card className="h-[calc(100vh-170px)] overflow-hidden">
           <HeaderComponent
             title="Notice Board"
+            showSearch
+            query={query}
+            setQuery={setQuery}
             extraComponent={<>
               <CreateNotice />
             </>}
@@ -61,17 +76,22 @@ const NoticesMain = () => {
               {noticesData?.data?.map((item: TNoticeResponse, index: number) => (
                 <div
                   onClick={() => window.open(`/notices/details/${noticesData?.data[0]?._id}?title=${noticesData?.data[0]?.title}`, "_blank")}
-                  key={index} 
+                  key={index}
                   className="p-4 rounded-xl border mb-4 cursor-pointer hover:bg-primary/10 hover:shadow-md hover:border-primary/30 transition"
                 >
                   <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-primary/20">
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-primary/20">
                         <GoMegaphone size={22} className="text-black -rotate-12" />
                       </div>
                       {renderTitleAuthor(item?.title, `By ${item?.createdBy?.fullName}, ${item?.createdBy?.role ? `${item?.createdBy?.role}` : ""}`)}
+
+                      <div className="md:hidden flex items-center gap-2">
+                        {renderDate(item?.createdAt?.toString())}
+                        {renderViewCount(0)}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
                       {renderDate(item?.createdAt?.toString())}
                       {renderViewCount(0)}
                     </div>
@@ -83,7 +103,7 @@ const NoticesMain = () => {
                 </div>
               ))}
             </div>
-            <div className="col-span-12 md:col-span-4 lg:col-span-3 border rounded-lg p-4 h-[calc(100vh-250px)]  flex flex-col justify-between">
+            <div className="hidden col-span-12 md:col-span-4 lg:col-span-3 border rounded-lg p-4 h-[calc(100vh-250px)]  lg:flex flex-col justify-between">
               <div>
                 <div>
                   <div className="w-full h-52 rounded-lg overflow-hidden relative bg-slate-100">
