@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill-new';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 
 type RichTextEditorProps = {
   value?: string;
@@ -20,6 +20,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [internalValue, setInternalValue] = useState<string>(value || '');
 
   const handleChange = (content: string) => {
+    console.log("text", content)
     if (onChange) {
       onChange(content);
     } else {
