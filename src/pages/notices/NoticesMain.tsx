@@ -1,13 +1,12 @@
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import HeaderComponent from "@/components/_core/HeaderComponent";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import { NoticesBreadTree } from "@/helpers/breadcrumbs";
-import Image from "next/image";
-import placeholder from "@/assets/images/avatar.jpeg";
-import { Badge } from "@/components/ui/badge";
-import { FaRegEye } from "react-icons/fa6";
-import { Button } from "@/components/ui/button";
 import { BiPaperPlane } from "react-icons/bi";
+import { FaRegEye } from "react-icons/fa6";
+import CreateNotice from "@/pages/notices/CreateNotice";
 
 const NoticesMain = () => {
   const renderDate = (dateString: string) => (
@@ -35,7 +34,9 @@ const NoticesMain = () => {
         <Card className="h-[calc(100vh-170px)] overflow-hidden">
           <HeaderComponent
             title="Notice Board"
-            extraComponent={<></>}
+            extraComponent={<>
+              <CreateNotice />
+            </>}
           />
 
           <div className="mt-5 grid grid-cols-12 gap-4">
@@ -85,7 +86,7 @@ const NoticesMain = () => {
               </div>
 
               <div className="mt-4">
-                <p className="text-gray-700 dark:text-gray-500 text-sm">
+                <p className="text-gray-700 dark:text-gray-500 text-sm line-clamp-3 3xl:line-clamp-6">
                  As we embark on another exciting academic year, lets embrace the opportunities that lie ahead. Were thrilled to welcome new faces and reunite with returning students. Dont miss our opening assembly on August 5th!
 
                   Attention students! To support your exam preparation, the library will offer extended hours starting September 15th. Join us for additional study sessions and access thousands of resources. Please bring and collect over 2,000 pounds of food for local food banks.
