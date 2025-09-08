@@ -1,3 +1,5 @@
+import { useCreateNotice } from "@/api/notices/notices.hooks";
+import { TNoticeCreatePayload } from "@/api/notices/notices.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +12,8 @@ import {
   SheetHeader,
   SheetTitle
 } from "@/components/ui/sheet";
-import { CldUploadButton } from "next-cloudinary";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuEye } from "react-icons/lu";
@@ -21,10 +24,12 @@ const NoticeForm = ({
 
   const [editorContent, setEditorContent] = useState<string>("");
 
+  const { mutateAsync: createNotice, isPending: isCreating } = useCreateNotice();
+
   const defaultValues = {
     title: '',
     description: "",
-    filUrl: ''
+    fileUrl: ''
   };
 
   const {
@@ -42,7 +47,7 @@ const NoticeForm = ({
   };
 
   const [fileUrl, setFileUrl] = useState<string>("");
-  const handleImageUpload = (file: any) => {
+  const handleImageUpload = (file: File) => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -55,23 +60,30 @@ const NoticeForm = ({
         .then(data => {
           console.log("Upload Success: ", data);
           if (data.secure_url) {
-            setValue("filUrl", data.secure_url);
+            setValue("fileUrl", data.secure_url);
             setFileUrl(data.secure_url);
           } else {
-            setValue("filUrl", "");
+            setValue("fileUrl", "");
           }
         })
         .catch(err => {
           console.error("Upload Error: ", err);
-          setValue("filUrl", "");
+          setValue("fileUrl", "");
         });
     } else {
-      setValue("filUrl", "");
+      setValue("fileUrl", "");
     }
   }
 
-  const onSubmit = async (data: any) => {
-    console.log("data", data);
+  const onSubmit = async (data: TNoticeCreatePayload) => {
+    try {
+      const res = await createNotice(data);
+      if (res?.success) {
+        showToast("success", res.message || "Notice created successfully");
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error) || "Failed to create notice");
+    }
   }
 
   return (
@@ -107,9 +119,9 @@ const NoticeForm = ({
           <div className="grid gap-3 mt-16">
             <Label notRequired>Attachment <span className="text-green-500 text-xs">(Optional)</span></Label>
             {fileUrl ? (
-              <Button 
+              <Button
                 className="bg-primary/20 text-black"
-                onClick={()=> window.open(fileUrl, "_blank")}
+                onClick={() => window.open(fileUrl, "_blank")}
               >
                 <LuEye size={20} /> View File
               </Button>
@@ -119,7 +131,10 @@ const NoticeForm = ({
                 className="more-action-button bg-primary/10 text-primary w-full"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  handleImageUpload(file);
+                  if(!file){
+                    setValue("fileUrl", "");
+                  }
+                  handleImageUpload(file ?? new File([], ''));
                 }}
               />
             )}
