@@ -15,6 +15,7 @@ export type TLoginResponse = {
       email: string;
       phone: string;
       role: string;
+      instituteId: string;
       profile: {
         gender?: string;
         dateOfBirth?: Date;
