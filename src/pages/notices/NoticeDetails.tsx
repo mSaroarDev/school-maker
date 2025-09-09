@@ -8,12 +8,13 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import { NoticeDetailsBreadTree } from "@/helpers/breadcrumbs";
 import moment from "moment";
 import { Badge } from "@/components/ui/badge";
+import Spinner from "@/components/_core/Spinner";
 
 const NoticeDetails = () => {
   const params = useParams();
   const noticeId = params ? params.noticeId : "";
 
-  const { data: notice, isPending } = useGetNoticeById(noticeId as string);
+  const { data: notice } = useGetNoticeById(noticeId as string);
   console.log("notice details:", notice); 
 
   useEffect(() => {
