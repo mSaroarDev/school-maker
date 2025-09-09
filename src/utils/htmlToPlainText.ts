@@ -59,9 +59,18 @@ export function htmlToPlainText(html: string, opts: { wrap?: number } = {}): str
 
   let text = walk(doc.body || doc);
 
+  // Decode HTML entities like &quot;, &nbsp;
   text = decodeHtmlEntities(text);
-  text = text.replace(/\n{3,}/g, '\n\n').trim();
 
+  // Normalize spaces and newlines
+  text = text.replace(/\u00A0/g, ' '); // replace &nbsp; with space
+  text = text.replace(/\n{3,}/g, '\n\n'); // collapse multiple blank lines
+  text = text.trim();
+
+  // Remove unwanted leading/trailing quotes if present
+  text = text.replace(/^"+|"+$/g, '');
+
+  // Optional wrap
   if (wrap && Number.isInteger(wrap) && wrap > 0) {
     text = wrapText(text, wrap);
   }
