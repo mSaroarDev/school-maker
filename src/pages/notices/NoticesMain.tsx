@@ -4,19 +4,15 @@ import { TNoticeResponse } from "@/api/notices/notices.types";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import { NoticesBreadTree } from "@/helpers/breadcrumbs";
 import { useAuth } from "@/hooks/useAuth";
 import CreateNotice from "@/pages/notices/CreateNotice";
-import { htmlToPlainText } from "@/utils/htmlToPlainText";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { BiPaperPlane } from "react-icons/bi";
 import { FaRegEye } from "react-icons/fa6";
-import { GoMegaphone } from "react-icons/go";
-import NoticeCard from "./NoticeCard";
 import FirstNoticeShow from "./FirstNoticeShow";
+import NoticeCard from "./NoticeCard";
 
 const NoticesMain = () => {
   const { user } = useAuth();
