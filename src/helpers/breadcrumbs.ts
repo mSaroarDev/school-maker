@@ -9,4 +9,10 @@ export const NoticeDetailsBreadTree = [
   { name: "Home", url: "/dashboard" },
   { name: "Notices", url: "/notices" },
   { name: "Notice Details" },
-]
+];
+
+export const CalenderBreadTree = [
+  { name: "Calender" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Calender", url: "/notices" },
+];

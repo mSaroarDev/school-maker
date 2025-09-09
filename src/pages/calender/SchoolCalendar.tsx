@@ -4,6 +4,9 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
+import { CalenderBreadTree } from "@/helpers/breadcrumbs";
+import Card from "@/components/ui/card";
 
 /* sample events (dates like your screenshot; update/use API later) */
 const sampleEvents = [
@@ -56,51 +59,60 @@ export default function SchoolCalendar() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      {/* top controls (Month / Week / Day) */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
-          <button
-            onClick={() => changeView("dayGridMonth")}
-            className={`px-3 py-1 rounded-md text-sm ${currentView === "dayGridMonth" ? "bg-white shadow" : ""}`}
-          >
-            Month
-          </button>
-          <button
-            onClick={() => changeView("timeGridWeek")}
-            className={`px-3 py-1 rounded-md text-sm ${currentView === "timeGridWeek" ? "bg-white shadow" : ""}`}
-          >
-            Week
-          </button>
-          <button
-            onClick={() => changeView("timeGridDay")}
-            className={`px-3 py-1 rounded-md text-sm ${currentView === "timeGridDay" ? "bg-white shadow" : ""}`}
-          >
-            Day
-          </button>
-        </div>
-        <div className="text-sm text-gray-600">
-          {/* optional: current month/year label */}
-          <span>{/* Will be populated by programmatic logic if needed */}</span>
-        </div>
+    <>
+      <div>
+        <BreadcrumbsComponent breadTree={CalenderBreadTree} />
       </div>
 
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView={currentView}
-        headerToolbar={false}             // we use our own controls
-        events={sampleEvents}
-        eventContent={renderEventContent}
-        eventClick={handleEventClick}
-        height="auto"
-        dayMaxEventRows={3}               // show up to N rows per day then "+n more"
-        editable={false}
-        selectable={false}
-      />
+      <Card className="rounded-lg shadow-sm p-6">
+        {/* top controls (Month / Week / Day) */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
+            <button
+              onClick={() => changeView("dayGridMonth")}
+              className={`px-3 py-1 rounded-md text-sm ${currentView === "dayGridMonth" ? "bg-white shadow" : ""}`}
+            >
+              Month
+            </button>
+            <button
+              onClick={() => changeView("timeGridWeek")}
+              className={`px-3 py-1 rounded-md text-sm ${currentView === "timeGridWeek" ? "bg-white shadow" : ""}`}
+            >
+              Week
+            </button>
+            <button
+              onClick={() => changeView("timeGridDay")}
+              className={`px-3 py-1 rounded-md text-sm ${currentView === "timeGridDay" ? "bg-white shadow" : ""}`}
+            >
+              Day
+            </button>
+          </div>
+          <div className="text-sm text-gray-600">
+            {/* optional: current month/year label */}
+            <span>{/* Will be populated by programmatic logic if needed */}</span>
+          </div>
+        </div>
 
-      <style>
-        {`
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView={currentView}
+          headerToolbar={false}             // we use our own controls
+          events={sampleEvents}
+          eventContent={renderEventContent}
+          eventClick={handleEventClick}
+          height="auto"
+          dayMaxEventRows={3}               // show up to N rows per day then "+n more"
+          editable={false}
+          selectable={false}
+          dayCellContent={(arg) => {
+            const dayNum = arg.dayNumberText.padStart(2, '0');
+            return <span>{dayNum}</span>;
+          }}
+        />
+
+        <style>
+          {`
           .fc .fc-col-header-cell {
             background-color: #f9fafb; /* Tailwind's gray-50 */
             color: #374151; /* Tailwind's gray-700 */
@@ -109,6 +121,7 @@ export default function SchoolCalendar() {
             font-size: 0.875rem; /* text-sm */
             padding: 0.75rem 0;
             border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            border-top-left-radius: 0.75rem;
           }
 
           .fc .fc-daygrid-day {
@@ -128,8 +141,15 @@ export default function SchoolCalendar() {
             border: none;
             padding: 0;
           }
+
+          .fc .fc-scrollgrid {
+            border-radius: 0.75rem;
+            overflow: hidden;
+          }
         `}
-      </style>
-    </div>
+        </style>
+      </Card>
+    </>
+
   );
 }
