@@ -47,7 +47,7 @@ export default function SchoolCalendar() {
         style={{
           backgroundColor: selectedColor?.bg,
         }}
-        className=" flex items-center gap-2 py-1 px-1 bg-primary/15 rounded ms-auto">
+        className="flex items-center gap-2 py-1 px-1 bg-primary/15 rounded ms-auto">
         <span className="w-1 h-4 block rounded-md bg-primary"
           style={{ backgroundColor: selectedColor?.border }}
         />
@@ -73,7 +73,7 @@ export default function SchoolCalendar() {
             </>}
           />
         </div>
-        {/* top controls (Month / Week / Day) */}
+
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
             <button
@@ -138,8 +138,17 @@ export default function SchoolCalendar() {
             font-weight: 500;
           }
 
+          .fc .fc-daygrid-event {
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
           .fc .fc-daygrid-day:hover {
-            background-color: #f3f4f6; /* Tailwind's gray-100 */
+            background-color: #f3f4f6;
             cursor: pointer;
           }
 
@@ -152,6 +161,17 @@ export default function SchoolCalendar() {
           .fc .fc-scrollgrid {
             border-radius: 0.75rem;
             overflow: hidden;
+          }
+
+          .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+            background-color: transparent;
+          }
+
+          .fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            margin-top: 0.25rem;
           }
         `}
         </style>
