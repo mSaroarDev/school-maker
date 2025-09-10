@@ -12,7 +12,7 @@ import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
 
@@ -53,7 +53,7 @@ const EventCreateComponent = () => {
     "date": "2025-09-15",
     "time": "10:00 AM",
     "location": "School Playground",
-    "joinees": [],
+    "joinees": [] as string[],
     "image": ""
   }
 
@@ -64,17 +64,11 @@ const EventCreateComponent = () => {
     setValue('description', JSON.stringify(value));
   };
 
-  const handleDateChange = (selectedDates: Date[]) => {
-    console.log("Selected Dates: ", selectedDates);
-    const selectedDate = selectedDates[0];
-    const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
-    setValue("date", formattedDate as unknown as string);
-  };
-
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, isSubmitting }
   } = useForm({
     defaultValues,
@@ -131,7 +125,7 @@ const EventCreateComponent = () => {
                 <div className="grid gap-1 mt-16">
                   <Label htmlFor="sheet-demo-name">Date</Label>
                   <Flatpickr
-                    onChange={(selectedDates)=> {
+                    onChange={(selectedDates) => {
                       const selectedDate = selectedDates[0];
                       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
                       setValue("date", formattedDate as unknown as string);
@@ -184,14 +178,10 @@ const EventCreateComponent = () => {
                           className="peer" {...register('joinees')}
                           value={item.label}
                           id={item.id}
-                          onChange={(e) => {
-                            const target = e.target as HTMLInputElement;
-                            const { checked, value } = target;
-                            if (checked) {
-                              setValue('joinees', [...(defaultValues.joinees || []), value]);
-                            } else {
-                              setValue('joinees', (defaultValues.joinees || []).filter((val) => val !== value));
-                            }
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? setValue('joinees', [...(getValues().joinees || []), item.id])
+                              : setValue('joinees', (getValues().joinees || []).filter((value) => value !== item.id));
                           }}
                         />
                         <Label notRequired htmlFor={item.id} className="peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary rounded-md p-2 cursor-pointer">{item.label}</Label>
