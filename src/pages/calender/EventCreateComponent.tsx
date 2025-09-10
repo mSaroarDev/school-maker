@@ -1,3 +1,4 @@
+import { TCreateEventPayload } from "@/api/events/events.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,9 +9,36 @@ import { CldUploadButton } from "next-cloudinary";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuEye, LuPlus } from "react-icons/lu";
+import { Checkbox } from "@/components/ui/checkbox"
 
 const EventCreateComponent = () => {
   const [showModal, setShowModal] = useState(false);
+  const items = [
+    {
+      id: "teachers",
+      label: "Teachers",
+    },
+    {
+      id: "students",
+      label: "Students",
+    },
+    {
+      id: "staffs",
+      label: "Staffs",
+    },
+    {
+      id: "committee",
+      label: "Committee",
+    },
+    {
+      id: "parents",
+      label: "parents",
+    },
+    {
+      id: "guardians",
+      label: "Guardians",
+    },
+  ] as const
 
   const defaultValues = {
     "title": "Annual Sports Day",
@@ -44,7 +72,7 @@ const EventCreateComponent = () => {
     mode: 'onBlur'
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: TCreateEventPayload) => {
     console.log("Form Data: ", data);
   }
 
@@ -68,17 +96,19 @@ const EventCreateComponent = () => {
                   <Label htmlFor="sheet-demo-name">Title</Label>
                   <Input
                     {...register('title', { required: 'Title is required' })}
-                    id="sheet-demo-name"
-                    placeholder="Enter title"
-                    disabled={isSubmitting}
-                    autoComplete="off"
+                    placeholder="Event Title"
                     className={`${errors.title ? 'border-red-500' : ''}`}
                   />
                   {errors.title && <ErrorLabel msg={errors.title.message} />}
                 </div>
                 <div className="grid gap-1">
                   <Label htmlFor="sheet-demo-name">Category</Label>
-                  <Input />
+                  <Input
+                    {...register('category', { required: 'Category is required' })}
+                    placeholder="Event Category"
+                    className={`${errors.category ? 'border-red-500' : ''}`}
+                  />
+                  {errors.category && <ErrorLabel msg={errors.category.message} />}
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="sheet-demo-username">Description</Label>
@@ -94,23 +124,55 @@ const EventCreateComponent = () => {
                 </div>
                 <div className="grid gap-1">
                   <Label htmlFor="sheet-demo-name">Time</Label>
-                  <Input />
+                  <Input
+                    type="time"
+                    {...register('time', { required: 'Time is required' })}
+                    className={`${errors.time ? 'border-red-500' : ''}`}
+                  />
+                  {errors.time && <ErrorLabel msg={errors.time.message} />}
                 </div>
                 <div className="grid gap-1">
                   <Label htmlFor="sheet-demo-name">Location</Label>
-                  <Input />
+                  <Input
+                    {...register('location', { required: 'Location is required' })}
+                    placeholder="Event Location"
+                    className={`${errors.location ? 'border-red-500' : ''}`}
+                  />
+                  {errors.location && <ErrorLabel msg={errors.location.message} />}
                 </div>
                 <div className="grid gap-1">
                   <Label htmlFor="sheet-demo-name">Joinee</Label>
-                  <Input />
+                  <div className="grid grid-cols-2 items-center">
+                    {items.map((item) => (
+                      <div className="flex items-center" key={item.id}>
+                        <Checkbox
+                          key={item.id}
+                          className="peer" {...register('joinees')}
+                          value={item.label}
+                          id={item.id}
+                          onChange={(e) => {
+                            const target = e.target as HTMLInputElement;
+                            const { checked, value } = target;
+                            if (checked) {
+                              setValue('joinees', [...(defaultValues.joinees || []), value]);
+                            } else {
+                              setValue('joinees', (defaultValues.joinees || []).filter((val) => val !== value));
+                            }
+                          }}
+                        />
+                        <Label notRequired htmlFor={item.id} className="peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary rounded-md p-2 cursor-pointer">{item.label}</Label>
+                      </div>
+
+                    ))}
+                  </div>
                 </div>
                 <div className="grid gap-1">
                   <Label notRequired>Image <span className="text-green-500 text-xs">(Optional)</span></Label>
-                 <CldUploadButton>
-                  <div className="w-full h-40 border-2 border-dashed border-primary/40 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer hover:bg-primary/10 transition">
+                  <CldUploadButton>
+                    <div className="w-full h-40 border-2 border-dashed border-primary/40 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer hover:bg-primary/10 transition">
 
-                  </div>
-                 </CldUploadButton>
+                    </div>
+                  </CldUploadButton>
 
                 </div>
               </div>
