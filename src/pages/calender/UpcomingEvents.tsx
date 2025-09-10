@@ -1,18 +1,17 @@
 "use client";
 import { useGetAllEvents } from "@/api/events/events.hooks";
 import Card from "@/components/ui/card";
+import { useAppSelector } from "@/redux/hooks";
 import moment from "moment";
 import { useMemo } from "react";
 
 const UpcomingEvents = () => {
-  const { data: events } = useGetAllEvents({
-    currPage: 1,
-    limit: 10,
-  });
+
+  const { calenderEvents } = useAppSelector((state) => state.calender);
 
   const sortedEvents = useMemo(() => {
-    return events?.data?.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [events?.data]);
+    return calenderEvents.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [calenderEvents]);
 
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
@@ -26,7 +25,7 @@ const UpcomingEvents = () => {
       <Card>
         <h3 className="font-semibold text-lg">Upcoming Events</h3>
         <div className="mt-4 overflow-y-auto max-h-96">
-          {events?.data?.length ? (
+          {calenderEvents ? (
             sortedEvents?.map((event) => {
               const selectedColor = colorPalettes[Number(event?.id) % colorPalettes.length];
 
