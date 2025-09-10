@@ -21,7 +21,7 @@ const UpcomingEvents = () => {
     <>
       <Card>
         <h3 className="font-semibold text-lg">Upcoming Events</h3>
-        <div className="mt-4">
+        <div className="mt-4 overflow-y-auto max-h-96">
           {events?.data?.length ? (
             events.data.map((event) => {
               const selectedColor = colorPalettes[Number(event?.id) % colorPalettes.length];
@@ -34,15 +34,15 @@ const UpcomingEvents = () => {
                 >
                   <span
                     style={{ backgroundColor: selectedColor?.border }}
-                    className="w-1 min-h-12 inline-block rounded-md mr-3"
+                    className="w-1 min-h-14 inline-block rounded-md"
                   ></span>
                   <div className="w-full flex items-start justify-between">
                     <div>
-                      <p className="text-sm font-medium text-black">{event.title}</p>
+                      <p className="text-sm font-medium text-black line-clamp-2">{event.title}</p>
                       <p className="text-xs text-gray-600">
                         {event?.location}
                       </p>
-                      <p>{moment(event.date).format("MMM DD, YYYY")}</p>
+                      <p className="text-xs">{moment(event.date).format("MMM DD, YYYY")}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-600">
