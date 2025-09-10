@@ -10,6 +10,10 @@ const UpcomingEvents = () => {
     limit: 10,
   });
 
+  const sortedEvents = useMemo(() => {
+    return events?.data?.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [events?.data]);
+
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
     { bg: "#fff1fd", border: "#ff51e5" },
@@ -23,7 +27,7 @@ const UpcomingEvents = () => {
         <h3 className="font-semibold text-lg">Upcoming Events</h3>
         <div className="mt-4 overflow-y-auto max-h-96">
           {events?.data?.length ? (
-            events.data.map((event) => {
+            sortedEvents?.map((event) => {
               const selectedColor = colorPalettes[Number(event?.id) % colorPalettes.length];
 
               return (
@@ -34,12 +38,12 @@ const UpcomingEvents = () => {
                 >
                   <span
                     style={{ backgroundColor: selectedColor?.border }}
-                    className="w-1 min-h-14 inline-block rounded-md"
+                    className="w-1 min-h-18 inline-block rounded-md"
                   ></span>
                   <div className="w-full flex items-start justify-between">
                     <div>
                       <p className="text-sm font-medium text-black line-clamp-2">{event.title}</p>
-                      <p className="text-xs text-gray-600">
+                      <p className="text-xs text-gray-600 mt-2 mb-1">
                         {event?.location}
                       </p>
                       <p className="text-xs">{moment(event.date).format("MMM DD, YYYY")}</p>
