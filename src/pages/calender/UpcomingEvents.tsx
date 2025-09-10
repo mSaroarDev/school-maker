@@ -10,7 +10,8 @@ const UpcomingEvents = () => {
   const { calenderEvents } = useAppSelector((state) => state.calender);
 
   const sortedEvents = useMemo(() => {
-    return calenderEvents.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const upcomingEvent = calenderEvents?.filter((event) => moment(event.date).isSameOrAfter(moment(), 'day'));
+    return upcomingEvent.slice().sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [calenderEvents]);
 
   const colorPalettes = useMemo(() => [
@@ -32,7 +33,7 @@ const UpcomingEvents = () => {
               return (
                 <div
                   key={event._id}
-                  className="mb-3 last:mb-0 flex items-center gap-3 py-2 pr-2 pl-1.5 rounded"
+                  className="mb-3 last:mb-0 flex items-center gap-3 py-2 pr-2 pl-1.5 rounded-lg hover:bg-primary/10 cursor-pointer hover:shadow-sm hover:ml-1 transition-all duration-300"
                   style={{ backgroundColor: selectedColor?.bg }}
                 >
                   <span
