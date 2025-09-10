@@ -13,9 +13,9 @@ import "flatpickr/dist/themes/light.css";
 import moment from "moment";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Flatpickr from "react-flatpickr";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
 
@@ -244,7 +244,7 @@ const EventCreateComponent = () => {
 
 
               <SheetFooter>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit" isLoading={isPending}>Save changes</Button>
                 <SheetClose asChild>
                   <Button type="button" variant="outline" onClick={() => setShowModal(false)}>Close</Button>
                 </SheetClose>

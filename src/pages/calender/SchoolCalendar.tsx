@@ -9,25 +9,24 @@ import { CalenderBreadTree } from "@/helpers/breadcrumbs";
 import Card from "@/components/ui/card";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import EventCreateComponent from "./EventCreateComponent";
-
-/* sample events (dates like your screenshot; update/use API later) */
-const sampleEvents = [
-  { id: "1", title: "Students Day", start: "2025-08-02", },
-  { id: "2", title: "Spring Concert", start: "2025-09-03", },
-  { id: "3", title: "Science Fair", start: "2025-09-08", },
-  { id: "4", title: "PTA Meeting", start: "2025-09-09" },
-  // add more...
-];
+import { useGetAllEvents } from "@/api/events/events.hooks";
 
 export default function SchoolCalendar() {
-  const calendarRef = useRef(null);
+  const calendarRef = useRef<FullCalendar | null>(null);
   const [currentView, setCurrentView] = useState("dayGridMonth");
 
   const changeView = (view: "dayGridMonth" | "timeGridWeek" | "timeGridDay") => {
     setCurrentView(view);
     const api = calendarRef.current?.getApi?.();
-    api && api.changeView(view);
+    if (api) {
+      api.changeView(view);
+    }
   };
+
+  const {data: events, isPending} = useGetAllEvents({
+    currPage: 1,
+    limit: 10,
+  });
 
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
@@ -37,7 +36,6 @@ export default function SchoolCalendar() {
   ], []);
 
   const handleEventClick = (clickInfo: { event: { title: string; start: Date | null | undefined } }) => {
-    // placeholder: open a modal or show details
     alert(`${clickInfo.event.title}\n${clickInfo.event.start?.toLocaleString()}`);
   };
 
@@ -49,11 +47,11 @@ export default function SchoolCalendar() {
         style={{
           backgroundColor: selectedColor?.bg,
         }}
-        className="flex items-center gap-2 py-1 pl-1 px-0 bg-primary/15">
+        className=" flex items-center gap-2 py-1 px-1 bg-primary/15 rounded ms-auto">
         <span className="w-1 h-4 block rounded-md bg-primary"
           style={{ backgroundColor: selectedColor?.border }}
         />
-        <div className="truncate text-sm text-black" title={eventInfo.event.title}>
+        <div className="truncate text-xs text-black line-clamp-1" title={eventInfo.event.title}>
           {eventInfo.event.title}
         </div>
       </div>
@@ -108,7 +106,7 @@ export default function SchoolCalendar() {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={currentView}
           headerToolbar={false}             // we use our own controls
-          events={sampleEvents}
+          events={events?.data}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           height="auto"
@@ -138,7 +136,6 @@ export default function SchoolCalendar() {
             padding: 1rem;
             padding-bottom: 0rem;
             font-weight: 500;
-            font-size: 1rem;
           }
 
           .fc .fc-daygrid-day:hover {
