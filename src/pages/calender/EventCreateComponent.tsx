@@ -1,44 +1,49 @@
 import { TCreateEventPayload } from "@/api/events/events.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/ui/richTextArea";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import "flatpickr/dist/themes/light.css";
+import moment from "moment";
 import { CldUploadButton } from "next-cloudinary";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import Flatpickr from "react-flatpickr";
 import { useForm } from "react-hook-form";
-import { LuEye, LuPlus } from "react-icons/lu";
-import { Checkbox } from "@/components/ui/checkbox"
+import { HiTrash } from "react-icons/hi";
+import { LuPlus } from "react-icons/lu";
 
 const EventCreateComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const items = [
     {
-      id: "teachers",
+      id: "Teachers",
       label: "Teachers",
     },
     {
-      id: "students",
+      id: "Students",
       label: "Students",
     },
     {
-      id: "staffs",
+      id: "Staffs",
       label: "Staffs",
     },
     {
-      id: "committee",
+      id: "Committee",
       label: "Committee",
     },
     {
-      id: "parents",
-      label: "parents",
+      id: "Parents",
+      label: "Parents",
     },
     {
-      id: "guardians",
+      id: "Guardians",
       label: "Guardians",
     },
-  ] as const
+  ] as const;
 
   const defaultValues = {
     "title": "Annual Sports Day",
@@ -48,11 +53,8 @@ const EventCreateComponent = () => {
     "date": "2025-09-15",
     "time": "10:00 AM",
     "location": "School Playground",
-    "joinees": [
-      "John Doe",
-      "Jane Smith",
-      "Robert Brown"
-    ]
+    "joinees": [],
+    "image": ""
   }
 
   const [imgUrl, setFileUrl] = useState<string>("");
@@ -60,6 +62,13 @@ const EventCreateComponent = () => {
   const handleEditorChange = (value: string) => {
     setEditorContent(value);
     setValue('description', JSON.stringify(value));
+  };
+
+  const handleDateChange = (selectedDates: Date[]) => {
+    console.log("Selected Dates: ", selectedDates);
+    const selectedDate = selectedDates[0];
+    const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+    setValue("date", formattedDate as unknown as string);
   };
 
   const {
@@ -73,12 +82,13 @@ const EventCreateComponent = () => {
   });
 
   const onSubmit = async (data: TCreateEventPayload) => {
+
     console.log("Form Data: ", data);
   }
 
   return (
     <>
-      <Sheet open={showModal} onOpenChange={setShowModal} >
+      <Sheet open={showModal} modal={false}>
         <SheetTrigger asChild>
           <button onClick={() => setShowModal(true)} className="header-buttons"><LuPlus size={18} /></button>
         </SheetTrigger>
@@ -120,14 +130,38 @@ const EventCreateComponent = () => {
                 </div>
                 <div className="grid gap-1 mt-16">
                   <Label htmlFor="sheet-demo-name">Date</Label>
-                  <Input />
+                  <Flatpickr
+                    onChange={(selectedDates)=> {
+                      const selectedDate = selectedDates[0];
+                      const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+                      setValue("date", formattedDate as unknown as string);
+                    }}
+                    className={`w-full px-3 py-2 border ${errors?.date ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    placeholder="Select Date"
+                    options={{
+                      dateFormat: "d M, Y",
+                      maxDate: "31-12-2030",
+                      enableTime: false,
+                      mode: "single",
+                    }}
+                  />
                 </div>
                 <div className="grid gap-1">
                   <Label htmlFor="sheet-demo-name">Time</Label>
-                  <Input
-                    type="time"
-                    {...register('time', { required: 'Time is required' })}
-                    className={`${errors.time ? 'border-red-500' : ''}`}
+                  <Flatpickr
+                    options={{
+                      enableTime: true,
+                      noCalendar: true,
+                      dateFormat: "h:i K",
+                      time_24hr: false,
+                    }}
+                    onChange={(selectedDates) => {
+                      const selectedDate = selectedDates[0];
+                      const formattedTime = moment(selectedDate).format('hh:mm A');
+                      setValue("time", formattedTime as unknown as string);
+                    }}
+                    className={`w-full px-3 py-2 border ${errors?.time ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    placeholder="Select Time"
                   />
                   {errors.time && <ErrorLabel msg={errors.time.message} />}
                 </div>
@@ -168,9 +202,39 @@ const EventCreateComponent = () => {
                 </div>
                 <div className="grid gap-1">
                   <Label notRequired>Image <span className="text-green-500 text-xs">(Optional)</span></Label>
-                  <CldUploadButton>
+                  <CldUploadButton
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                    options={{ maxFiles: 1, singleUploadAutoClose: false, sources: ["local", "google_drive"] }}
+                    onSuccess={(result) => {
+                      console.log("Upload Success: ", result.info);
+                      if (typeof result.info === "object" && "secure_url" in result.info) {
+                        setFileUrl((result.info as { secure_url: string }).secure_url || "");
+                        setValue("image", (result.info as { secure_url: string }).secure_url || "");
+                      } else {
+                        setValue("image", "");
+                      }
+                    }}
+                    onError={(error) => {
+                      console.error("Upload Error: ", error);
+                    }}
+                  >
                     <div className="w-full h-40 border-2 border-dashed border-primary/40 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer hover:bg-primary/10 transition">
+                      {imgUrl ? (
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={imgUrl}
+                            alt="Uploaded Image"
+                            fill
+                            className="object-contain w-full h-full"
+                          />
 
+                          <button className="p-2 ">
+                            <HiTrash size={20} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-primary/40">Click to upload image</span>
+                      )}
                     </div>
                   </CldUploadButton>
 
@@ -181,7 +245,7 @@ const EventCreateComponent = () => {
               <SheetFooter>
                 <Button type="submit">Save changes</Button>
                 <SheetClose asChild>
-                  <Button type="button" variant="outline">Close</Button>
+                  <Button type="button" variant="outline" onClick={() => setShowModal(false)}>Close</Button>
                 </SheetClose>
               </SheetFooter>
             </form>
