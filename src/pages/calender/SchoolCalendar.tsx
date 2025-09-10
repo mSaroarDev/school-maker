@@ -1,15 +1,13 @@
 "use client";
-import React, { useMemo, useRef, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
-import { CalenderBreadTree } from "@/helpers/breadcrumbs";
-import Card from "@/components/ui/card";
-import HeaderComponent from "@/components/_core/HeaderComponent";
-import EventCreateComponent from "./EventCreateComponent";
 import { useGetAllEvents } from "@/api/events/events.hooks";
+import HeaderComponent from "@/components/_core/HeaderComponent";
+import Card from "@/components/ui/card";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { useMemo, useRef, useState } from "react";
+import EventCreateComponent from "./EventCreateComponent";
 
 export default function SchoolCalendar() {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -60,10 +58,7 @@ export default function SchoolCalendar() {
 
   return (
     <>
-      <div>
-        <BreadcrumbsComponent breadTree={CalenderBreadTree} />
-      </div>
-
+    
       <Card>
         <div className="mb-5">
           <HeaderComponent 
