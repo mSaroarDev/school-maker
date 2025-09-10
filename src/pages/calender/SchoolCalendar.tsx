@@ -23,7 +23,7 @@ export default function SchoolCalendar() {
     }
   };
 
-  const {data: events, isPending} = useGetAllEvents({
+  const {data: events} = useGetAllEvents({
     currPage: 1,
     limit: 10,
   });
@@ -105,12 +105,12 @@ export default function SchoolCalendar() {
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={currentView}
-          headerToolbar={false}             // we use our own controls
+          headerToolbar={false}
           events={events?.data}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           height="auto"
-          dayMaxEventRows={3}               // show up to N rows per day then "+n more"
+          dayMaxEventRows={3}
           editable={false}
           selectable={false}
           dayCellContent={(arg) => {
