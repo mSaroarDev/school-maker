@@ -7,4 +7,16 @@ export type TCreateEventPayload = {
   location: string;
   joinees: string[];
   image: string;
+};
+
+export type TEventUpdatePayload = {
+  eventId: string;
+  data: Partial<TCreateEventPayload>;
+};
+
+export type TGetAllEventsPayload = {
+  currPage: number;
+  limit: number;
+  category?: string;
+  date?: string;
 }

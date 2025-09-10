@@ -1,3 +1,4 @@
+import { useCreateEvent } from "@/api/events/events.hooks";
 import { TCreateEventPayload } from "@/api/events/events.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/ui/richTextArea";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
 import "flatpickr/dist/themes/light.css";
 import moment from "moment";
 import { CldUploadButton } from "next-cloudinary";
@@ -64,6 +67,8 @@ const EventCreateComponent = () => {
     setValue('description', JSON.stringify(value));
   };
 
+  const { mutateAsync: createEvent, isPending } = useCreateEvent();
+
   const {
     register,
     handleSubmit,
@@ -76,8 +81,15 @@ const EventCreateComponent = () => {
   });
 
   const onSubmit = async (data: TCreateEventPayload) => {
-
-    console.log("Form Data: ", data);
+    try {
+      const res = await createEvent(data);
+      if (res?.success) {
+        showToast("success", res?.message || "Event created successfully");
+        setShowModal(false);
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error) || "Failed to create event");
+    }
   }
 
   return (
@@ -134,7 +146,6 @@ const EventCreateComponent = () => {
                     placeholder="Select Date"
                     options={{
                       dateFormat: "d M, Y",
-                      maxDate: "31-12-2030",
                       enableTime: false,
                       mode: "single",
                     }}
