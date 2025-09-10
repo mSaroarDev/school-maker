@@ -7,6 +7,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import { CalenderBreadTree } from "@/helpers/breadcrumbs";
 import Card from "@/components/ui/card";
+import HeaderComponent from "@/components/_core/HeaderComponent";
+import EventCreateComponent from "./EventCreateComponent";
 
 /* sample events (dates like your screenshot; update/use API later) */
 const sampleEvents = [
@@ -64,7 +66,15 @@ export default function SchoolCalendar() {
         <BreadcrumbsComponent breadTree={CalenderBreadTree} />
       </div>
 
-      <Card className="rounded-lg shadow-sm p-6">
+      <Card>
+        <div className="mb-5">
+          <HeaderComponent 
+            title="Calendar and Events"
+            extraComponent={<>
+              <EventCreateComponent />
+            </>}
+          />
+        </div>
         {/* top controls (Month / Week / Day) */}
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
