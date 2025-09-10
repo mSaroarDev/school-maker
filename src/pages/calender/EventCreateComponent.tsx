@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/ui/richTextArea";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { addEvent } from "@/redux/features/calender/calender.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import "flatpickr/dist/themes/light.css";
@@ -20,6 +22,7 @@ import { HiTrash } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
 
 const EventCreateComponent = () => {
+  const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
   const items = [
     {
@@ -49,13 +52,13 @@ const EventCreateComponent = () => {
   ] as const;
 
   const defaultValues = {
-    "title": "Annual Sports Day",
-    "category": "Sports",
+    "title": "",
+    "category": "",
     "color": "#FF5733",
-    "description": "An exciting day full of sports and activities for students.",
-    "date": "2025-09-15",
-    "time": "10:00 AM",
-    "location": "School Playground",
+    "description": "",
+    "date": "",
+    "time": "",
+    "location": "",
     "joinees": [] as string[],
     "image": ""
   }
@@ -74,7 +77,8 @@ const EventCreateComponent = () => {
     handleSubmit,
     setValue,
     getValues,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    reset
   } = useForm({
     defaultValues,
     mode: 'onBlur'
@@ -85,7 +89,9 @@ const EventCreateComponent = () => {
       const res = await createEvent(data);
       if (res?.success) {
         showToast("success", res?.message || "Event created successfully");
+        dispatch(addEvent(res?.data));
         setShowModal(false);
+        reset(defaultValues);
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Failed to create event");

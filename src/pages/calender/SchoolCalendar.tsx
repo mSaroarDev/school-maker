@@ -26,7 +26,7 @@ export default function SchoolCalendar() {
     currPage: 1,
     limit: 100,
   });
-  
+
   const { calenderEvents } = useAppSelector((state) => state.calender);
 
   const colorPalettes = useMemo(() => [
