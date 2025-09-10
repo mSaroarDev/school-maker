@@ -1,40 +1,32 @@
+import { TEventResponse } from "@/api/events/events.types";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-interface Notification {
-  _id: string;
-  userId: string;
-  message: string;
-  notifyTo: string[];
-  seenBy: string[];
-  link: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 interface initialStateType {
-  notifications: Notification[];
-  unreadCount: number;
+  calenderEvents: TEventResponse[];
+  totalEventCount: number;
 }
 
 
 const initialState: initialStateType = {
-  notifications: [],
-  unreadCount: 0,
+  calenderEvents: [] as TEventResponse[],
+  totalEventCount: 0
 }
 
 const CalenderSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    pushNewNotifications: (state, action: PayloadAction<Notification[]>) => {
-      const newNotifications = action.payload;
-      state.notifications = [...newNotifications, ...state.notifications];
-    },
-    setCount: (state, action) => {
-      state.unreadCount = action.payload;
-    },
+   setEvents: (state, action: PayloadAction<TEventResponse[]>) => {
+    state.calenderEvents = action.payload;
+   },
+   setTotalEventCount: (state, action: PayloadAction<number>) => {
+    state.totalEventCount = action.payload;
+   }
   }
 })
 
-export const { pushNewNotifications, setCount } = CalenderSlice.actions;
+export const { 
+  setEvents, 
+  setTotalEventCount
+} = CalenderSlice.actions;
 export default CalenderSlice.reducer;

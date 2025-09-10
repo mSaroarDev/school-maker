@@ -6,8 +6,9 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import EventCreateComponent from "./EventCreateComponent";
+import { useAppSelector } from "@/redux/hooks";
 
 export default function SchoolCalendar() {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -21,10 +22,12 @@ export default function SchoolCalendar() {
     }
   };
 
-  const {data: events} = useGetAllEvents({
+  useGetAllEvents({
     currPage: 1,
-    limit: 10,
+    limit: 100,
   });
+  
+  const { calenderEvents } = useAppSelector((state) => state.calender);
 
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
@@ -58,10 +61,10 @@ export default function SchoolCalendar() {
 
   return (
     <>
-    
+
       <Card>
         <div className="mb-5">
-          <HeaderComponent 
+          <HeaderComponent
             title="Calendar and Events"
             extraComponent={<>
               <EventCreateComponent />
@@ -101,7 +104,7 @@ export default function SchoolCalendar() {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={currentView}
           headerToolbar={false}
-          events={events?.data}
+          events={calenderEvents}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           height="auto"
@@ -113,6 +116,7 @@ export default function SchoolCalendar() {
             return <span>{dayNum}</span>;
           }}
         />
+
 
         <style>
           {`

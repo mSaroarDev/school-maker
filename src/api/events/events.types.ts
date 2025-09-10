@@ -19,4 +19,19 @@ export type TGetAllEventsPayload = {
   limit: number;
   category?: string;
   date?: string;
-}
+};
+
+export type TEventResponse = {
+  _id: string;
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  date: Date | string;
+  time: string;
+  location: string;
+  joinees: string[];
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+};
