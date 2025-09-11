@@ -67,6 +67,8 @@ export default function SchoolCalendar() {
   const [showEventModal, setShowEventModal] = useState(false);
   const handleEventClick = (clickInfo: { event: { title: string; start: Date | null | undefined } }) => {
     console.log(`${clickInfo.event.title}\n${clickInfo.event.start?.toLocaleString()}`);
+    console.log("clickInfo.event", );
+    
     setShowEventModal(true);
   };
 

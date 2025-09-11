@@ -35,3 +35,18 @@ export type TEventResponse = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TEventInfo = { 
+  title: string; 
+  start: Date | null | undefined;
+  extendedProps: {
+    category: string;
+    description: string;
+    time: string;
+    location: string;
+    joinees: string[];
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+  } 
+}
