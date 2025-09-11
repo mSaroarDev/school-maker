@@ -1,5 +1,4 @@
 "use client";
-import { useGetAllEvents } from "@/api/events/events.hooks";
 import Card from "@/components/ui/card";
 import { useAppSelector } from "@/redux/hooks";
 import moment from "moment";
@@ -11,7 +10,7 @@ const UpcomingEvents = () => {
 
   const sortedEvents = useMemo(() => {
     const upcomingEvent = calenderEvents?.filter((event) => moment(event.date).isSameOrAfter(moment(), 'day'));
-    return upcomingEvent.slice().sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return upcomingEvent?.slice()?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [calenderEvents]);
 
   const colorPalettes = useMemo(() => [
@@ -33,7 +32,7 @@ const UpcomingEvents = () => {
               return (
                 <div
                   key={event._id}
-                  className="mb-3 last:mb-0 flex items-center gap-3 py-2 pr-2 pl-1.5 rounded-lg hover:bg-primary/10 cursor-pointer hover:shadow-sm hover:ml-1 transition-all duration-300"
+                  className="mb-3 last:mb-0 flex items-center gap-3 py-2 pr-2 pl-1.5 rounded-lg hover:bg-primary/10 cursor-pointer hover:ml-1 transition-all duration-300"
                   style={{ backgroundColor: selectedColor?.bg }}
                 >
                   <span
