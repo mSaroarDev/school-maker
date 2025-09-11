@@ -10,7 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { useMemo, useRef, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import EventCreateComponent from "./EventCreateComponent";
-import EventDetails, { EventDetailsProps } from "./EventDetails";
+import EventDetails from "./EventDetails";
 
 export default function SchoolCalendar() {
 
@@ -67,9 +67,7 @@ export default function SchoolCalendar() {
 
   const [showEventModal, setShowEventModal] = useState(false);
   const [eventData, setEventData] = useState<{ title: string; start: Date | null | undefined } | null>(null);
-
-  const handleEventClick = (clickInfo: { event: EventDetailsProps["data"] }) => {
-    if (!clickInfo?.event) return;
+  const handleEventClick = (clickInfo: { event: { title: string; start: Date | null | undefined, extendedProps: unknown } }) => {
     const data = {
       title: clickInfo.event.title,
       start: clickInfo.event.start,
