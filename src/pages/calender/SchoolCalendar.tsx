@@ -11,6 +11,10 @@ import EventCreateComponent from "./EventCreateComponent";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 export default function SchoolCalendar() {
+
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+
   const calendarRef = useRef<FullCalendar | null>(null);
   const [currentView, setCurrentView] = useState("dayGridMonth");
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -138,7 +142,11 @@ export default function SchoolCalendar() {
             </button>
           </div>
           <div className="text-sm text-gray-600">
-            <EventCreateComponent />
+            <EventCreateComponent 
+              openModal={openModal} 
+              setOpenModal={setOpenModal}
+              selectedDate={selectedDate}
+            />
           </div>
         </div>
 
@@ -150,6 +158,11 @@ export default function SchoolCalendar() {
           events={calenderEvents}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
+          dateClick={(date) => { 
+            setOpenModal(true);
+            const clickedDate = date.dateStr;
+            setSelectedDate(clickedDate);
+          }}
           height="auto"
           dayMaxEventRows={3}
           editable={false}

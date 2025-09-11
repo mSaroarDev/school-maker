@@ -15,13 +15,23 @@ import "flatpickr/dist/themes/light.css";
 import moment from "moment";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
 import { useForm } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
 
-const EventCreateComponent = () => {
+type EventCreateComponentProps = {
+  selectedDate?: string;
+  openModal?: boolean;
+  setOpenModal?: (open: boolean) => void;
+};
+
+const EventCreateComponent = ({
+  selectedDate = "",
+  openModal = false,
+  setOpenModal,
+}: EventCreateComponentProps) => {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
   const items = [
@@ -91,12 +101,25 @@ const EventCreateComponent = () => {
         showToast("success", res?.message || "Event created successfully");
         dispatch(addEvent(res?.data));
         setShowModal(false);
+        if (setOpenModal) setOpenModal(false);
         reset(defaultValues);
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Failed to create event");
     }
-  }
+  };
+
+  useEffect(() => {
+    if (openModal) {
+      setShowModal(true);
+    }
+
+    if (selectedDate) {
+      console.log("Selected Date: ", selectedDate);
+      const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+      setValue("date", formattedDate);
+    }
+  }, [openModal, selectedDate, setValue]);
 
   return (
     <>
@@ -155,6 +178,9 @@ const EventCreateComponent = () => {
                       enableTime: false,
                       mode: "single",
                     }}
+                    value={
+                      getValues("date") ? new Date(getValues("date")) : ""
+                    }
                   />
                 </div>
                 <div className="grid gap-1">
@@ -254,9 +280,25 @@ const EventCreateComponent = () => {
 
 
               <SheetFooter>
-                <Button type="submit" isLoading={isPending}>Save changes</Button>
+                <Button 
+                  type="submit" 
+                  isLoading={isPending || isSubmitting}
+                >
+                  Save changes
+                </Button>
                 <SheetClose asChild>
-                  <Button type="button" variant="outline" onClick={() => setShowModal(false)}>Close</Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowModal(false);
+                      if (setOpenModal) setOpenModal(false);
+                      setEditorContent("");
+                      reset(defaultValues);
+                    }}
+                  >
+                    Close
+                  </Button>
                 </SheetClose>
               </SheetFooter>
             </form>
