@@ -235,9 +235,13 @@ const EventCreateComponent = () => {
                             className="object-contain w-full h-full"
                           />
 
-                          <button className="p-2 ">
+                          <span className="p-2 top-0 right-0 absolute bg-white rounded-bl-lg text-red-500 hover:bg-red-100 cursor-pointer" onClick={(e) => {
+                            e.stopPropagation();
+                            setFileUrl("");
+                            setValue("image", "");
+                          }}>
                             <HiTrash size={20} />
-                          </button>
+                          </span>
                         </div>
                       ) : (
                         <span className="text-primary/40">Click to upload image</span>
