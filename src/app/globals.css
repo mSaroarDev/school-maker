@@ -203,7 +203,7 @@
   }
 
    .more-action-button  {
-    @apply p-2 border-none outline-0 focus:outline-0 hover:bg-primary/10 rounded-md cursor-pointer;
+    @apply p-2 border-none outline-0 focus:outline-0 bg-primary/10 hover:bg-primary/15 rounded-md cursor-pointer;
   }
 
   ::-webkit-scrollbar {

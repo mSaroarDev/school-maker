@@ -1,24 +1,47 @@
 "use client";
 import { useGetAllEvents } from "@/api/events/events.hooks";
-import HeaderComponent from "@/components/_core/HeaderComponent";
 import Card from "@/components/ui/card";
+import { useAppSelector } from "@/redux/hooks";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import EventCreateComponent from "./EventCreateComponent";
-import { useAppSelector } from "@/redux/hooks";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 export default function SchoolCalendar() {
   const calendarRef = useRef<FullCalendar | null>(null);
   const [currentView, setCurrentView] = useState("dayGridMonth");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const changeView = (view: "dayGridMonth" | "timeGridWeek" | "timeGridDay") => {
     setCurrentView(view);
     const api = calendarRef.current?.getApi?.();
     if (api) {
       api.changeView(view);
+    }
+  };
+
+  const handlePrev = () => {
+    const api = calendarRef.current?.getApi?.();
+    if (api) {
+      api.prev();
+      setCurrentDate(new Date(api.getDate()));
+    }
+  };
+  const handleNext = () => {
+    const api = calendarRef.current?.getApi?.();
+    if (api) {
+      api.next();
+      setCurrentDate(new Date(api.getDate()));
+    }
+  };
+  const handleToday = () => {
+    const api = calendarRef.current?.getApi?.();
+    if (api) {
+      api.today();
+      setCurrentDate(new Date(api.getDate()));
     }
   };
 
@@ -59,19 +82,15 @@ export default function SchoolCalendar() {
     );
   };
 
+  const monthYear = useMemo(() => {
+    const options: Intl.DateTimeFormatOptions = { month: "long", year: "numeric" };
+    return currentDate.toLocaleDateString(undefined, options);
+  }, [currentDate]);
+
   return (
     <>
 
       <Card>
-        <div className="mb-5">
-          <HeaderComponent
-            title="Calendar and Events"
-            extraComponent={<>
-              <EventCreateComponent />
-            </>}
-          />
-        </div>
-
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
             <button
@@ -93,9 +112,33 @@ export default function SchoolCalendar() {
               Day
             </button>
           </div>
+          <div className="flex items-center gap-4">
+            {/* Month change buttons */}
+            <button
+              onClick={handlePrev}
+              className="more-action-button"
+              aria-label="Previous Month"
+            >
+              <GrFormPrevious />
+            </button>
+            <span className="text-base font-medium min-w-[120px] text-center">{monthYear}</span>
+            <button
+              onClick={handleNext}
+              className="more-action-button"
+              aria-label="Next Month"
+            >
+              <GrFormNext />
+            </button>
+            <button
+              onClick={handleToday}
+              className="more-action-button"
+              aria-label="Today"
+            >
+              Today
+            </button>
+          </div>
           <div className="text-sm text-gray-600">
-            {/* optional: current month/year label */}
-            <span>{/* Will be populated by programmatic logic if needed */}</span>
+            <EventCreateComponent />
           </div>
         </div>
 
