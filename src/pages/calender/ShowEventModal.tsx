@@ -1,7 +1,11 @@
+import { Modal } from "@/components/_core/Modal";
+
 const ShowEventModal = () => {
     return (
         <>
-            <h1>ShowEventModal</h1>
+          <Modal 
+            
+          />
         </>
     );
 };

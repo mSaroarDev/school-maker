@@ -10,8 +10,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type ShadcnModalProps = {
-  triggerComponent?: React.ReactNode;
+type ModalProps = {
+  isOpen: boolean;
+  toggle: () => void;
   title: string;
   description?: string;
   submitButtonText?: string;
@@ -24,8 +25,9 @@ type ShadcnModalProps = {
   showSubmitButton?: boolean;
 }
 
-export function ShadcnModal({
-  triggerComponent,
+export function Modal({
+  isOpen,
+  toggle,
   title,
   description,
   submitButtonText = "Save changes",
@@ -36,13 +38,13 @@ export function ShadcnModal({
   showCancleButton = true,
   showSubmitButton = true,
   children,
-}: ShadcnModalProps) {
+}: ModalProps) {
   return (
-    <Dialog>
+    <Dialog
+      open={isOpen}
+      onOpenChange={toggle}
+    >
       <form>
-        <DialogTrigger asChild>
-          {triggerComponent}
-        </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{title || "Enter modal title"}</DialogTitle>

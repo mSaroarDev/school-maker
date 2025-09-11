@@ -10,6 +10,7 @@ import { useMemo, useRef, useState } from "react";
 import EventCreateComponent from "./EventCreateComponent";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import ShowEventModal from "./ShowEventModal";
+import { Modal } from "@/components/_core/Modal";
 
 export default function SchoolCalendar() {
 
@@ -238,7 +239,13 @@ export default function SchoolCalendar() {
 
       {showEventModal && (
         <>
-          <ShowEventModal />
+          <Modal 
+            isOpen={showEventModal}
+            toggle={() => setShowEventModal(false)}
+            title="Event Details"
+            description="Details of the selected event."
+            showSubmitButton={false}
+          />
         </>
       )}
     </>
