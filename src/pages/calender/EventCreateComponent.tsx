@@ -137,9 +137,7 @@ const EventCreateComponent = ({
         <SheetContent className="overflow-y-auto [&>button]:hidden">
           <>
             <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
-              <SheetHeader
-                
-              >
+              <SheetHeader>
                 <SheetTitle>Create Notice</SheetTitle>
                 <SheetDescription>
                   Create a new notice and share with everyone.

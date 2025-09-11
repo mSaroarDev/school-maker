@@ -9,6 +9,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { useMemo, useRef, useState } from "react";
 import EventCreateComponent from "./EventCreateComponent";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import ShowEventModal from "./ShowEventModal";
 
 export default function SchoolCalendar() {
 
@@ -63,8 +64,10 @@ export default function SchoolCalendar() {
     { bg: "#fef9d8", border: "#ffab3c" },
   ], []);
 
+  const [showEventModal, setShowEventModal] = useState(false);
   const handleEventClick = (clickInfo: { event: { title: string; start: Date | null | undefined } }) => {
-    alert(`${clickInfo.event.title}\n${clickInfo.event.start?.toLocaleString()}`);
+    console.log(`${clickInfo.event.title}\n${clickInfo.event.start?.toLocaleString()}`);
+    setShowEventModal(true);
   };
 
   const renderEventContent = (eventInfo: { event: { id: string | number; title: string } }) => {
@@ -93,7 +96,6 @@ export default function SchoolCalendar() {
 
   return (
     <>
-
       <Card>
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 gap-1">
@@ -142,8 +144,8 @@ export default function SchoolCalendar() {
             </button>
           </div>
           <div className="text-sm text-gray-600">
-            <EventCreateComponent 
-              openModal={openModal} 
+            <EventCreateComponent
+              openModal={openModal}
               setOpenModal={setOpenModal}
               selectedDate={selectedDate}
             />
@@ -158,7 +160,7 @@ export default function SchoolCalendar() {
           events={calenderEvents}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
-          dateClick={(date) => { 
+          dateClick={(date) => {
             setOpenModal(true);
             const clickedDate = date.dateStr;
             setSelectedDate(clickedDate);
@@ -231,6 +233,12 @@ export default function SchoolCalendar() {
         `}
         </style>
       </Card>
+
+      {showEventModal && (
+        <>
+          <ShowEventModal />
+        </>
+      )}
     </>
 
   );
