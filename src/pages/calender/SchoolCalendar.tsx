@@ -10,6 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { useMemo, useRef, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import EventCreateComponent from "./EventCreateComponent";
+import EventDetails from "./EventDetails";
 
 export default function SchoolCalendar() {
 
@@ -247,7 +248,9 @@ export default function SchoolCalendar() {
             showFooter={false}
             sideClick={true}
             size="sm"
-          />
+          >
+            <EventDetails />
+          </Modal>
         </>
       )}
     </>
