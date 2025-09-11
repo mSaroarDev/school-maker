@@ -1,21 +1,27 @@
-import { Calendar, Clock, MapPin, Users, Tag } from "lucide-react";
+import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 
-type EventDetailsProps = {
-  data: any;
+export type EventDetailsProps = {
+  data: {
+    title: string;
+    start?: string | Date;
+    date?: string | Date;
+    extendedProps?: {
+      category?: string;
+      description?: string;
+      time?: string;
+      location?: string;
+      joinees?: string[];
+      image?: string;
+      color?: string;
+    };
+  } | null;
 };
 
 const EventDetails = ({ data }: EventDetailsProps) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+
+  console.log("EventDetails data", data);
 
   const stripHtmlTags = (html: string) => {
     const div = document.createElement('div');
@@ -39,7 +45,7 @@ const EventDetails = ({ data }: EventDetailsProps) => {
         <div className="flex items-center gap-3 mb-2">
           <div 
             className="w-4 h-4 rounded-full" 
-            style={{ backgroundColor: data.extendedProps?.color || 'green'  }}
+            style={{ backgroundColor: data?.extendedProps?.color || 'green'  }}
           ></div>
           <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
             {data?.extendedProps?.category}
@@ -49,7 +55,7 @@ const EventDetails = ({ data }: EventDetailsProps) => {
           {data?.title}
         </h1>
         <div className="text-gray-600 text-lg leading-relaxed bg-gray-50 p-4 rounded border-l-2 border-primary/60">
-          <div dangerouslySetInnerHTML={{ __html: stripHtmlTags(data?.extendedProps?.description) }} />
+          <div dangerouslySetInnerHTML={{ __html: stripHtmlTags(data?.extendedProps?.description ?? "") }} />
         </div>
       </div>
 
