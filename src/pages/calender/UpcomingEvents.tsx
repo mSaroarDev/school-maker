@@ -10,7 +10,7 @@ const UpcomingEvents = () => {
 
   const sortedEvents = useMemo(() => {
     const upcomingEvent = calenderEvents?.filter((event) => moment(event.date).isSameOrAfter(moment(), 'day'));
-    return upcomingEvent?.slice()?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return upcomingEvent?.slice(0, 10)?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [calenderEvents]);
 
   const colorPalettes = useMemo(() => [

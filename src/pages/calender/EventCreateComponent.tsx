@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import "flatpickr/dist/themes/light.css";
+import { X } from "lucide-react";
 import moment from "moment";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
@@ -100,14 +101,20 @@ const EventCreateComponent = ({
       if (res?.success) {
         showToast("success", res?.message || "Event created successfully");
         dispatch(addEvent(res?.data));
-        setShowModal(false);
-        if (setOpenModal) setOpenModal(false);
-        reset(defaultValues);
+        handleCloseSheet();
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Failed to create event");
     }
   };
+
+  const handleCloseSheet = () => {
+    setShowModal(false);
+    if (setOpenModal) setOpenModal(false);
+    reset(defaultValues);
+    setEditorContent("");
+    setFileUrl("");
+  }
 
   useEffect(() => {
     if (openModal) {
@@ -127,14 +134,25 @@ const EventCreateComponent = ({
         <SheetTrigger asChild>
           <button onClick={() => setShowModal(true)} className="header-buttons"><LuPlus size={18} /></button>
         </SheetTrigger>
-        <SheetContent className="overflow-y-auto">
+        <SheetContent className="overflow-y-auto [&>button]:hidden">
           <>
             <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
-              <SheetHeader>
+              <SheetHeader
+                
+              >
                 <SheetTitle>Create Notice</SheetTitle>
                 <SheetDescription>
                   Create a new notice and share with everyone.
                 </SheetDescription>
+                <SheetClose asChild>
+                  <button
+                    className="absolute right-4 top-4 more-action-button"
+                    onClick={handleCloseSheet}
+                    aria-label="Close"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </SheetClose>
               </SheetHeader>
               <div className="grid flex-1 auto-rows-min gap-4 px-4">
                 <div className="grid gap-1">
@@ -280,8 +298,8 @@ const EventCreateComponent = ({
 
 
               <SheetFooter>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   isLoading={isPending || isSubmitting}
                 >
                   Save changes
@@ -290,12 +308,7 @@ const EventCreateComponent = ({
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => {
-                      setShowModal(false);
-                      if (setOpenModal) setOpenModal(false);
-                      setEditorContent("");
-                      reset(defaultValues);
-                    }}
+                    onClick={handleCloseSheet}
                   >
                     Close
                   </Button>
