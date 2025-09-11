@@ -1,5 +1,6 @@
 "use client";
 import { useGetAllEvents } from "@/api/events/events.hooks";
+import { Modal } from "@/components/_core/Modal";
 import Card from "@/components/ui/card";
 import { useAppSelector } from "@/redux/hooks";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,10 +8,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useMemo, useRef, useState } from "react";
-import EventCreateComponent from "./EventCreateComponent";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import ShowEventModal from "./ShowEventModal";
-import { Modal } from "@/components/_core/Modal";
+import EventCreateComponent from "./EventCreateComponent";
 
 export default function SchoolCalendar() {
 
@@ -245,6 +244,9 @@ export default function SchoolCalendar() {
             title="Event Details"
             description="Details of the selected event."
             showSubmitButton={false}
+            showFooter={false}
+            sideClick={true}
+            size="sm"
           />
         </>
       )}
