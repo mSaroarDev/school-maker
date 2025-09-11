@@ -66,10 +66,11 @@ export default function SchoolCalendar() {
   ], []);
 
   const [showEventModal, setShowEventModal] = useState(false);
+  const [eventData, setEventData] = useState(null);
   const handleEventClick = (clickInfo: { event: { title: string; start: Date | null | undefined } }) => {
     console.log(`${clickInfo.event.title}\n${clickInfo.event.start?.toLocaleString()}`);
-    console.log("clickInfo.event", );
-    
+    console.log("clickInfo.event", clickInfo.event);
+    setEventData(clickInfo.event);
     setShowEventModal(true);
   };
 
@@ -247,9 +248,11 @@ export default function SchoolCalendar() {
             showSubmitButton={false}
             showFooter={false}
             sideClick={true}
-            size="sm"
+            size="xl"
           >
-            <EventDetails />
+            <EventDetails 
+              data={eventData} // Replace with actual selected event data
+            />
           </Modal>
         </>
       )}
