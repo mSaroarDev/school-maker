@@ -5,8 +5,7 @@ import Image from "next/image";
 export type EventDetailsProps = {
   data: {
     title: string;
-    start?: string | Date;
-    date?: string | Date;
+    start?: Date | null | undefined;
     extendedProps?: {
       category?: string;
       description?: string;
@@ -64,7 +63,7 @@ const EventDetails = ({ data }: EventDetailsProps) => {
           <Calendar className="flex-shrink-0 w-5 h-5 text-gray-500" />
           <div>
             <p className="font-medium text-gray-900">Date</p>
-            <p className="text-gray-600">{moment(data?.date).format("DD MMM, YYYY")}</p>
+            <p className="text-gray-600">{moment(data?.start).format("DD MMM, YYYY")}</p>
           </div>
         </div>
 
