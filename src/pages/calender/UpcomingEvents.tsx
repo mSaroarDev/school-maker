@@ -7,10 +7,12 @@ import { useMemo } from "react";
 const UpcomingEvents = () => {
 
   const { calenderEvents } = useAppSelector((state) => state.calender);
+  console.log("Upcoming Events: ", calenderEvents);
 
   const sortedEvents = useMemo(() => {
-    const upcomingEvent = calenderEvents?.filter((event) => moment(event.date).isSameOrAfter(moment(), 'day'));
-    return upcomingEvent?.slice(0, 10)?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const upcomingEvent = calenderEvents?.filter((event) => moment(event?.date).isSameOrAfter(moment(), 'day'));
+    const paginatedEvents = upcomingEvent?.slice(0, 20);
+    return paginatedEvents?.sort((a, b) => new Date(a?.date)?.getTime() - new Date(b?.date)?.getTime());
   }, [calenderEvents]);
 
   const colorPalettes = useMemo(() => [

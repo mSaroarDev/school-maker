@@ -56,6 +56,7 @@ export default function SchoolCalendar() {
   });
 
   const { calenderEvents } = useAppSelector((state) => state.calender);
+  console.log("All Calendar Events: ", calenderEvents);
 
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
@@ -190,7 +191,7 @@ export default function SchoolCalendar() {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={currentView}
           headerToolbar={false}
-          events={calenderEvents}
+          events={calenderEvents || []}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           dateClick={(date) => {
