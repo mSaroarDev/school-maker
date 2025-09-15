@@ -24,6 +24,12 @@ const CalenderSlice = createSlice({
    },
    addEvent: (state, action: PayloadAction<TEventResponse>) => {
     state.calenderEvents.push(action.payload);
+   },
+   editEvent: (state, action: PayloadAction<TEventResponse>) => {
+    const index = state.calenderEvents.findIndex(event => event._id === action.payload._id);
+    if(index !== -1){
+      state.calenderEvents[index] = action.payload;
+    }
    }
   }
 })
@@ -31,6 +37,7 @@ const CalenderSlice = createSlice({
 export const { 
   setEvents, 
   setTotalEventCount,
-  addEvent
+  addEvent,
+  editEvent
 } = CalenderSlice.actions;
 export default CalenderSlice.reducer;

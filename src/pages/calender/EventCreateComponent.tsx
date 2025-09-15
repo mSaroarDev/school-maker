@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/ui/richTextArea";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { addEvent } from "@/redux/features/calender/calender.slice";
+import { addEvent, editEvent } from "@/redux/features/calender/calender.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
@@ -113,7 +113,7 @@ const EventCreateComponent = ({
       if (res?.success) {
         showToast("success", res?.message || "Event created successfully");
         if(isEditMode && eventData?.extendedProps?._id){
-          // dispatch(addEvent(res.data));
+          dispatch(editEvent(res.data));
         } else {
           dispatch(addEvent(res.data));
         }
