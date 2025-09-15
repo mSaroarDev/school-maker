@@ -40,6 +40,7 @@ export type TEventInfo = {
   title: string; 
   start: Date | null | undefined;
   extendedProps: {
+    _id?: string;
     category: string;
     description: string;
     time: string;

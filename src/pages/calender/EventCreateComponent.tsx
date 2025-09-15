@@ -1,4 +1,4 @@
-import { useCreateEvent } from "@/api/events/events.hooks";
+import { useCreateEvent, useUpdateEvent } from "@/api/events/events.hooks";
 import { TCreateEventPayload } from "@/api/events/events.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,8 @@ type EventCreateComponentProps = {
   openModal?: boolean;
   setOpenModal?: (open: boolean) => void;
   eventData?: EventDetailsProps["data"];
+  isEditMode?: boolean;
+  resetAll?: () => void;
 };
 
 const EventCreateComponent = ({
@@ -35,9 +37,15 @@ const EventCreateComponent = ({
   openModal = false,
   setOpenModal,
   eventData,
+  isEditMode = false,
+  resetAll
 }: EventCreateComponentProps) => {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
+
+  console.log("Event Data: ", eventData);
+  
+
   const items = [
     {
       id: "Teachers",
@@ -85,6 +93,7 @@ const EventCreateComponent = ({
   };
 
   const { mutateAsync: createEvent, isPending } = useCreateEvent();
+  const { mutateAsync: updateEvent, isPending: isUpdating } = useUpdateEvent();
 
   const {
     register,
@@ -100,11 +109,12 @@ const EventCreateComponent = ({
 
   const onSubmit = async (data: TCreateEventPayload) => {
     try {
-      const res = await createEvent(data);
+      const res = isEditMode ? await createEvent(data) : await updateEvent({eventId: eventData?.extendedProps?._id ?? "", data});
       if (res?.success) {
         showToast("success", res?.message || "Event created successfully");
         dispatch(addEvent(res?.data));
         handleCloseSheet();
+        if(resetAll) resetAll();
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Failed to create event");

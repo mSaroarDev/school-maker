@@ -9,6 +9,7 @@ export type EventDetailsProps = {
     title: string;
     start?: Date | null | undefined;
     extendedProps?: {
+      _id?: string;
       category?: string;
       description?: string;
       time?: string;
@@ -34,11 +35,11 @@ const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }:
 
   return (
     <div className="w-full mx-auto p-3">
-      
+
       <div className="mb-6">
         {data?.extendedProps?.image && (
           <div className="w-full h-64 mb-4 overflow-hidden rounded-lg relative border">
-            <Image 
+            <Image
               src={data?.extendedProps?.image}
               alt={data?.title || 'Event Image'}
               layout="fill"
@@ -47,9 +48,9 @@ const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }:
           </div>
         )}
         <div className="flex items-center gap-3 mb-2">
-          <div 
-            className="w-4 h-4 rounded-full" 
-            style={{ backgroundColor: data?.extendedProps?.color || 'green'  }}
+          <div
+            className="w-4 h-4 rounded-full"
+            style={{ backgroundColor: data?.extendedProps?.color || 'green' }}
           ></div>
           <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
             {data?.extendedProps?.category}
@@ -97,14 +98,14 @@ const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }:
         </div>
       </div>
 
-      <Button 
-        type="button" 
+      <Button
+        type="button"
         variant="outline"
         onClick={() => {
           resetAll();
           setOpenModal(!openModal);
           setEventData(data);
-       }}
+        }}
       >
         <BiEdit size={20} /> Edit
       </Button>

@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import EventCreateComponent from "./EventCreateComponent";
 import EventDetails, { EventDetailsProps } from "./EventDetails";
@@ -66,12 +66,13 @@ export default function SchoolCalendar() {
 
   const [showEventModal, setShowEventModal] = useState(false);
   const [eventData, setEventData] = useState<EventDetailsProps["data"]>(null);
-  console.log("eventData", eventData);
+  const [isEditMode, setIsEditMode] = useState(false);
   
   const handleEventClick = (clickInfo: { event: EventDetailsProps["data"] }) => {
     if (!clickInfo?.event) return;
 
     const data = {
+      _id: clickInfo?.event?.extendedProps?._id?.toString() || "",
       title: clickInfo.event.title,
       start: clickInfo.event.start,
       extendedProps: clickInfo.event.extendedProps,
@@ -116,6 +117,7 @@ export default function SchoolCalendar() {
       setCurrentView("dayGridMonth");
     }
     setShowEventModal(false);
+    setIsEditMode(false);
   }
 
   return (
@@ -173,6 +175,8 @@ export default function SchoolCalendar() {
               setOpenModal={setOpenModal}
               selectedDate={selectedDate}
               eventData={eventData}
+              isEditMode={isEditMode}
+              resetAll={resetAll}
             />
           </div>
         </div>
@@ -283,6 +287,5 @@ export default function SchoolCalendar() {
         </>
       )}
     </>
-
   );
 }
