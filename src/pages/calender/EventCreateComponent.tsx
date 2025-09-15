@@ -109,10 +109,14 @@ const EventCreateComponent = ({
 
   const onSubmit = async (data: TCreateEventPayload) => {
     try {
-      const res = isEditMode ? await createEvent(data) : await updateEvent({eventId: eventData?.extendedProps?._id ?? "", data});
+      const res = (isEditMode && eventData?.extendedProps?._id) ? await updateEvent({eventId: eventData?.extendedProps?._id ?? "", data}) : await createEvent(data);
       if (res?.success) {
         showToast("success", res?.message || "Event created successfully");
-        dispatch(addEvent(res?.data));
+        if(isEditMode && eventData?.extendedProps?._id){
+          // dispatch(addEvent(res.data));
+        } else {
+          dispatch(addEvent(res.data));
+        }
         handleCloseSheet();
         if(resetAll) resetAll();
       }

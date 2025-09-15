@@ -72,11 +72,15 @@ export default function SchoolCalendar() {
     if (!clickInfo?.event) return;
 
     const data = {
-      _id: clickInfo?.event?.extendedProps?._id?.toString() || "",
       title: clickInfo.event.title,
       start: clickInfo.event.start,
-      extendedProps: clickInfo.event.extendedProps,
+      extendedProps: {
+        _id: clickInfo?.event?.extendedProps?._id?.toString() || "",
+        ...clickInfo.event.extendedProps,
+      },
     }
+
+    console.log("Clicked event data:", data);
     setEventData(data);
     setShowEventModal(true);
   };
@@ -282,6 +286,7 @@ export default function SchoolCalendar() {
               setOpenModal={setOpenModal} 
               setEventData={setEventData}
               resetAll={resetAll}
+              setIsEditMode={setIsEditMode}
             />
           </Modal>
         </>

@@ -23,9 +23,17 @@ export type EventDetailsProps = {
   setOpenModal: (open: boolean) => void;
   setEventData: (data: EventDetailsProps["data"]) => void;
   resetAll: () => void;
+  setIsEditMode: (isEdit: boolean) => void;
 };
 
-const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }: EventDetailsProps) => {
+const EventDetails = ({ 
+  data, 
+  setOpenModal, 
+  openModal, 
+  setEventData, 
+  resetAll,
+  setIsEditMode 
+}: EventDetailsProps) => {
 
   const stripHtmlTags = (html: string) => {
     const div = document.createElement('div');
@@ -105,6 +113,7 @@ const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }:
           resetAll();
           setOpenModal(!openModal);
           setEventData(data);
+          setIsEditMode(true);
         }}
       >
         <BiEdit size={20} /> Edit
