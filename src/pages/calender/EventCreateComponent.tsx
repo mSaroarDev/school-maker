@@ -21,17 +21,20 @@ import Flatpickr from "react-flatpickr";
 import { useForm } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
+import { EventDetailsProps } from "./EventDetails";
 
 type EventCreateComponentProps = {
   selectedDate?: string;
   openModal?: boolean;
   setOpenModal?: (open: boolean) => void;
+  eventData?: EventDetailsProps["data"];
 };
 
 const EventCreateComponent = ({
   selectedDate = "",
   openModal = false,
   setOpenModal,
+  eventData,
 }: EventCreateComponentProps) => {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -122,11 +125,29 @@ const EventCreateComponent = ({
     }
 
     if (selectedDate) {
-      console.log("Selected Date: ", selectedDate);
       const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       setValue("date", formattedDate);
     }
   }, [openModal, selectedDate, setValue]);
+
+  useEffect(() => {
+    if (eventData) {
+      const eventPayload = {
+        title: eventData.title || "",
+        category: eventData?.extendedProps?.category || "",
+        color: eventData?.extendedProps?.color || "#FF5733",
+        description: eventData?.extendedProps?.description || "",
+        date: eventData.start ? moment(eventData.start).format('YYYY-MM-DD') : "",
+        time: eventData?.extendedProps?.time || "",
+        location: eventData?.extendedProps?.location || "",
+        joinees: eventData?.extendedProps?.joinees || [],
+        image: eventData?.extendedProps?.image || ""
+      }
+      setFileUrl(eventPayload.image || "");
+      setEditorContent(eventPayload.description || "");
+      reset(eventPayload);
+    }
+  }, [eventData, reset]);
 
   return (
     <>

@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
+import { BiEdit } from "react-icons/bi";
 
 export type EventDetailsProps = {
   data: {
@@ -16,11 +18,12 @@ export type EventDetailsProps = {
       color?: string;
     };
   } | null;
+  openModal: boolean;
+  setOpenModal: (open: boolean) => void;
+  setEventData: (data: EventDetailsProps["data"]) => void;
 };
 
-const EventDetails = ({ data }: EventDetailsProps) => {
-
-  console.log("EventDetails data", data);
+const EventDetails = ({ data, setOpenModal, openModal, setEventData }: EventDetailsProps) => {
 
   const stripHtmlTags = (html: string) => {
     const div = document.createElement('div');
@@ -30,6 +33,7 @@ const EventDetails = ({ data }: EventDetailsProps) => {
 
   return (
     <div className="w-full mx-auto p-3">
+      
       <div className="mb-6">
         {data?.extendedProps?.image && (
           <div className="w-full h-64 mb-4 overflow-hidden rounded-lg relative border">
@@ -91,6 +95,17 @@ const EventDetails = ({ data }: EventDetailsProps) => {
           </div>
         </div>
       </div>
+
+      <Button 
+        type="button" 
+        variant="outline"
+        onClick={() => {
+          setOpenModal(!openModal);
+          setEventData(data);
+       }}
+      >
+        <BiEdit size={20} /> Edit
+      </Button>
     </div>
   );
 };
