@@ -5,9 +5,7 @@ import moment from "moment";
 import { useMemo } from "react";
 
 const UpcomingEvents = () => {
-
   const { calenderEvents } = useAppSelector((state) => state.calender);
-  console.log("Upcoming Events: ", calenderEvents);
 
   const sortedEvents = useMemo(() => {
     const upcomingEvent = calenderEvents?.filter((event) => moment(event?.date).isSameOrAfter(moment(), 'day'));
