@@ -21,9 +21,10 @@ export type EventDetailsProps = {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
   setEventData: (data: EventDetailsProps["data"]) => void;
+  resetAll: () => void;
 };
 
-const EventDetails = ({ data, setOpenModal, openModal, setEventData }: EventDetailsProps) => {
+const EventDetails = ({ data, setOpenModal, openModal, setEventData, resetAll }: EventDetailsProps) => {
 
   const stripHtmlTags = (html: string) => {
     const div = document.createElement('div');
@@ -100,6 +101,7 @@ const EventDetails = ({ data, setOpenModal, openModal, setEventData }: EventDeta
         type="button" 
         variant="outline"
         onClick={() => {
+          resetAll();
           setOpenModal(!openModal);
           setEventData(data);
        }}

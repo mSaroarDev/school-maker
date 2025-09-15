@@ -104,6 +104,20 @@ export default function SchoolCalendar() {
     return currentDate.toLocaleDateString(undefined, options);
   }, [currentDate]);
 
+  const resetAll = () => {
+    setSelectedDate(undefined);
+    setEventData(null);
+    setOpenModal(false);
+    setCurrentDate(new Date());
+    const api = calendarRef.current?.getApi?.();
+    if (api) {
+      api.today();
+      api.changeView("dayGridMonth");
+      setCurrentView("dayGridMonth");
+    }
+    setShowEventModal(false);
+  }
+
   return (
     <>
       <Card>
@@ -172,6 +186,7 @@ export default function SchoolCalendar() {
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           dateClick={(date) => {
+            resetAll();
             setOpenModal(true);
             const clickedDate = date.dateStr;
             setSelectedDate(clickedDate);
@@ -262,6 +277,7 @@ export default function SchoolCalendar() {
               openModal={openModal}
               setOpenModal={setOpenModal} 
               setEventData={setEventData}
+              resetAll={resetAll}
             />
           </Modal>
         </>
