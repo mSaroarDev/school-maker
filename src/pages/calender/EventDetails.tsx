@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin, Users } from "lucide-react";
+import { Calendar, Clock, MapPin, Trash2, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
@@ -67,8 +67,8 @@ const EventDetails = ({
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           {data?.title}
         </h1>
-        <div className="text-gray-600 text-lg leading-relaxed bg-gray-50 p-4 rounded border-l-2 border-primary/60">
-          <div dangerouslySetInnerHTML={{ __html: stripHtmlTags(data?.extendedProps?.description ?? "") }} />
+        <div className="overflow-hidden text-gray-600 text-lg leading-relaxed bg-gray-50 p-4 rounded border-l-2 border-primary/60">
+          {/* <div className="w-full overflow-hidden" dangerouslySetInnerHTML={{ __html: data?.extendedProps?.description ?? "" }} /> */}
         </div>
       </div>
 
@@ -106,7 +106,8 @@ const EventDetails = ({
         </div>
       </div>
 
-      <Button
+      <div className="flex items-center gap-2">
+        <Button
         type="button"
         variant="outline"
         onClick={() => {
@@ -118,6 +119,23 @@ const EventDetails = ({
       >
         <BiEdit size={20} /> Edit
       </Button>
+
+      <Button
+        type="button"
+        variant="outline"
+        className="text-red-500 border-red-300 hover:bg-red-50 hover:text-red-600"
+        onClick={() => {
+          resetAll();
+          setOpenModal(!openModal);
+          setEventData(data);
+          setIsEditMode(true);
+        }}
+      >
+        <Trash2 size={20} /> Delete
+      </Button>
+
+      </div>
+      
     </div>
   );
 };
