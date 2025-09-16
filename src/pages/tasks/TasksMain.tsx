@@ -1,0 +1,130 @@
+"use client";
+import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
+import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
+import Drawer from "@/components/_core/Drawer";
+import ErrorLabel from "@/components/_core/ErrorLabel";
+import HeaderComponent from "@/components/_core/HeaderComponent";
+import Card from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import SelectComponent from "@/components/ui/select";
+import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { components } from "react-select";
+import { OptionProps } from "react-select";
+
+type OptionsType = {
+  label: string;
+  value: string | number;
+  avatar?: string;
+  empId?: string;
+}
+
+const TasksMain = () => {
+  const [showDrawer, setShowDrawer] = useState(false);
+
+  const { data: teachers, isPending } = useGetAllTeachers({
+    currPage: 1,
+    limit: 500,
+  });
+
+  const defaultValues = {
+    title: "",
+    taskFor: [] as string[],
+  };
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
+    reset,
+  } = useForm({
+    defaultValues,
+  });
+
+  const renderCustomOptions = (option: OptionProps<OptionsType, boolean>) => {
+    return (
+      <components.Option {...option} className="p-0">
+        <div className="flex items-center gap-2 px-4 py-2 mb-1 last:mb-0 hover:bg-slate-100 rounded cursor-pointer">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-full relative bg-slate-200 flex items-center justify-center overflow-hidden">
+              {option?.data?.avatar && option?.data?.avatar !== "" && (
+                <Image
+                  src={option?.data?.avatar || "/default-avatar.png"}
+                  alt="avatar"
+                  fill
+                />
+              )}
+            </div>
+            <div>
+              <p className="text-sm font-medium">{option?.label}</p>
+              <p className="text-xs text-slate-500">ID: {option?.data?.empId}</p>
+            </div>
+          </div>
+        </div>
+      </components.Option>
+    );
+  };
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  }
+
+  return (
+    <>
+      <Card className="mb-5">
+        <HeaderComponent
+          title="Tasks"
+          createButtonFunction={() => setShowDrawer(true)}
+        />
+
+      </Card>
+
+      {showDrawer && (
+        <Drawer
+          title="Create Task"
+          description="Create a new task and assign to students."
+          showModal={showDrawer}
+          setShowModal={setShowDrawer}
+          isSubmitting={isSubmitting}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
+            <Label>Task title</Label>
+            <Input
+              {...register("title", { required: "Title is required" })}
+              placeholder="Enter task title"
+              className={errors.title ? "border-red-500" : "border-slate-300"}
+            />
+            {errors.title && (
+              <ErrorLabel msg={errors.title.message as string} />
+            )}
+          </div>
+          <div>
+            <Label>Task for</Label>
+            {isPending && <div>Loading...</div>}
+            {!isPending && teachers?.data?.length === 0 && <div>No teachers found</div>}
+            <SelectComponent
+              control={control}
+              name="taskFor"
+              options={teachers?.data?.map((teacher: TTeacherPayloadTeacher) => ({
+                label: teacher.fullName,
+                value: teacher._id,
+                avatar: teacher.avatar,
+                empId: teacher.employeeId,
+              })) || []}
+              isMulti
+              placeholder="Select teachers"
+              rules={{ required: "Select at least one teacher" }}
+              errors={errors}
+              components={{ Option: renderCustomOptions }}
+            />
+          </div>
+        </Drawer>
+      )}
+    </>
+  );
+};
+
+export default TasksMain;

@@ -1,14 +1,9 @@
-import Card from "@/components/ui/card";
+import TasksMain from "../tasks/TasksMain";
 
 const TaskList = () => {
   return (
     <>
-      <Card className="mb-5">
-        <h3 className="font-semibold text-lg">Tasks</h3>
-        <div className="mt-4 overflow-y-auto max-h-96">
-          
-        </div>
-      </Card>
+      <TasksMain />
     </>
   );
 };

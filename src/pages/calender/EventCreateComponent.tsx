@@ -93,7 +93,7 @@ const EventCreateComponent = ({
   };
 
   const { mutateAsync: createEvent, isPending } = useCreateEvent();
-  const { mutateAsync: updateEvent, isPending: isUpdating } = useUpdateEvent();
+  const { mutateAsync: updateEvent } = useUpdateEvent();
 
   const {
     register,

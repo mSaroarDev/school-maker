@@ -228,6 +228,7 @@ function SelectComponent<
       fontSize: '14px',
       padding: '12px',
     }),
+    menuPortal: (base) => ({ ...base, zIndex: 99999 }),
   };
 
   return (
