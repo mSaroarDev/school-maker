@@ -7,6 +7,7 @@ export type TCreateEventPayload = {
   location: string;
   joinees: string[];
   image: string;
+  isDeleted?: boolean;
 };
 
 export type TEventUpdatePayload = {

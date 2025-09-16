@@ -1,9 +1,9 @@
-import { setEvents, addEvent } from "@/redux/features/calender/calender.slice";
+import { setEvents } from "@/redux/features/calender/calender.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createEvent, getAllEvents, getEventById, updateEvent } from "./events.api";
-import { TGetAllEventsPayload, TEventResponse } from "./events.types";
 import { useEffect } from "react";
+import { createEvent, getAllEvents, getEventById, updateEvent } from "./events.api";
+import { TGetAllEventsPayload } from "./events.types";
 
 export const useCreateEvent = () => {
   const data = useMutation({
@@ -14,13 +14,8 @@ export const useCreateEvent = () => {
 };
 
 export const useUpdateEvent = () => {
-  const dispatch = useAppDispatch();
   const data = useMutation({
     mutationFn: updateEvent,
-    onSuccess: (res) => {
-      if (!res?.data) return;
-      dispatch(addEvent(res as TEventResponse));
-    },
   });
 
   return data;

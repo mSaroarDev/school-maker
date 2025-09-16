@@ -1,4 +1,8 @@
+import { useUpdateEvent } from "@/api/events/events.hooks";
 import { Button } from "@/components/ui/button";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
 import { Calendar, Clock, MapPin, Trash2, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
@@ -26,20 +30,47 @@ export type EventDetailsProps = {
   setIsEditMode: (isEdit: boolean) => void;
 };
 
-const EventDetails = ({ 
-  data, 
-  setOpenModal, 
-  openModal, 
-  setEventData, 
+const EventDetails = ({
+  data,
+  setOpenModal,
+  openModal,
+  setEventData,
   resetAll,
-  setIsEditMode 
+  setIsEditMode
 }: EventDetailsProps) => {
 
-  const stripHtmlTags = (html: string) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  };
+  // const stripHtmlTags = (html: string) => {
+  //   const div = document.createElement('div');
+  //   div.innerHTML = html;
+  //   return div.textContent || div.innerText || '';
+  // };
+
+  const { mutateAsync: deleteEvent, isPending: isDeleting } = useUpdateEvent();
+  const handleDelete = async () => {
+    showConfirmModal({
+      title: "Delete Event",
+      text: "Are you sure you want to delete this event? This action cannot be undone.",
+      func: async () => {
+        if (!data?.extendedProps?._id) return;
+        try {
+          const res = await deleteEvent({
+            eventId: data?.extendedProps?._id,
+            data: {
+              isDeleted: true
+            }
+          });
+
+          if (res?.success) {
+            showToast("success", "Event deleted successfully");
+            setOpenModal(false);
+            resetAll();
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error));
+        }
+      }
+    })
+  }
 
   return (
     <div className="w-full mx-auto p-3">
@@ -108,34 +139,32 @@ const EventDetails = ({
 
       <div className="flex items-center gap-2">
         <Button
-        type="button"
-        variant="outline"
-        onClick={() => {
-          resetAll();
-          setOpenModal(!openModal);
-          setEventData(data);
-          setIsEditMode(true);
-        }}
-      >
-        <BiEdit size={20} /> Edit
-      </Button>
+          type="button"
+          variant="outline"
+          onClick={() => {
+            resetAll();
+            setOpenModal(!openModal);
+            setEventData(data);
+            setIsEditMode(true);
+          }}
+        >
+          <BiEdit size={20} /> Edit
+        </Button>
 
-      <Button
-        type="button"
-        variant="outline"
-        className="text-red-500 border-red-300 hover:bg-red-50 hover:text-red-600"
-        onClick={() => {
-          resetAll();
-          setOpenModal(!openModal);
-          setEventData(data);
-          setIsEditMode(true);
-        }}
-      >
-        <Trash2 size={20} /> Delete
-      </Button>
+        <Button
+          type="button"
+          variant="outline"
+          className="text-red-500 border-red-300 hover:bg-red-50 hover:text-red-600"
+          onClick={() => {
+            handleDelete();
+          }}
+          // isLoading={isDeleting}
+        >
+          <Trash2 size={20} /> Delete
+        </Button>
 
       </div>
-      
+
     </div>
   );
 };
