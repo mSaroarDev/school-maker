@@ -11,7 +11,7 @@ export const createTask = async (task: TTask) => {
   return res.data;
 };
 
-export const updateTask = async (payload: {_id: string, data: Partial<TTask>}) => {
+export const updateTask = async (payload: { _id: string, data: Partial<TTask> }) => {
   const res = await request.put(`/tasks/update/${payload._id}`, payload.data);
   return res.data;
 };
