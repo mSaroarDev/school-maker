@@ -1,5 +1,6 @@
 import { useUpdateEvent } from "@/api/events/events.hooks";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
 import { showToast } from "@/utils/showToast";
@@ -7,6 +8,7 @@ import { Calendar, Clock, MapPin, Trash2, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
+import { deleteEvent as removeEvent } from "@/redux/features/calender/calender.slice";
 
 export type EventDetailsProps = {
   data: {
@@ -39,6 +41,7 @@ const EventDetails = ({
   setIsEditMode
 }: EventDetailsProps) => {
 
+  const dispatch = useAppDispatch();
   // const stripHtmlTags = (html: string) => {
   //   const div = document.createElement('div');
   //   div.innerHTML = html;
@@ -62,6 +65,7 @@ const EventDetails = ({
 
           if (res?.success) {
             showToast("success", "Event deleted successfully");
+            dispatch(removeEvent(data?.extendedProps?._id as string));
             setOpenModal(false);
             resetAll();
           }

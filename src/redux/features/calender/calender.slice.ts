@@ -30,6 +30,9 @@ const CalenderSlice = createSlice({
     if(index !== -1){
       state.calenderEvents[index] = action.payload;
     }
+   },
+   deleteEvent: (state, action: PayloadAction<string>) => {
+    state.calenderEvents = state.calenderEvents.filter(event => event._id !== action.payload);
    }
   }
 })
@@ -38,6 +41,7 @@ export const {
   setEvents, 
   setTotalEventCount,
   addEvent,
-  editEvent
+  editEvent,
+  deleteEvent
 } = CalenderSlice.actions;
 export default CalenderSlice.reducer;
