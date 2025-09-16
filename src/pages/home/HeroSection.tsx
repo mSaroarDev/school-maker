@@ -1,11 +1,13 @@
 "use client";
-
 import heroImage from "@/assets/images/hero.png";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const HeroSection = () => {
+  const {push} = useRouter();
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
@@ -40,7 +42,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4"
           >
-            <Button size="lg">Register & Get Started</Button>
+            <Button onClick={()=> push("/login")} size="lg">Register & Get Started</Button>
           </motion.div>
         </motion.div>
         <motion.div
