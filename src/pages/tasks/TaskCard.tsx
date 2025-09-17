@@ -13,7 +13,9 @@ type TaskCardProps = {
 };
 
 const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
-  const {isAdmin} = useAuth();
+  const { isAdmin } = useAuth();
+
+  console.log("task data:", data);
 
   return (
     <>
@@ -26,7 +28,21 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
             className="h-6 w-[3px] rounded flex-shrink-0"
             style={{ backgroundColor: selectedColor?.border }}
           ></div>
-          <h3 className="text-sm line-clamp-2">{data?.taskName}</h3>
+          <div>
+            <h3 className="text-sm line-clamp-2">{data?.taskName}</h3>
+            <div className="flex items-center mt-1">
+              {data?.taskFor?.map((user, index) => (
+                <span
+                  key={index}
+                  style={{ backgroundColor: selectedColor?.border }}
+                  className="text-xs px-2 py-1 rounded-sm"
+                >
+                  {user?.fullName}
+                </span>
+              ))}
+
+            </div>
+          </div>
         </div>
         <div className="flex items-center gap-1">
           {data.status === "completed" ? (
