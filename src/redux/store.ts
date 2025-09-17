@@ -5,10 +5,12 @@ import { type PersistConfig } from "redux-persist";
 
 // redux slices
 import CalenderSlice from '@/redux/features/calender/calender.slice';
+import TasksSlice from '@/redux/features/tasks/tasks.slice';
 
 // First define the app reducer
 const appReducer = combineReducers({
   calender: CalenderSlice,
+  tasks: TasksSlice,
 });
 
 // Root state type from combined reducers

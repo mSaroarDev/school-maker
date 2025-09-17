@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import { components } from "react-select";
 import { OptionProps } from "react-select";
 import TaskCard from "./TaskCard";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addTask } from "@/redux/features/tasks/tasks.slice";
 
 type OptionsType = {
   label: string;
@@ -30,6 +32,7 @@ type OptionsType = {
 const TasksMain = () => {
   const [showDrawer, setShowDrawer] = useState(false);
 
+  const dispatch = useAppDispatch();
   const { data: teachers, isPending } = useGetAllTeachers({
     currPage: 1,
     limit: 500,
@@ -43,7 +46,7 @@ const TasksMain = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm({
     defaultValues,
@@ -75,8 +78,9 @@ const TasksMain = () => {
 
   const colorPalettes = useMemo(() => colorsPairs, []);
 
-  const { data: tasks } = useGetTasks();
-  console.log("tasks =========>", tasks);
+  const { isPending: isLoadingTasks } = useGetTasks();
+  const { myTasks } = useAppSelector(state => state.tasks);
+  console.log("myTasks:", myTasks);
 
   const { mutateAsync: createTask, isPending: isCreating } = useCreateTask();
   const onSubmit = async (data: TTask) => {
@@ -88,6 +92,7 @@ const TasksMain = () => {
 
       if (res?.success) {
         showToast("success", res?.message || "Task created successfully");
+        dispatch(addTask(res.data));
         setShowDrawer(false);
         reset();
       }
@@ -105,7 +110,7 @@ const TasksMain = () => {
         />
 
         <div className="mt-5 max-h-[400px] overflow-y-auto pr-2">
-          {tasks?.data?.map((task: TTask, index: number) => {
+          {!isLoadingTasks && myTasks?.map((task: TTask, index: number) => {
             const selectedColor = colorPalettes[Number(index) % colorPalettes.length];
 
             return (

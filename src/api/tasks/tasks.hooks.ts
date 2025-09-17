@@ -24,9 +24,16 @@ export const useGetTasks = () => {
 
   useEffect(() => {
     if (query.isSuccess) {
-      dispatch(setTasks(query.data));
+      dispatch(setTasks(query?.data?.data));
     }
   }, [dispatch, query.data, query.isSuccess]);
 
   return query;
+};
+
+export const useUpdateTask = () => {
+  const data = useMutation({
+    mutationFn: createTask,
+  });
+  return data;
 };
