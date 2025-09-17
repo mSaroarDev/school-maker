@@ -1,4 +1,6 @@
 import { TTask } from "@/api/tasks/tasks.types";
+import { useAuth } from "@/hooks/useAuth";
+import { Trash2 } from "lucide-react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdOutlineCircle } from "react-icons/md";
 
@@ -11,6 +13,8 @@ type TaskCardProps = {
 };
 
 const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
+  const {isAdmin} = useAuth();
+
   return (
     <>
       <div
@@ -22,13 +26,19 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
             className="h-6 w-[3px] rounded flex-shrink-0"
             style={{ backgroundColor: selectedColor?.border }}
           ></div>
-          <h3 className="text-xs line-clamp-2">{data?.taskName}</h3>
+          <h3 className="text-sm line-clamp-2">{data?.taskName}</h3>
         </div>
-        <div>
+        <div className="flex items-center gap-1">
           {data.status === "completed" ? (
             <IoIosCheckmarkCircle className="text-green-500 cursor-pointer" size={22} />
           ) : (
             <MdOutlineCircle size={22} className="text-yellow-500 cursor-pointer" />
+          )}
+
+          {isAdmin && (
+            <button className="">
+              <Trash2 size={18} className="text-red-500 cursor-pointer" />
+            </button>
           )}
         </div>
       </div>

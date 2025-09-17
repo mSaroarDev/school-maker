@@ -134,7 +134,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const isAdmin = state.user?.role === "Software Engineer" || state.user?.role === "Developer" || state.user?.role === "Super Admin";
+  const isAdmin = state.user?.role === "institute-admin";
+  // const isTeacher = state.user?.role === "Teacher";
 
   useEffect(() => {
     if (!token) {
