@@ -18,6 +18,7 @@ type User = TLoginResponse["data"]["data"];
 const initialState = {
   user: {
     _id: "",
+    instituteId: "",
     fullName: "",
     email: "",
     phone: "",
