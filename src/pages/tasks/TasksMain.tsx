@@ -1,5 +1,5 @@
 "use client";
-import { useCreateTask } from "@/api/tasks/tasks.hooks";
+import { useCreateTask, useGetTasks } from "@/api/tasks/tasks.hooks";
 import { TTask } from "@/api/tasks/tasks.types";
 import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
@@ -10,13 +10,15 @@ import Card from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
+import { colorsPairs } from "@/constants/colors";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { components } from "react-select";
 import { OptionProps } from "react-select";
+import TaskCard from "./TaskCard";
 
 type OptionsType = {
   label: string;
@@ -71,6 +73,11 @@ const TasksMain = () => {
     );
   };
 
+  const colorPalettes = useMemo(() => colorsPairs, []);
+
+  const { data: tasks } = useGetTasks();
+  console.log("tasks =========>", tasks);
+
   const { mutateAsync: createTask, isPending: isCreating } = useCreateTask();
   const onSubmit = async (data: TTask) => {
     try {
@@ -97,6 +104,19 @@ const TasksMain = () => {
           createButtonFunction={() => setShowDrawer(true)}
         />
 
+        <div className="mt-5">
+          {tasks?.data?.map((task, index: number) => {
+            const selectedColor = colorPalettes[Number(index) % colorPalettes.length];
+
+            return (
+              <TaskCard
+                key={task._id}
+                data={task}
+                selectedColor={selectedColor}
+              />
+            )
+          })}
+        </div>
       </Card>
 
       {showDrawer && (
