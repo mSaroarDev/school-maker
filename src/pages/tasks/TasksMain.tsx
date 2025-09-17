@@ -105,18 +105,18 @@ const TasksMain = () => {
           description="Create a new task and assign to students."
           showModal={showDrawer}
           setShowModal={setShowDrawer}
-          isSubmitting={isSubmitting}
+          isSubmitting={isSubmitting || isCreating}
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
-            <Label>Task title</Label>
+            <Label>Task Name</Label>
             <Input
-              {...register("title", { required: "Title is required" })}
-              placeholder="Enter task title"
-              className={errors.title ? "border-red-500" : "border-slate-300"}
+              {...register("taskName", { required: "Task Name is required" })}
+              placeholder="Enter task taskFor"
+              className={errors.taskName ? "border-red-500" : "border-slate-300"}
             />
-            {errors.title && (
-              <ErrorLabel msg={errors.title.message as string} />
+            {errors.taskName && (
+              <ErrorLabel msg={errors.taskName.message as string} />
             )}
           </div>
           <div>

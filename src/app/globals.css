@@ -182,7 +182,7 @@
 
 @layer components {
   .header-buttons {
-    @apply flex items-center bg-amber-300 p-2 rounded-full w-8 h-8 cursor-pointer;
+    @apply flex items-center bg-amber-300 text-[#292929] p-2 rounded-full w-8 h-8 cursor-pointer;
   }
   .bg-controlled {
     @apply bg-background ;
