@@ -67,7 +67,7 @@ export default function SchoolCalendar() {
   const [showEventModal, setShowEventModal] = useState(false);
   const [eventData, setEventData] = useState<EventDetailsProps["data"]>(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  
+
   const handleEventClick = (clickInfo: { event: EventDetailsProps["data"] }) => {
     if (!clickInfo?.event) return;
 
@@ -271,7 +271,7 @@ export default function SchoolCalendar() {
 
       {showEventModal && (
         <>
-          <Modal 
+          <Modal
             isOpen={showEventModal}
             toggle={() => setShowEventModal(false)}
             title="Event Details"
@@ -281,10 +281,10 @@ export default function SchoolCalendar() {
             sideClick={true}
             size="xl"
           >
-            <EventDetails 
+            <EventDetails
               data={eventData}
               openModal={openModal}
-              setOpenModal={setOpenModal} 
+              setOpenModal={setOpenModal}
               setEventData={setEventData}
               resetAll={resetAll}
               setIsEditMode={setIsEditMode}
