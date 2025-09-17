@@ -1,7 +1,7 @@
 export type TTask = {
   _id?: string;
   instituteId?: string;
-  title: string;
+  taskName: string;
   taskFor: string[];
   status?: "pending" | "in-progress" | "completed" | "overdue";
   isDeleted?: boolean;

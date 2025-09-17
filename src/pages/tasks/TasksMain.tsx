@@ -1,4 +1,6 @@
 "use client";
+import { useCreateTask } from "@/api/tasks/tasks.hooks";
+import { TTask } from "@/api/tasks/tasks.types";
 import { useGetAllTeachers } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
 import Drawer from "@/components/_core/Drawer";
@@ -8,6 +10,8 @@ import Card from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -30,7 +34,7 @@ const TasksMain = () => {
   });
 
   const defaultValues = {
-    title: "",
+    taskName: "",
     taskFor: [] as string[],
   };
   const {
@@ -67,8 +71,22 @@ const TasksMain = () => {
     );
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { mutateAsync: createTask, isPending: isCreating } = useCreateTask();
+  const onSubmit = async (data: TTask) => {
+    try {
+      const res = await createTask({
+        taskName: data.taskName,
+        taskFor: data.taskFor
+      });
+
+      if (res?.success) {
+        showToast("success", res?.message || "Task created successfully");
+        setShowDrawer(false);
+        reset();
+      }
+    } catch (error) {
+      showToast("error", handleErrorMessage(error) || "Failed to create task");
+    }
   }
 
   return (
