@@ -56,7 +56,6 @@ export default function SchoolCalendar() {
   });
 
   const { calenderEvents } = useAppSelector((state) => state.calender);
-  console.log("All Calendar Events: ", calenderEvents);
 
   const colorPalettes = useMemo(() => [
     { bg: "#f3eeff", border: "#9a64ff" },
@@ -99,7 +98,8 @@ export default function SchoolCalendar() {
           style={{ backgroundColor: selectedColor?.border }}
         />
         <div className="truncate text-xs text-black line-clamp-1" title={eventInfo.event.title}>
-          {eventInfo.event.title}
+          {eventInfo?.event?.title?.slice(0, 18)}
+          {eventInfo?.event?.title?.length > 18 ? "..." : ""}
         </div>
       </div>
     );
