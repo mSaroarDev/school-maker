@@ -104,8 +104,8 @@ const TasksMain = () => {
           createButtonFunction={() => setShowDrawer(true)}
         />
 
-        <div className="mt-5">
-          {tasks?.data?.map((task, index: number) => {
+        <div className="mt-5 max-h-[400px] overflow-y-auto pr-2">
+          {tasks?.data?.map((task: TTask, index: number) => {
             const selectedColor = colorPalettes[Number(index) % colorPalettes.length];
 
             return (

@@ -1,9 +1,16 @@
+import { TTask } from "@/api/tasks/tasks.types";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdOutlineCircle } from "react-icons/md";
 
-const TaskCard = ({ data, selectedColor }) => {
+type TaskCardProps = {
+  data: TTask;
+  selectedColor: {
+    bg: string;
+    border: string;
+  } | null;
+};
 
-
+const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
   return (
     <>
       <div
