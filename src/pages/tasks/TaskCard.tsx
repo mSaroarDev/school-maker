@@ -33,7 +33,7 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
                 <span
                   key={index}
                   style={{ backgroundColor: selectedColor?.border }}
-                  className="text-xs px-2 py-1 rounded-sm"
+                  className="text-xs px-1.5 py-0.5 rounded mx-0.5 text-white"
                 >
                   {user?.fullName}
                 </span>
