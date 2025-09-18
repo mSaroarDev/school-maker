@@ -15,7 +15,7 @@ interface LinkItemProps {
   loggedInAs?: string;
 }
 
-const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
+const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
 
   const adminLinks = [
     {
@@ -113,7 +113,7 @@ const SidebarLinks = ({ isAdmin, loggedInAs }: LinkItemProps) => {
   ];
 
   if(!isAdmin) return adminLinks;
-  if (isAdmin) return superAdminLinks;
+  if (isAdmin) return adminLinks;
 
   return [];
 };

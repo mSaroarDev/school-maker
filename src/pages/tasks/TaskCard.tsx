@@ -15,8 +15,6 @@ type TaskCardProps = {
 const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
   const { isAdmin } = useAuth();
 
-  console.log("task data:", data);
-
   return (
     <>
       <div
