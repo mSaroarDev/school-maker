@@ -7,6 +7,7 @@ import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
 import { showToast } from "@/utils/showToast";
 import { Trash2 } from "lucide-react";
+import { CgSpinner } from "react-icons/cg";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdOutlineCircle } from "react-icons/md";
 
@@ -22,7 +23,7 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
   const { isAdmin } = useAuth();
 
   const dispatch = useAppDispatch();
-  const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutateAsync: updateTask, isPending } = useUpdateTask();
   const handleStatusChange = (status: TTask["status"]) => {
     showConfirmModal({
       title: "Change Task Status",
@@ -66,12 +67,14 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          {data.status === "completed" ? (
+          {isPending ? (
+            <CgSpinner className="animate-spin text-slate-400" size={22} />
+          ) : !isPending && data.status === "completed" ? (
             <IoIosCheckmarkCircle
               className="text-green-500 cursor-pointer" size={22}
               onClick={() => handleStatusChange("pending")}
             />
-          ) : (
+          ) : !isPending && (
             <MdOutlineCircle
               size={22}
               className="text-yellow-500 cursor-pointer"
