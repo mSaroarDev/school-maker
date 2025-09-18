@@ -1,7 +1,7 @@
 import { useUpdateTask } from "@/api/tasks/tasks.hooks";
 import { TTask } from "@/api/tasks/tasks.types";
 import { useAuth } from "@/hooks/useAuth";
-import { updateTask as editTask } from "@/redux/features/tasks/tasks.slice";
+import { deleteTask, updateTask as editTask } from "@/redux/features/tasks/tasks.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
@@ -24,20 +24,26 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
 
   const dispatch = useAppDispatch();
   const { mutateAsync: updateTask, isPending } = useUpdateTask();
-  const handleStatusChange = (status: TTask["status"]) => {
+  const handleStatusChange = (updatedData: Partial<TTask>) => {
     showConfirmModal({
-      title: "Change Task Status",
-      text: `Are you sure you want to change the status to "${status}"?`,
+      title: updatedData?.isDeleted ? "Delete Task?" : "Change Status?",
+      text: updatedData?.isDeleted ? "Are you sure you want to delete this task?" : `Are you sure you want to Change the status of this task to "${updatedData.status}"?  `,
       func: async () => {
         try {
           const res = await updateTask({
             _id: data?._id as string,
-            data: { status }
+            updatedData
           });
 
           if(res?.success) {
-            showToast("success", res?.message || "Task status updated successfully");
-            dispatch(editTask(res.data));
+            console.log("action", updatedData.isDeleted)
+            if(updatedData.isDeleted) {
+              showToast("success", "Task deleted");
+              dispatch(deleteTask(res.data?._id as string));
+            } else {
+              showToast("success", res?.message || "Task status updated successfully");
+              dispatch(editTask(res.data));
+            }
           }
         } catch (error) {
           showToast("error", handleErrorMessage(error) || "Failed to update task");
@@ -72,18 +78,26 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
           ) : !isPending && data.status === "completed" ? (
             <IoIosCheckmarkCircle
               className="text-green-500 cursor-pointer" size={22}
-              onClick={() => handleStatusChange("pending")}
+              onClick={() => handleStatusChange({
+                status: "pending"
+              })}
             />
           ) : !isPending && (
             <MdOutlineCircle
               size={22}
               className="text-yellow-500 cursor-pointer"
-              onClick={() => handleStatusChange("completed")}
+              onClick={() => handleStatusChange({
+                status: "completed"
+              })}
             />
           )}
 
           {isAdmin && (
-            <button className="">
+            <button
+              onClick={() => handleStatusChange({
+                isDeleted: true
+              })}
+            >
               <Trash2 size={18} className="text-red-500 cursor-pointer" />
             </button>
           )}
