@@ -1,3 +1,4 @@
+"use client";
 // import { darkDataTableStyles, dataTableStyles, mobileLightDataTableStyles, mobileDarkDataTableStyles } from "../../assets/styles/DatatableStyles";
 import DataTable, { type TableColumn } from "react-data-table-component";
 import { useDeviceDetect } from "@/lib/useDeviceDetect";

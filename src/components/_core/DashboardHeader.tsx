@@ -15,8 +15,6 @@ const DashboardHeader = ({
   width
 }: DashboardHeaderProps) => {
 
-  console.log('width in header:', width);
-
   const { setTheme, theme } = useTheme();
   const { user } = useAuth();
 

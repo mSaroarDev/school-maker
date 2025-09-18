@@ -16,19 +16,18 @@ import {
 import SidebarLinks from "@/constants/SidebarLinks";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { ILink } from "./Sidebar";
 
 
 const MobileMenuItems = () => {
   const pathname = usePathname();
 
-  const [loggedInAs, setLoggedInAs] = useState("");
+  // const [loggedInAs, setLoggedInAs] = useState("");
 
-  useEffect(() => {
-    const loggedInAs = localStorage.getItem("loggedInAs");
-    setLoggedInAs(loggedInAs || "");
-  }, []);
+  // useEffect(() => {
+  //   const loggedInAs = localStorage.getItem("loggedInAs");
+  //   setLoggedInAs(loggedInAs || "");
+  // }, []);
 
   const width = 250;
 
@@ -74,7 +73,7 @@ const MobileMenuItems = () => {
 
           {user?._id ? (
             <div>
-              {SidebarLinks({ isAdmin, loggedInAs }).map((section, index) => (
+              {SidebarLinks({ isAdmin }).map((section, index) => (
                 <div key={index} className="mb-5">
                   <h5 className={`mx-2 ms-8 text-sm transition-all duration-300 ease-in-out ${width === 250 ? "text-gray-700 dark:text-white" : "text-slate-50 dark:text-[#1A202C]"}`}>{section.heading}</h5>
                   <div className="mt-2 px-5">

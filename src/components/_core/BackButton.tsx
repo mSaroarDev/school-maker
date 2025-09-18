@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 import { IoMdArrowBack } from "react-icons/io";
 import { Button } from "../ui/button";

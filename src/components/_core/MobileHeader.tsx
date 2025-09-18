@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import UserDropdown from "./UserDropdown";
 
@@ -8,15 +8,15 @@ const MobileHeader = () => {
   const { back } = useRouter();
   const pathname = usePathname();
 
-  const [title, setTitle] = useState("");
+  const [title] = useState("");
 
-  const firstPathSegment = title.split('-')[0];
+  const firstPathSegment = title?.split('-')[0];
 
-  useEffect(() => {
-  if (typeof document !== "undefined") {
-    setTitle(document.title);
-  }
-}, [pathname]);
+  // useEffect(() => {
+  //   if (typeof document !== "undefined") {
+  //     setTitle(document.title);
+  //   }
+  // }, [pathname]);
 
   return (
     <>

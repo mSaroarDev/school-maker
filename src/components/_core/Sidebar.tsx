@@ -1,13 +1,12 @@
 "use client";
+import logoImage from "@/assets/images/logoipsum.png";
+import SidebarLinks from "@/constants/SidebarLinks";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { CgUserlane } from "react-icons/cg";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { useAuth } from "../../hooks/useAuth";
-import { useEffect, useState } from "react";
-import { CgUserlane } from "react-icons/cg";
-import { usePathname } from "next/navigation";
-import SidebarLinks from "@/constants/SidebarLinks";
-import Link from "next/link";
-import Image from "next/image";
-import logoImage from "@/assets/images/logoipsum.png";
 
 interface SidebarProps {
   width: number;
@@ -25,12 +24,12 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname();
 
   const { isAdmin } = useAuth();
-  const [loggedInAs, setLoggedInAs] = useState("");
+  // const [loggedInAs, setLoggedInAs] = useState("");
 
-  useEffect(() => {
-    const loggedInAs = localStorage.getItem("loggedInAs");
-    setLoggedInAs(loggedInAs || "");
-  }, []);
+  // useEffect(() => {
+  //   const loggedInAs = localStorage.getItem("loggedInAs");
+  //   setLoggedInAs(loggedInAs || "");
+  // }, []);
 
   return (
     <>
@@ -55,7 +54,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
           </div>
 
           <div className="mt-5 overflow-y-scroll h-[calc(100vh-80px)]">
-            {SidebarLinks({ isAdmin, loggedInAs }).map((section, index) => (
+            {SidebarLinks({ isAdmin }).map((section, index) => (
               <div key={index} className="mb-5">
                 <h5 className={`mx-2 ms-8 text-sm transition-all duration-300 ease-in-out ${width === 250 ? "text-gray-700 dark:text-white" : "text-slate-50 dark:text-[#1A202C]"}`}>{section.heading}</h5>
                 <div className="mt-2 px-5">
