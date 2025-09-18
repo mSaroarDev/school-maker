@@ -1,4 +1,4 @@
-import NoticeDetails from "@/pages/notices/NoticeDetails";
+import NoticeDetails from "@/views/notices/NoticeDetails";
 
 const page = () => {
     return (

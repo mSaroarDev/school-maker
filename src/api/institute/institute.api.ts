@@ -1,4 +1,4 @@
-import { TInstallInstituteFormData, TUpdateInstituteFormData } from "@/pages/guest-pages/install/interfaces/formdataInterface";
+import { TInstallInstituteFormData, TUpdateInstituteFormData } from "@/views/guest-pages/install/interfaces/formdataInterface";
 import request from "../apiRequest";
 
 export const createInstitute = async (data: TInstallInstituteFormData) => {

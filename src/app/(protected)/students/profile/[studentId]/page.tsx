@@ -1,4 +1,4 @@
-import StudentProfile from "@/pages/students/StudentProfile";
+import StudentProfile from "@/views/students/StudentProfile";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

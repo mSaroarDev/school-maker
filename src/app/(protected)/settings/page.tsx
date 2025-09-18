@@ -1,4 +1,4 @@
-import SettingsMain from "@/pages/settings/SettingsMain";
+import SettingsMain from "@/views/settings/SettingsMain";
 
 const page = () => {
     return (

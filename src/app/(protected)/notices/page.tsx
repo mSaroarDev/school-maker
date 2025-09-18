@@ -1,4 +1,4 @@
-import NoticesMain from "@/pages/notices/NoticesMain";
+import NoticesMain from "@/views/notices/NoticesMain";
 
 export const metadata = {
   title: `Notices - ${process.env.NEXT_PUBLIC_APP_NAME}`,

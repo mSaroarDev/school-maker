@@ -1,4 +1,4 @@
-import LibraryMain from "@/pages/library/LibraryMain";
+import LibraryMain from "@/views/library/LibraryMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

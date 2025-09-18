@@ -1,4 +1,4 @@
-import { TInstallAdminFormData } from "@/pages/guest-pages/install/interfaces/formdataInterface";
+import { TInstallAdminFormData } from "@/views/guest-pages/install/interfaces/formdataInterface";
 import request from "../apiRequest";
 import { TUpdateUserPayload } from "./user.interfaces";
 

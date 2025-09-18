@@ -1,4 +1,4 @@
-import CalenderMain from "@/pages/calender/CalenderMain";
+import CalenderMain from "@/views/calender/CalenderMain";
 
 export const metadata = {
   title: `Calender - ${process.env.NEXT_PUBLIC_APP_NAME}`,

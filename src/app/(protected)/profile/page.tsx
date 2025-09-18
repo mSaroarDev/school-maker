@@ -1,4 +1,4 @@
-import ProfilePageMain from "@/pages/profile/Main";
+import ProfilePageMain from "@/views/profile/Main";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

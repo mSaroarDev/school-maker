@@ -1,4 +1,4 @@
-import AttendenceMain from "@/pages/attendence/AttendenceMain";
+import AttendenceMain from "@/views/attendence/AttendenceMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

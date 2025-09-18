@@ -1,4 +1,4 @@
-import StudentsMain from "@/pages/students/StudentsMain";
+import StudentsMain from "@/views/students/StudentsMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

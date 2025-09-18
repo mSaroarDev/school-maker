@@ -1,5 +1,5 @@
 
-import StudentCreate from "@/pages/students/StudentCreate";
+import StudentCreate from "@/views/students/StudentCreate";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

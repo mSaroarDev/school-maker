@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import Card from "@/components/ui/card";
 import { NoticesBreadTree } from "@/helpers/breadcrumbs";
 import { useAuth } from "@/hooks/useAuth";
-import CreateNotice from "@/pages/notices/CreateNotice";
+import CreateNotice from "@/views/notices/CreateNotice";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa6";

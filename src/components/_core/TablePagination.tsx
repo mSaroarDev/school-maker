@@ -41,7 +41,7 @@ const TablePagination: React.FC<TablePaginationProps> = (props) => {
   const [startCount, setStartCount] = useState<number>(1);
   const [endCount, setEndCount] = useState<number>(10);
 
-  // Calculate total pages
+  // Calculate total views
   const totalPages = Math.ceil(totalItems / limit);
 
   useEffect(() => {
@@ -54,12 +54,12 @@ const TablePagination: React.FC<TablePaginationProps> = (props) => {
 
   // Generate page numbers to display
   const getPageNumbers = () => {
-    // For small number of pages, show all
+    // For small number of views, show all
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
     
-    // For larger number of pages, show current page with neighbors and ellipsis
+    // For larger number of views, show current page with neighbors and ellipsis
     if (currPage <= 3) {
       return [1, 2, 3, 4, 5, null, totalPages];
     } else if (currPage >= totalPages - 2) {

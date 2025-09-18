@@ -1,4 +1,4 @@
-import InstallMain from "@/pages/guest-pages/install/InstallMain";
+import InstallMain from "@/views/guest-pages/install/InstallMain";
 
 const page = () => {
     return (

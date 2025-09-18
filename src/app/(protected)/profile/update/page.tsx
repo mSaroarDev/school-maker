@@ -1,4 +1,4 @@
-import UpdateProfile from "@/pages/profile/UpdateProfile";
+import UpdateProfile from "@/views/profile/UpdateProfile";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
