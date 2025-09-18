@@ -23,22 +23,15 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
       >
         <div className="flex items-center gap-2">
           <div
-            className="h-6 w-[3px] rounded flex-shrink-0"
+            className="h-10 w-[3px] rounded flex-shrink-0"
             style={{ backgroundColor: selectedColor?.border }}
           ></div>
           <div>
             <h3 className="text-sm line-clamp-2">{data?.taskName}</h3>
             <div className="flex items-center mt-1">
-              {data?.taskFor?.map((user, index) => (
-                <span
-                  key={index}
-                  style={{ backgroundColor: selectedColor?.border }}
-                  className="text-xs px-1.5 py-0.5 rounded mx-0.5 text-white"
-                >
-                  {user?.fullName}
-                </span>
-              ))}
-
+              <span className="text-[10px]">
+                {data?.taskFor?.map(user => user?.fullName).join(", ")}
+              </span>
             </div>
           </div>
         </div>

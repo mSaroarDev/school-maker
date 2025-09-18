@@ -40,7 +40,7 @@ const TasksMain = () => {
 
   const defaultValues = {
     taskName: "",
-    taskFor: [] as string[],
+    taskFor: [],
   };
   const {
     register,
@@ -80,7 +80,6 @@ const TasksMain = () => {
 
   const { isPending: isLoadingTasks } = useGetTasks();
   const { myTasks } = useAppSelector(state => state.tasks);
-  console.log("myTasks:", myTasks);
 
   const { mutateAsync: createTask, isPending: isCreating } = useCreateTask();
   const onSubmit = async (data: TTask) => {
