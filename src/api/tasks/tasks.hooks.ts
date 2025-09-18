@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { createTask, getTasks } from "./tasks.api"
+import { createTask, getTasks, updateTask } from "./tasks.api"
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect } from "react";
 import { setTasks } from "@/redux/features/tasks/tasks.slice";
@@ -33,7 +33,7 @@ export const useGetTasks = () => {
 
 export const useUpdateTask = () => {
   const data = useMutation({
-    mutationFn: createTask,
+    mutationFn: updateTask,
   });
   return data;
 };

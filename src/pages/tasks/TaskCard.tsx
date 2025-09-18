@@ -1,5 +1,11 @@
+import { useUpdateTask } from "@/api/tasks/tasks.hooks";
 import { TTask } from "@/api/tasks/tasks.types";
 import { useAuth } from "@/hooks/useAuth";
+import { updateTask as editTask } from "@/redux/features/tasks/tasks.slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
 import { Trash2 } from "lucide-react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdOutlineCircle } from "react-icons/md";
@@ -14,6 +20,30 @@ type TaskCardProps = {
 
 const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
   const { isAdmin } = useAuth();
+
+  const dispatch = useAppDispatch();
+  const { mutateAsync: updateTask } = useUpdateTask();
+  const handleStatusChange = (status: TTask["status"]) => {
+    showConfirmModal({
+      title: "Change Task Status",
+      text: `Are you sure you want to change the status to "${status}"?`,
+      func: async () => {
+        try {
+          const res = await updateTask({
+            _id: data?._id as string,
+            data: { status }
+          });
+
+          if(res?.success) {
+            showToast("success", res?.message || "Task status updated successfully");
+            dispatch(editTask(res.data));
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error) || "Failed to update task");
+        }
+      }
+    })
+  }
 
   return (
     <>
@@ -37,9 +67,16 @@ const TaskCard = ({ data, selectedColor }: TaskCardProps) => {
         </div>
         <div className="flex items-center gap-1">
           {data.status === "completed" ? (
-            <IoIosCheckmarkCircle className="text-green-500 cursor-pointer" size={22} />
+            <IoIosCheckmarkCircle
+              className="text-green-500 cursor-pointer" size={22}
+              onClick={() => handleStatusChange("pending")}
+            />
           ) : (
-            <MdOutlineCircle size={22} className="text-yellow-500 cursor-pointer" />
+            <MdOutlineCircle
+              size={22}
+              className="text-yellow-500 cursor-pointer"
+              onClick={() => handleStatusChange("completed")}
+            />
           )}
 
           {isAdmin && (
