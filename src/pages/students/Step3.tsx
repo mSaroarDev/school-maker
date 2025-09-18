@@ -19,11 +19,8 @@ type Step3Props = {
 
 const Step3 = ({
   setStep,
-  control,
   errors,
   register,
-  setValue,
-  getValues
 }: Step3Props) => {
   return (
     <>

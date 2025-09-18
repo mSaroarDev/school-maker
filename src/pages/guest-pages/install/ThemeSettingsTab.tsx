@@ -3,24 +3,24 @@ import { useUpdateInstitute } from "@/api/institute/institute.hooks";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
 import { showToast } from "@/utils/showToast";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineArrowForward, MdOutlineHandyman } from "react-icons/md";
 import { TUpdateInstituteFormData } from "./interfaces/formdataInterface";
-import { handleErrorMessage } from "@/utils/handleErrorMessage";
-import { useRouter } from "next/navigation";
 
 type Props = {
-  currStepId: number;
-  setCurrStepId: React.Dispatch<React.SetStateAction<number>>;
+  currStepId?: number;
+  setCurrStepId?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function ThemeSettingsTab({
-  currStepId,
-  setCurrStepId,
+  // currStepId,
+  // setCurrStepId,
 }: Props) {
 
   const { replace } = useRouter();

@@ -1,5 +1,6 @@
 import { useUpdateEvent } from "@/api/events/events.hooks";
 import { Button } from "@/components/ui/button";
+import { deleteEvent as removeEvent } from "@/redux/features/calender/calender.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
@@ -8,7 +9,6 @@ import { Calendar, Clock, MapPin, Trash2, Users } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
-import { deleteEvent as removeEvent } from "@/redux/features/calender/calender.slice";
 
 export type EventDetailsProps = {
   data: {
@@ -48,7 +48,7 @@ const EventDetails = ({
   //   return div.textContent || div.innerText || '';
   // };
 
-  const { mutateAsync: deleteEvent, isPending: isDeleting } = useUpdateEvent();
+  const { mutateAsync: deleteEvent } = useUpdateEvent();
   const handleDelete = async () => {
     showConfirmModal({
       title: "Delete Event",

@@ -1,5 +1,5 @@
-import request from "../apiRequest"
-import { TGetTeacherPayload, TTeacherPayload, TUpdateTeacherPayload } from "./teachers.interfaces";
+import request from "../apiRequest";
+import { TGetTeacherPayload, TTeacherPayload } from "./teachers.interfaces";
 
 export const getAllTeachers = async (payload: TGetTeacherPayload) => {
   const res = await request.get("/teachers", { params: payload });

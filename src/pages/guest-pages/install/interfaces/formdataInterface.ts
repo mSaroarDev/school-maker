@@ -25,3 +25,6 @@ export type TUpdateInstituteFormData = {
   instituteId?: string;
   frontendTheme: string;
 }
+
+const formdataInterface = {};
+export default formdataInterface;

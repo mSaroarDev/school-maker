@@ -1,7 +1,4 @@
 "use client"
-import * as React from "react"
-import Link from "next/link"
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,6 +8,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import Link from "next/link"
+import * as React from "react"
 
 const Menus = () => {
   const components: { title: string; href: string; description: string }[] = [

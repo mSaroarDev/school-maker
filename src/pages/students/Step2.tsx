@@ -3,13 +3,10 @@ import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SelectComponent from "@/components/ui/select";
-import { bloodGroupsOption, gendersOption, religionsOption } from "@/constants/constants";
+import "flatpickr/dist/themes/light.css";
 import { Control, FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { MdOutlineEditNote } from "react-icons/md";
-import "flatpickr/dist/themes/light.css";
-import Flatpickr from "react-flatpickr";
 
 type Step2Props = {
   setStep: (step: number) => void;
@@ -22,11 +19,8 @@ type Step2Props = {
 
 const Step2 = ({
   setStep,
-  control,
   errors,
   register,
-  setValue,
-  getValues
 }: Step2Props) => {
   return (
     <>

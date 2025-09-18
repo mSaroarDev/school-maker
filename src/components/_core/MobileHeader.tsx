@@ -8,13 +8,15 @@ const MobileHeader = () => {
   const { back } = useRouter();
   const pathname = usePathname();
 
-  const [title, setTitle] = useState(document.title);
+  const [title, setTitle] = useState("");
 
   const firstPathSegment = title.split('-')[0];
 
   useEffect(() => {
+  if (typeof document !== "undefined") {
     setTitle(document.title);
-  }, [pathname]);
+  }
+}, [pathname]);
 
   return (
     <>

@@ -1,17 +1,14 @@
 import { TStudentsCreatePayload } from "@/api/students/students.interfaces";
-import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import { resultOptions } from "@/constants/constants";
 import "flatpickr/dist/themes/light.css";
 import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
-import { HiTrash } from "react-icons/hi";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { MdOutlineEditNote } from "react-icons/md";
-import { RxCross1, RxCross2 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
 
 type Step4Props = {
   setStep: (step: number) => void;
@@ -27,7 +24,6 @@ const Step4 = ({
   control,
   errors,
   register,
-  setValue,
   getValues
 }: Step4Props) => {
   const {append, remove} = useFieldArray({

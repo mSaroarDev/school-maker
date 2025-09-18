@@ -33,7 +33,7 @@ const ProfilePageMain = () => {
   const params = useParams();
   const teacherId = params ? params.teacherId : null;
 
-  const { data: teacherData, isPending: isGeting } = useGetTeacherById({
+  const { data: teacherData } = useGetTeacherById({
     teacherId: teacherId as string,
     options: { enabled: teacherId !== null && teacherId !== undefined }
   });

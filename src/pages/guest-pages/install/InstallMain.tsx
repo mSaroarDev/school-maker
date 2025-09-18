@@ -24,11 +24,13 @@ const InstallMain = () => {
   }
 
   useEffect(() => {
-    document.title = `Install - ${steps.find(s => s.stepId === currStepId)?.stepName || "Install"}`;
-    const isInstituteCreated = localStorage.getItem("instituteCreated");
-    if (isInstituteCreated) {
-      if (currStepId === 1) {
-        setCurrStepId(3);
+    if (typeof window !== "undefined") {
+      document.title = `Install - ${steps.find(s => s.stepId === currStepId)?.stepName || "Install"}`;
+      const isInstituteCreated = window.localStorage.getItem("instituteCreated");
+      if (isInstituteCreated) {
+        if (currStepId === 1) {
+          setCurrStepId(3);
+        }
       }
     }
   }, [currStepId, steps]);

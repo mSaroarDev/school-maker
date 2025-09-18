@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/hooks/useAuth";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { RiMenuUnfold2Line } from "react-icons/ri";
 import avatarImage from "../../assets/images/avatar.jpeg";
 
@@ -13,10 +13,10 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
-import Image from "next/image";
 import SidebarLinks from "@/constants/SidebarLinks";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ILink } from "./Sidebar";
 
 
@@ -32,8 +32,7 @@ const MobileMenuItems = () => {
 
   const width = 250;
 
-  const { user, logout, isAdmin } = useAuth();
-  const { push } = useRouter();
+  const { user, isAdmin } = useAuth();
 
   return (
     <>

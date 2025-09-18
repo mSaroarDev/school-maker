@@ -2,17 +2,16 @@
 import { useGetAllClasses } from "@/api/class/class.hooks";
 import { useGetAllSections } from "@/api/sections/section.hooks";
 import { TSection } from "@/api/sections/sections.types";
-import { useGetAllSessions } from "@/api/session/sessions.hooks";
 import { useGetStudentById } from "@/api/students/students.hooks";
+import avatarImage from "@/assets/images/avatar.jpeg";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import moment from "moment";
 import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
+import moment from "moment";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import { IoCardOutline } from "react-icons/io5";
 import { MdHistory } from "react-icons/md";
-import avatarImage from "@/assets/images/avatar.jpeg";
 
 const StudentProfile = () => {
   const params = useParams();
@@ -25,7 +24,7 @@ const StudentProfile = () => {
     { name: "Saroar Jahan" },
   ];
 
-  const { data: student, isPending } = useGetStudentById({
+  const { data: student } = useGetStudentById({
     studentId: studentId as string,
     options: {
       enabled: !!studentId,
@@ -34,7 +33,7 @@ const StudentProfile = () => {
 
   const { data: classes } = useGetAllClasses();
   const { data: sections } = useGetAllSections();
-  const { data: sessions } = useGetAllSessions();
+  // const { data: sessions } = useGetAllSessions();
 
 
   return (

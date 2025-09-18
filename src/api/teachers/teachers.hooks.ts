@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTeacher, getAllTeachers, getTeacherById, updateTeacher } from "./teachers.api";
-import { TGetTeacherById, TGetTeacherPayload, TUpdateTeacherPayload } from "./teachers.interfaces";
+import { TGetTeacherById, TGetTeacherPayload } from "./teachers.interfaces";
 
 export const useGetAllTeachers = (payload: TGetTeacherPayload) => {
   const query = useQuery({

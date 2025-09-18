@@ -1,7 +1,7 @@
 import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { Control, FieldErrors, useFieldArray, UseFormRegister } from "react-hook-form";
 import { GoPlus } from "react-icons/go";
 import { IoArrowBack, IoArrowForwardSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";

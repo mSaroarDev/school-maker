@@ -68,7 +68,7 @@ const UpdateProfile = () => {
     defaultValues
   });
 
-  const handleDateChange = (selectedDates: Date[], dateStr: string) => {
+  const handleDateChange = (selectedDates: Date[]) => {
     const selectedDate = selectedDates[0];
     setValue("profile.dateOfBirth", new Date(selectedDate) );
   };

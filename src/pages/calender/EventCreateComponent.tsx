@@ -1,3 +1,4 @@
+"use client";
 import { useCreateEvent, useUpdateEvent } from "@/api/events/events.hooks";
 import { TCreateEventPayload } from "@/api/events/events.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";

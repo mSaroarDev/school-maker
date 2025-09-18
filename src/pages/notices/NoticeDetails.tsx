@@ -1,14 +1,14 @@
 'use client';
 import { useGetNoticeById } from "@/api/notices/notices.hooks";
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
-import { configs } from "@/configs/configs";
-import Card from "@/components/ui/card";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
+import { Badge } from "@/components/ui/badge";
+import Card from "@/components/ui/card";
+import { configs } from "@/configs/configs";
 import { NoticeDetailsBreadTree } from "@/helpers/breadcrumbs";
 import moment from "moment";
-import { Badge } from "@/components/ui/badge";
-import Spinner from "@/components/_core/Spinner";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import dynamic from 'next/dynamic';
 
 const NoticeDetails = () => {
   const params = useParams();
@@ -18,7 +18,9 @@ const NoticeDetails = () => {
   console.log("notice details:", notice); 
 
   useEffect(() => {
-    document.title = notice ? `${configs?.APP_NAME + " - " + notice?.data?.title}` : "Notice Details";
+    if (typeof window !== "undefined") {
+      document.title = notice ? `${configs?.APP_NAME + " - " + notice?.data?.title}` : "Notice Details";
+    }
   }, [notice]);
 
   return (
@@ -42,4 +44,4 @@ const NoticeDetails = () => {
   );
 };
 
-export default NoticeDetails;
+export default dynamic(() => Promise.resolve(NoticeDetails), { ssr: false });

@@ -1,8 +1,6 @@
 import HeaderComponent from "@/components/_core/HeaderComponent";
-import ClassCreateModal from "./ClassCreateModal";
-import ClassListModal from "./ClassListModal";
-import SectionsListModal from "./SectionListModal";
 import SectionsCreateModal from "./SectionCreateModal";
+import SectionsListModal from "./SectionListModal";
 
 const SectionsSettingsTab = () => {
 

@@ -27,7 +27,7 @@ const CreateNotice = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editorContent, setEditorContent] = useState<string>("");
 
-  const { mutateAsync: createNotice, isPending: isCreating } = useCreateNotice();
+  const { mutateAsync: createNotice } = useCreateNotice();
 
   const defaultValues = {
     title: '',
