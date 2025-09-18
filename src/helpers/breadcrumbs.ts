@@ -16,3 +16,9 @@ export const CalenderBreadTree = [
   { name: "Home", url: "/dashboard" },
   { name: "Calender", url: "/notices" },
 ];
+
+export const LibraryBreadTree = [
+  { name: "Library" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Library", url: "/library" },
+];

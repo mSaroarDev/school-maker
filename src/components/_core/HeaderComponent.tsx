@@ -11,12 +11,14 @@ type HeaderComponentProps = {
   createLink?: string;
   filterComponent?: React.ReactNode;
   showSearch?: boolean;
+  searchPlaceholder?: string;
   createButtonFunction?: () => void;
   extraComponent?: React.ReactNode;
 }
 
 const HeaderComponent = ({
   showSearch = false,
+  searchPlaceholder,
   query,
   setQuery,
   title,
@@ -37,7 +39,7 @@ const HeaderComponent = ({
               <FiSearch size={20} className="text-primary/50" />
               <input
                 className="outline-none py-1.5"
-                placeholder="Search here..."
+                placeholder={searchPlaceholder || "Search here..."}
                 value={query}
                 onChange={(e) => setQuery?.(e.target.value)}
               />
