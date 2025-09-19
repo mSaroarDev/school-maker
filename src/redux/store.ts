@@ -6,11 +6,13 @@ import { type PersistConfig } from "redux-persist";
 // redux slices
 import CalenderSlice from '@/redux/features/calender/calender.slice';
 import TasksSlice from '@/redux/features/tasks/tasks.slice';
+import BooksSlice from '@/redux/features/books/books.slice';
 
 // First define the app reducer
 const appReducer = combineReducers({
   calender: CalenderSlice,
   tasks: TasksSlice,
+  books: BooksSlice,
 });
 
 // Root state type from combined reducers
