@@ -24,14 +24,9 @@ export const useGetAllBooks = (payload: TBooksGetPayload) => {
   return query;
 };
 
-export const useCreateClass = () => {
-  const dispatch = useAppDispatch();
-
+export const useCreateBooks = () => {
   const data = useMutation({
     mutationFn: createBook,
-    onSuccess: () => {
-      dispatch(addBook(data.data));
-    }
   });
 
   return data;

@@ -1,6 +1,6 @@
 export type TBooks = {
   _id?: string;
-  instituteId: string;
+  instituteId?: string;
   bookId: string;
   bookName: string;
   writer: string;
@@ -9,7 +9,7 @@ export type TBooks = {
   classes: string[];
   status?: "available" | "unavailable" | "reserved" | "checked out";
   createdBy?: string | null;
-  isDeleted: boolean;
+  isDeleted?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

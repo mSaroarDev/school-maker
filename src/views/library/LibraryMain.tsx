@@ -6,8 +6,6 @@ import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
-import { LibraryBreadTree } from "@/helpers/breadcrumbs";
-import { useAppSelector } from "@/redux/hooks";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,13 +14,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LibraryBreadTree } from "@/helpers/breadcrumbs";
+import { useAppSelector } from "@/redux/hooks";
 import moment from "moment";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
 import { MdMoreVert } from "react-icons/md";
-import { PiUserSquareFill } from "react-icons/pi";
-import { useRouter } from "next/navigation";
+import CreateDrawer from "./CreateDrawer";
 
 const LibraryMain = () => {
   const { isPending } = useGetAllBooks({
@@ -92,7 +93,7 @@ const LibraryMain = () => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+              // onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>
@@ -101,7 +102,9 @@ const LibraryMain = () => {
         </DropdownMenu>
       )
     }
-  ]
+  ];
+
+  const [showCreatDrawer, setShowCreateDrawer] = useState(false);
 
   return (
     <>
@@ -112,7 +115,7 @@ const LibraryMain = () => {
       <Card>
         <HeaderComponent
           title="Library"
-          createButtonFunction={() => { }}
+          createButtonFunction={() => setShowCreateDrawer(true)}
           showSearch
           searchPlaceholder="Search books..."
         />
@@ -138,6 +141,13 @@ const LibraryMain = () => {
           )}
         </div>
       </Card>
+
+      {showCreatDrawer && (
+        <CreateDrawer
+          showModal={showCreatDrawer}
+          setShowModal={setShowCreateDrawer}
+        />
+      )}
     </>
   );
 };
