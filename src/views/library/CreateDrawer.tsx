@@ -5,6 +5,8 @@ import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
+import { addBook } from "@/redux/features/books/books.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
 import { CldUploadButton } from "next-cloudinary";
@@ -24,6 +26,7 @@ const CreateDrawer = ({
 }: ICreateDrawerProps) => {
   const [imgUrl, setFileUrl] = useState<string>("");
   const {data: classes, isPending} = useGetAllClasses();
+  const dispatch = useAppDispatch();
 
   const defaultValues = {
     bookId: "",
@@ -50,6 +53,7 @@ const CreateDrawer = ({
       const res = await creatBook(data);
       if (res?.success) {
         showToast("success", res?.message || "Book Created");
+        dispatch(addBook(res.data));
         setShowModal(false);
         reset();
       }
