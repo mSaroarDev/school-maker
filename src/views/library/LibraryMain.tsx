@@ -22,13 +22,16 @@ import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
 import { MdMoreVert } from "react-icons/md";
 import { PiUserSquareFill } from "react-icons/pi";
+import { useRouter } from "next/navigation";
 
 const LibraryMain = () => {
   const { isPending } = useGetAllBooks({
     currPage: 1,
     limit: 10,
   });
-  
+
+  const { push } = useRouter();
+
   const { books, totalResuls } = useAppSelector((state) => state.books);
 
   const columns = [
@@ -81,12 +84,6 @@ const LibraryMain = () => {
           <DropdownMenuContent>
             <DropdownMenuLabel>Action</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => push(`/teachers/profile/${row?._id}`)}
-            >
-              <PiUserSquareFill size={18} /> View Profile
-            </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => push(`/teachers/${row?._id}`)}
