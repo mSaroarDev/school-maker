@@ -1,11 +1,12 @@
 import request from '@/api/apiRequest';
+import { TBooks, TBooksGetPayload, TUpdateBooksPayload } from './books.types';
 
-export const createBook = async (data: any) => {
+export const createBook = async (data: TBooks) => {
   const res = await request.post('/books/create', data);
   return res.data;
 };
 
-export const getBooks = async (params: any) => {
+export const getBooks = async (params: TBooksGetPayload) => {
   const res = await request.get('/books', { params });
   return res.data;
 };
@@ -15,7 +16,7 @@ export const getBookById = async (id: string) => {
   return res.data;
 }
 
-export const updateBook = async (payload) => {
+export const updateBook = async (payload: TUpdateBooksPayload) => {
   const res = await request.put(`/books/${payload._id}`, payload.data);
   return res.data;
 }
