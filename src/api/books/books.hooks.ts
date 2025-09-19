@@ -19,7 +19,7 @@ export const useGetAllBooks = (payload: TBooksGetPayload) => {
   useEffect(() => {
     dispatch(setBooks(query.data?.data || []));
     dispatch(setTotalCounts(query.data?.totalResults || 0));
-  }, [payload, query.data, dispatch]);
+  }, [query.data, dispatch]);
 
   return query;
 };

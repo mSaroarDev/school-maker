@@ -1,6 +1,7 @@
 export const colors = {
     active: "#6ABF2F",
     available: "#6ABF2F",
+    unavailable: "#AA3C4B",
     passed: "#6ABF2F",
     Passed: "#6ABF2F",
     accepted: "#6ABF2F",
@@ -26,6 +27,7 @@ export const colors = {
     finished: "#AA3C4B",
     terminated: "#AA3C4B",
     disabled: "#333",
+    "checked out": "#333",
   } as const;
 
   export type StatusKey = keyof typeof colors;

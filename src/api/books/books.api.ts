@@ -6,8 +6,9 @@ export const createBook = async (data: TBooks) => {
   return res.data;
 };
 
-export const getBooks = async (params: TBooksGetPayload) => {
-  const res = await request.get('/books', { params });
+export const getBooks = async (payload: TBooksGetPayload) => {
+  console.log("payload:", payload);
+  const res = await request.get('/books', { params: payload });
   return res.data;
 };
 
