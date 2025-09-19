@@ -30,7 +30,7 @@ const CreateDrawer = ({
     bookName: "",
     writer: "",
     subject: "",
-    classes: [] as string[],
+    classes: [],
     coverImage: "",
   };
   const {

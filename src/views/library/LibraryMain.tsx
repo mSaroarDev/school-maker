@@ -34,6 +34,7 @@ const LibraryMain = () => {
   const { push } = useRouter();
 
   const { books, totalResuls } = useAppSelector((state) => state.books);
+  console.log(books);
 
   const columns = [
     {
@@ -64,7 +65,18 @@ const LibraryMain = () => {
     },
     {
       name: "Classes",
-      cell: (row: TBooks) => row?.classes.join(", ") || "N/A",
+      cell: (row: TBooks) => row?.classes?.length ? (
+        <div className="flex flex-wrap gap-1">
+          {row?.classes?.map((cls, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+            >
+              {cls?.displayName || "N/A"}
+            </span>
+          ))}
+        </div>
+      ) : "N/A",
     },
     {
       name: "Publish Date",

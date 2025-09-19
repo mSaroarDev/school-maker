@@ -1,3 +1,5 @@
+import { TClassResponse } from "../class/class.interfaces";
+
 export type TBooks = {
   _id?: string;
   instituteId?: string;
@@ -6,7 +8,7 @@ export type TBooks = {
   writer: string;
   coverImage: string | null;
   subject: string;
-  classes: string[];
+  classes: TClassResponse[];
   status?: "available" | "unavailable" | "reserved" | "checked out";
   createdBy?: string | null;
   isDeleted?: boolean;
