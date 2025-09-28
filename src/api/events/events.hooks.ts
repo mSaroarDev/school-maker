@@ -1,6 +1,6 @@
 import { setEvents } from "@/redux/features/calender/calender.slice";
 import { useAppDispatch } from "@/redux/hooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { createEvent, getAllEvents, getEventById, updateEvent } from "./events.api";
 import { TGetAllEventsPayload } from "./events.types";
@@ -23,13 +23,17 @@ export const useUpdateEvent = () => {
 
 export const useGetAllEvents = (payload: TGetAllEventsPayload) => {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+
   const query = useQuery({
-    queryKey: ["event"],
+    queryKey: ["event", payload],
     queryFn: () => getAllEvents(payload),
     staleTime: 5 * 60 * 1000,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
+
+  queryClient.invalidateQueries({ queryKey: ["event", payload] });
 
   useEffect(() => {
     if (query.isSuccess && query.data?.data) {

@@ -1,13 +1,18 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createTask, getTasks, updateTask } from "./tasks.api"
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect } from "react";
 import { setTasks } from "@/redux/features/tasks/tasks.slice";
 
 export const useCreateTask = () => {
+  const queryClient = useQueryClient();
+
   const data = useMutation({
     mutationFn: createTask,
   });
+
+  queryClient.invalidateQueries({ queryKey: ["tasks"] });
+
   return data;
 };
 
@@ -32,8 +37,13 @@ export const useGetTasks = () => {
 };
 
 export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
   const data = useMutation({
     mutationFn: updateTask,
   });
+
+  queryClient.invalidateQueries({ queryKey: ["tasks"] });
+  
   return data;
 };
