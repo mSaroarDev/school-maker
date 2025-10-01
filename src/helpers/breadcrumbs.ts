@@ -22,3 +22,9 @@ export const LibraryBreadTree = [
   { name: "Home", url: "/dashboard" },
   { name: "Library", url: "/library" },
 ];
+
+export const MessagesBreadTree = [
+  { name: "Messages" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Messages" },
+];

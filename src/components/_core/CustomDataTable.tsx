@@ -32,6 +32,7 @@ interface IDatatableProps<T> {
   itemsPerPageOptions?: number[];
   selectableRows?: boolean;
   extraStyles?: object;
+  noHeader?: boolean;
 }
 
 const CustomDataTable = <T,>({
@@ -49,7 +50,8 @@ const CustomDataTable = <T,>({
   itemsPerPageOptions = [10, 20, 50, 100],
   selectableRows = false,
   highlightOnHover = true,
-  extraStyles
+  extraStyles,
+  noHeader = false,
 }: IDatatableProps<T>) => {
 
   const { isMobile } = useDeviceDetect();
@@ -110,6 +112,7 @@ const CustomDataTable = <T,>({
           setLimit,
           itemsPerPageOptions
         })}
+        noHeader={noHeader}
       />
     </div>
   );

@@ -34,7 +34,6 @@ const LibraryMain = () => {
   const { push } = useRouter();
 
   const { books, totalResuls } = useAppSelector((state) => state.books);
-  console.log(books);
 
   const columns = [
     {
