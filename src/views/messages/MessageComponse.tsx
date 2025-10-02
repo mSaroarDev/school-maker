@@ -44,7 +44,6 @@ const MessageComponse = ({
 
   const [mail, setMail] = useState("");
   const handlePressButton = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log(event.key);
     if (mail) {
       if (event.key === 'Enter' || event.key === ',') {
         event.preventDefault();

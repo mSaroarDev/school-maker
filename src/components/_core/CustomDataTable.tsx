@@ -54,7 +54,6 @@ const CustomDataTable = <T,>({
   noHeader = false,
   pagination = true,
 }: IDatatableProps<T>) => {
-
   const { isMobile } = useDeviceDetect();
   const { theme } = useTheme();
 
