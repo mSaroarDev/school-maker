@@ -38,6 +38,7 @@ const initialState = {
       country: "",
       bio: "",
     },
+    messageAddress: "",
     updatedAt: new Date(),
     createdAt: new Date(),
   } as User,

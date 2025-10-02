@@ -31,6 +31,8 @@ export type TLoginResponse = {
         bio?: string;
       };
       avatar?: string;
+      isOnline: boolean;
+      messageAddress: string;
       createdAt: Date;
       updatedAt: Date;
     }

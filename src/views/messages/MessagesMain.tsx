@@ -11,6 +11,8 @@ import { FiMoreVertical, FiPlus } from "react-icons/fi";
 import { GoInbox } from "react-icons/go";
 import { LuCopy, LuRefreshCw } from "react-icons/lu";
 import MessageComponse from "./MessageComponse";
+import { useAuth } from "@/hooks/useAuth";
+import { showToast } from "@/utils/showToast";
 
 const MessagesMain = () => {
 
@@ -44,6 +46,13 @@ const MessagesMain = () => {
   const [showComposeMessage, setShowComposeMessage] = useState(false);
   const toggleComposeMessage = () => setShowComposeMessage(!showComposeMessage);
 
+  const { user } = useAuth();
+
+  const copyText = () => {
+    navigator.clipboard.writeText(user?.messageAddress || "");
+    showToast("success", `Copied: ${user?.messageAddress}`);
+  }
+
   return (
     <>
       <BreadcrumbsComponent
@@ -66,9 +75,9 @@ const MessagesMain = () => {
             </button>
 
             <div className="flex items-center gap-2">
-              <p>msaroar@school-maker.com</p>
-              <button className="more-action-button">
-                <LuCopy size={18} /> 
+              <p>{user?.messageAddress}</p>
+              <button onClick={copyText} className="more-action-button">
+                <LuCopy size={18} />
               </button>
             </div>
 
@@ -107,7 +116,7 @@ const MessagesMain = () => {
       </Card>
 
       {showComposeMessage && (
-        <MessageComponse 
+        <MessageComponse
           showComposeMessage={showComposeMessage}
           setShowComposeMessage={setShowComposeMessage}
         />
