@@ -6,9 +6,11 @@ import Card from "@/components/ui/card";
 import { messages } from "@/data/messages";
 import { MessagesBreadTree } from "@/helpers/breadcrumbs";
 import moment from "moment";
+import { useState } from "react";
 import { FiMoreVertical, FiPlus } from "react-icons/fi";
 import { GoInbox } from "react-icons/go";
 import { LuCopy, LuRefreshCw } from "react-icons/lu";
+import MessageComponse from "./MessageComponse";
 
 const MessagesMain = () => {
 
@@ -37,7 +39,10 @@ const MessagesMain = () => {
         </div>
       ),
     }
-  ]
+  ];
+
+  const [showComposeMessage, setShowComposeMessage] = useState(false);
+  const toggleComposeMessage = () => setShowComposeMessage(!showComposeMessage);
 
   return (
     <>
@@ -69,7 +74,9 @@ const MessagesMain = () => {
 
           </div>
           <div>
-            <Button>
+            <Button
+              onClick={toggleComposeMessage}
+            >
               <FiPlus size={18} />
               Compose Message
             </Button>
@@ -98,6 +105,13 @@ const MessagesMain = () => {
           />
         </div>
       </Card>
+
+      {showComposeMessage && (
+        <MessageComponse 
+          showComposeMessage={showComposeMessage}
+          setShowComposeMessage={setShowComposeMessage}
+        />
+      )}
     </>
   );
 };
