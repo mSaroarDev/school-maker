@@ -51,13 +51,11 @@ const MessagesMain = () => {
   const copyText = () => {
     navigator.clipboard.writeText(user?.messageAddress || "");
     showToast("success", `Copied: ${user?.messageAddress}`);
-  }
+  };
 
   return (
     <>
-      <BreadcrumbsComponent
-        breadTree={MessagesBreadTree}
-      />
+      <BreadcrumbsComponent breadTree={MessagesBreadTree} />
 
       <Card>
         <div className="flex items-center justify-between">
