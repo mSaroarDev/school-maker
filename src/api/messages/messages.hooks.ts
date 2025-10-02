@@ -16,7 +16,7 @@ export const useCreateMessage = () => {
 
 export const useGetMessages = (payload: TGetMessagesPayload) => {
   const query = useQuery({
-    queryKey: ["message", payload],
+    queryKey: ["message", payload, payload?.userId],
     queryFn: ()=> getMessages(payload),
     staleTime: 5 * 60 * 1000,
     refetchOnMount: true,

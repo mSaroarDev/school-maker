@@ -23,6 +23,7 @@ export type TGetMessagesPayload = {
   folder: string;
   type: string;
   search?: string;
+  userId?: string;
 };
 
 export type TFormdata = {

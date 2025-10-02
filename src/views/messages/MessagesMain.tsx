@@ -64,7 +64,9 @@ const MessagesMain = () => {
     search: "",
     folder: "inbox",
     type: "received",
+    userId: user?._id || "",
   });
+
   const { data: messages, isPending } = useGetMessages(filters);
 
   return (
