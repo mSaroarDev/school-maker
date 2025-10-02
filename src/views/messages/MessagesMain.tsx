@@ -8,7 +8,7 @@ import { MessagesBreadTree } from "@/helpers/breadcrumbs";
 import moment from "moment";
 import { FiMoreVertical, FiPlus } from "react-icons/fi";
 import { GoInbox } from "react-icons/go";
-import { LuRefreshCw } from "react-icons/lu";
+import { LuCopy, LuRefreshCw } from "react-icons/lu";
 
 const MessagesMain = () => {
 
@@ -23,17 +23,17 @@ const MessagesMain = () => {
       cell: (row: any) => (
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
-          <h4 className="font-medium">{row.subject}</h4>{" - "}
-          <p className="text-sm text-gray-500 line-clamp-1">{row.body}</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div>
-            {moment(row.createdAt).fromNow()}
+            <h4 className="font-medium">{row.subject}</h4>{" - "}
+            <p className="text-sm text-gray-500 line-clamp-1">{row.body}</p>
           </div>
-          <button className="more-action-button">
-            <FiMoreVertical size={16} />
-          </button>
-        </div>
+          <div className="flex items-center gap-3">
+            <div>
+              {moment(row.createdAt).fromNow()}
+            </div>
+            <button className="more-action-button">
+              <FiMoreVertical size={16} />
+            </button>
+          </div>
         </div>
       ),
     }
@@ -49,9 +49,7 @@ const MessagesMain = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-5">
             <button className="">
-              <input
-                type="checkbox"
-              />
+              <input type="checkbox" />
             </button>
 
             <button className="">
@@ -61,6 +59,14 @@ const MessagesMain = () => {
             <button className="">
               <FiMoreVertical size={18} />
             </button>
+
+            <div className="flex items-center gap-2">
+              <p>msaroar@school-maker.com</p>
+              <button className="more-action-button">
+                <LuCopy size={18} /> 
+              </button>
+            </div>
+
           </div>
           <div>
             <Button>
@@ -77,7 +83,7 @@ const MessagesMain = () => {
           </button>
         </div>
 
-        <div>
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <CustomDataTable
             selectableRows
             columns={messageColumns}
@@ -88,6 +94,7 @@ const MessagesMain = () => {
             paginationComponent
             totalResults={37}
             noHeader={true}
+            pagination={false}
           />
         </div>
       </Card>

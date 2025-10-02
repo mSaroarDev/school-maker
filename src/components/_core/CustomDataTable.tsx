@@ -52,6 +52,7 @@ const CustomDataTable = <T,>({
   highlightOnHover = true,
   extraStyles,
   noHeader = false,
+  pagination = true,
 }: IDatatableProps<T>) => {
 
   const { isMobile } = useDeviceDetect();
@@ -102,7 +103,7 @@ const CustomDataTable = <T,>({
         pointerOnHover
         highlightOnHover={highlightOnHover && theme === "light" && !isMobile}
         selectableRows={selectableRows}
-        pagination
+        pagination={pagination}
         paginationServer
         paginationComponent={() => TablePagination({
           totalItems: totalResults,
@@ -112,7 +113,7 @@ const CustomDataTable = <T,>({
           setLimit,
           itemsPerPageOptions
         })}
-        noHeader={noHeader}
+        noTableHead={noHeader}
       />
     </div>
   );
