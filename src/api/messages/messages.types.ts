@@ -7,7 +7,11 @@ export type TMessage = {
   subject: string;
   text: string;
   folder?: string;
-  createdBy?: string;
+  createdBy?: {
+    fullName?: string;
+    email?: string;
+    _id?: string;
+  };
   isDeleted?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -19,4 +23,12 @@ export type TGetMessagesPayload = {
   folder: string;
   type: string;
   search?: string;
+};
+
+export type TFormdata = {
+  recievers: string[];
+  label: string;
+  subject: string;
+  text: string;
+  folder: string;
 }

@@ -3,7 +3,6 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/ui/card";
-import { messages } from "@/data/messages";
 import { MessagesBreadTree } from "@/helpers/breadcrumbs";
 import moment from "moment";
 import { useState } from "react";
@@ -13,22 +12,30 @@ import { LuCopy, LuRefreshCw } from "react-icons/lu";
 import MessageComponse from "./MessageComponse";
 import { useAuth } from "@/hooks/useAuth";
 import { showToast } from "@/utils/showToast";
+import { useGetMessages } from "@/api/messages/messages.hooks";
+import { TMessage } from "@/api/messages/messages.types";
 
 const MessagesMain = () => {
+
+  const quillToPlainText = (content: string) => {
+    return content.replace(/<[^>]+>/g, "").trim();
+  };
+
+  const { user } = useAuth();
 
   const messageColumns = [
     {
       name: "Sender",
       width: "200px",
-      selector: (row: any) => row.sender.fullName,
+      selector: (row: TMessage) => user?.fullName === row?.createdBy?.fullName ? "me" : row?.createdBy?.fullName ?? "",
     },
     {
       name: "Subject",
-      cell: (row: any) => (
+      cell: (row: TMessage) => (
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             <h4 className="font-medium">{row.subject}</h4>{" - "}
-            <p className="text-sm text-gray-500 line-clamp-1">{row.body}</p>
+            <p className="text-sm text-gray-500 line-clamp-1">{quillToPlainText(JSON.parse(row?.text))}</p>
           </div>
           <div className="flex items-center gap-3">
             <div>
@@ -46,12 +53,19 @@ const MessagesMain = () => {
   const [showComposeMessage, setShowComposeMessage] = useState(false);
   const toggleComposeMessage = () => setShowComposeMessage(!showComposeMessage);
 
-  const { user } = useAuth();
-
   const copyText = () => {
     navigator.clipboard.writeText(user?.messageAddress || "");
     showToast("success", `Copied: ${user?.messageAddress}`);
   };
+
+  const [filters, setFilters] = useState({
+    currPage: 1,
+    limit: 50,
+    search: "",
+    folder: "inbox",
+    type: "received",
+  });
+  const { data: messages, isPending } = useGetMessages(filters);
 
   return (
     <>
