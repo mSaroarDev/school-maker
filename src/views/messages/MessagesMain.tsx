@@ -131,7 +131,7 @@ const MessagesMain = () => {
                 }}
               >
                 <FiInbox className="flex-shrink-0" size={20} />
-                <span className="font-medium text-base">Inbox</span>
+                <span className="font-medium">Inbox</span>
               </li>
 
               <li
@@ -142,7 +142,7 @@ const MessagesMain = () => {
                 }}
               >
                 <PiPaperPlaneRightBold className="flex-shrink-0" size={20} />
-                <span className="font-medium text-base">Sent</span>
+                <span className="font-medium">Sent</span>
               </li>
 
 

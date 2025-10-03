@@ -28,3 +28,9 @@ export const MessagesBreadTree = [
   { name: "Home", url: "/dashboard" },
   { name: "Messages" },
 ];
+
+export const FinanceBreadTree = [
+  { name: "Finance" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Finance" },
+];
