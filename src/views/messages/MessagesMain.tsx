@@ -53,7 +53,7 @@ const MessagesMain = () => {
     {
       name: "Sender",
       width: "200px",
-      selector: (row: TMessage) => user?.fullName === row?.createdBy?.fullName ? "me" : row?.createdBy?.fullName ?? "",
+      selector: (row: TMessage) => filters.folder === "sent" ? row?.recievers?.map((item)=> `${item}, `) :  user?.fullName === row?.createdBy?.fullName ? "me" : row?.createdBy?.fullName ?? "",
     },
     {
       name: "Subject",
