@@ -10,6 +10,8 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import avatar from "@/assets/images/avatar.jpeg";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/_core/Spinner";
+import { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
 
 type MessageDetailsProps = {
   messageId: string;
@@ -28,6 +30,8 @@ const MessageDetails = ({
       return value;
     }
   };
+
+  const [editing, setEditing] = useState(false);
 
   return (
     <>
@@ -98,12 +102,30 @@ const MessageDetails = ({
 
               <div className="mt-10">
                 {/* Reply */}
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" className="rounded-full">
-                    <HiReply size={18} />
-                    Reply
-                  </Button>
-                </div>
+
+                {!editing && (
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => setEditing(true)} variant="outline" className="rounded-full">
+                      <HiReply size={18} />
+                      Reply
+                    </Button>
+                  </div>
+                )}
+
+                {editing && (
+                  <div className="-mt-5">
+                    <hr />
+                    <textarea className="mt-2 w-full border border-gray-300 rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Write your reply...">
+
+                    </textarea>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Button><HiReply size={18} /> Reply</Button>
+                      <Button onClick={() => setEditing(false)} variant="outline"><RxCross2 size={18} /> Close</Button>
+                    </div>
+                  </div>
+                )}
+
+
               </div>
             </div>
           </div>
