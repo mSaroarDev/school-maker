@@ -218,7 +218,6 @@ const MessagesMain = () => {
 
       {showComposeMessage && (
         <MessageComponse
-          showComposeMessage={showComposeMessage}
           setShowComposeMessage={setShowComposeMessage}
         />
       )}

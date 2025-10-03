@@ -57,12 +57,22 @@ const MessageComponse = ({
     setValue('text', JSON.stringify(value));
   };
 
-  const {mutateAsync: createMessage, isPending} = useCreateMessage();
+  const { mutateAsync: createMessage, isPending } = useCreateMessage();
 
   const onSubmit = async (data: TFormdata) => {
+    if (!data.recievers.length) {
+      showToast("error", "Please add at least one recipient.");
+      return;
+    };
+
+    if (!data.text) {
+      showToast("error", "Message content cannot be empty.");
+      return;
+    };
+
     try {
       const res = await createMessage(data);
-      if(res?.success){
+      if (res?.success) {
         showToast("success", res?.message);
         setShowComposeMessage(false);
       }
@@ -92,7 +102,7 @@ const MessageComponse = ({
 
             <div>
               <div>
-                <Label>Message To</Label>
+                <Label>Message To</Label> <span className="text-amber-400">Enter the addresses and Press Enter or comma.</span>
                 <div
                   className={cn(
                     "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex w-full min-w-0 rounded border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
@@ -157,8 +167,8 @@ const MessageComponse = ({
           </div>
 
           <div className="mt-4">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               onClick={handleSubmit(onSubmit)}
               disabled={isPending}
               isLoading={isPending}

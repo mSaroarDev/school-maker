@@ -48,8 +48,6 @@ const MessageDetails = ({
     const {
       register,
       handleSubmit,
-      formState: { errors },
-      control,
       setValue,
     } = useForm<TFormdata>({
       defaultValues,

@@ -1,10 +1,7 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import airbnb from "@/assets/images/airbnb.svg";
-import Image from "next/image";
 import SplashScreen from "@/components/_core/SplashScreen";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function SplashWrapper({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
