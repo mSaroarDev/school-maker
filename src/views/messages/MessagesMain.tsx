@@ -50,6 +50,14 @@ const MessagesMain = () => {
   const { data: messages, isPending } = useGetMessages(filters);
   const { push } = useRouter();
 
+  const safeParse = (value: string) => {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+};
+
   const messageColumns = [
     {
       name: "Sender",
@@ -67,7 +75,9 @@ const MessagesMain = () => {
         <div className="flex items-center justify-between mr-5">
           <div className="flex items-center gap-2 pr-5">
             <h4 className="font-medium flex-shrink-0">{row.subject}</h4>{" - "}
-            <p className="text-sm text-gray-500 line-clamp-1">{row?.text ? quillToPlainText(JSON.parse(row?.text)) : ""}</p>
+            <p className="text-sm text-gray-500 line-clamp-1">
+              {row?.text ? quillToPlainText(safeParse(row?.text)) : ""}
+            </p>
           </div>
         </div>
       ),
