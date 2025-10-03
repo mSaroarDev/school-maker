@@ -64,10 +64,10 @@ const MessagesMain = () => {
     {
       name: "Subject",
       cell: (row: TMessage) => (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h4 className="font-medium">{row.subject}</h4>{" - "}
-            <p className="text-sm text-gray-500 line-clamp-1">{quillToPlainText(JSON.parse(row?.text))}</p>
+        <div className="flex items-center justify-between mr-5">
+          <div className="flex items-center gap-2 pr-5">
+            <h4 className="font-medium flex-shrink-0">{row.subject}</h4>{" - "}
+            <p className="text-sm text-gray-500 line-clamp-1">{row?.text ? quillToPlainText(JSON.parse(row?.text)) : ""}</p>
           </div>
         </div>
       ),
@@ -144,9 +144,9 @@ const MessagesMain = () => {
         <Card className="w-full">
           {messageId ? (
             <>
-              <MessageDetails 
-                messageId={messageId} 
-              /> 
+              <MessageDetails
+                messageId={messageId}
+              />
             </>
           ) : (
             <div>
