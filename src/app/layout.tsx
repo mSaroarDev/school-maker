@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/redux/StoreProvider";
+import Toploader from "@/components/_core/Toploader";
 
 const InterSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
         ${InterSans.className} bg-body-light dark:bg-dark-bg text-foreground min-h-screen
           antialiased`}
       >
+        <Toploader />
         <ReactQueryClientProvider>
           <SplashWrapper>
             <UIProvider>
