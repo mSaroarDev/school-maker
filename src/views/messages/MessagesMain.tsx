@@ -17,6 +17,7 @@ import { TMessage } from "@/api/messages/messages.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PiPaperPlaneRightBold } from "react-icons/pi";
 import MessageDetails from "./MessageDetails";
+import TableSkeleton from "@/components/_core/skeleton/TableSkeleton";
 
 const MessagesMain = () => {
 
@@ -53,7 +54,12 @@ const MessagesMain = () => {
     {
       name: "Sender",
       width: "200px",
-      selector: (row: TMessage) => filters.folder === "sent" ? row?.recievers?.map((item)=> `${item}, `) :  user?.fullName === row?.createdBy?.fullName ? "me" : row?.createdBy?.fullName ?? "",
+      selector: (row: TMessage) =>
+        filters.folder === "sent"
+          ? (row?.recievers?.join(", ") ?? "")
+          : user?.fullName === row?.createdBy?.fullName
+            ? "me"
+            : row?.createdBy?.fullName ?? "",
     },
     {
       name: "Subject",
@@ -180,7 +186,7 @@ const MessagesMain = () => {
                   selectableRows
                   columns={messageColumns}
                   data={messages?.data || []}
-                  progressPending={false}
+                  progressPending={isPending}
                   paginationServer
                   noDataComponent="No books found"
                   paginationComponent
@@ -191,6 +197,7 @@ const MessagesMain = () => {
                     push(`/messages?folder=${filters?.folder}&messageId=${row._id}`)
                     console.log(`/messages?folder=${filters?.folder}&messageId=${row._id}`)
                   }}
+                  progressComponent={<TableSkeleton />}
                 />
               </div>
             </div >
