@@ -15,12 +15,10 @@ import { PiPaperPlaneRight } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
 
 type MessageComponseProps = {
-  showComposeMessage: boolean;
   setShowComposeMessage: (show: boolean) => void;
 }
 
 const MessageComponse = ({
-  showComposeMessage,
   setShowComposeMessage
 }: MessageComponseProps) => {
 

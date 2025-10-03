@@ -1,16 +1,20 @@
-import { useGetMessageById } from "@/api/messages/messages.hooks";
+import { useCreateMessage, useGetMessageById } from "@/api/messages/messages.hooks";
+import { TFormdata } from "@/api/messages/messages.types";
+import avatar from "@/assets/images/avatar.jpeg";
+import Spinner from "@/components/_core/Spinner";
+import { Button } from "@/components/ui/button";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
 import { MoreVertical } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FaRegShareFromSquare, FaUsers } from "react-icons/fa6";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 import { HiOutlineUsers, HiReply } from "react-icons/hi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { MdOutlineWatchLater } from "react-icons/md";
-import avatar from "@/assets/images/avatar.jpeg";
-import { Button } from "@/components/ui/button";
-import Spinner from "@/components/_core/Spinner";
-import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
 type MessageDetailsProps = {
@@ -32,6 +36,39 @@ const MessageDetails = ({
   };
 
   const [editing, setEditing] = useState(false);
+
+  const defaultValues: TFormdata = {
+      recievers: [],
+      label: "primary",
+      subject: "",
+      text: "",
+      folder: "inbox",
+    };
+  
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      control,
+      setValue,
+    } = useForm<TFormdata>({
+      defaultValues,
+    });
+
+    const {mutateAsync: createMessage, isPending: isCreating} = useCreateMessage();
+  
+    const onSubmit = async (data: TFormdata) => {
+      try {
+        const res = await createMessage(data);
+        if(res?.success){
+          showToast("success", res?.message);
+          // setShowComposeMessage(false);
+          setEditing(false);
+        }
+      } catch (error) {
+        showToast("error", handleErrorMessage(error));
+      }
+    };
 
   return (
     <>
@@ -73,8 +110,8 @@ const MessageDetails = ({
                 fill
               />
             </div>
-            <div>
-              <div>
+            <div className="w-full">
+              <div >
                 <h2 className="font-medium">{message?.data?.createdBy?.fullName}</h2>
                 <p className="flex items-center gap-1 font-medium text-sm text-gray-500">
                   <FaRegShareFromSquare size={16} />
@@ -90,7 +127,7 @@ const MessageDetails = ({
                 </p>
               </div>
 
-              <div className="mt-6 prose max-w-none">
+              <div className="mt-6 w-full">
                 {message?.data?.text && (
                   <div dangerouslySetInnerHTML={{ __html: safeParse(message?.data?.text) }}></div>
                 )}
@@ -105,7 +142,16 @@ const MessageDetails = ({
 
                 {!editing && (
                   <div className="flex items-center gap-2">
-                    <Button onClick={() => setEditing(true)} variant="outline" className="rounded-full">
+                    <Button 
+                      onClick={() => {
+                        setEditing(true);
+                        setValue("recievers", [message?.data?.createdBy?.messageAddress ?? ""]);
+                        setValue("subject", `Re: ${message?.data?.subject}`);
+                        setValue("text", "");
+                      }} 
+                      variant="outline" 
+                      className="rounded-full"
+                    >
                       <HiReply size={18} />
                       Reply
                     </Button>
@@ -115,17 +161,25 @@ const MessageDetails = ({
                 {editing && (
                   <div className="-mt-5">
                     <hr />
-                    <textarea className="mt-2 w-full border border-gray-300 rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Write your reply...">
-
-                    </textarea>
+                    <textarea 
+                      className="mt-2 w-full border border-gray-300 rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                      placeholder="Write your reply..."
+                      {...register("text", { required: "Message is required" })}
+                      disabled={isCreating}
+                    ></textarea>
                     <div className="flex items-center gap-2 mt-2">
-                      <Button><HiReply size={18} /> Reply</Button>
+                      <Button
+                        type="submit"
+                        onClick={handleSubmit(onSubmit)}
+                        disabled={isCreating}
+                        isLoading={isCreating}
+                      >
+                        <HiReply size={18} /> Reply
+                      </Button>
                       <Button onClick={() => setEditing(false)} variant="outline"><RxCross2 size={18} /> Close</Button>
                     </div>
                   </div>
                 )}
-
-
               </div>
             </div>
           </div>
