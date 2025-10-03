@@ -51,12 +51,12 @@ const MessagesMain = () => {
   const { push } = useRouter();
 
   const safeParse = (value: string) => {
-  try {
-    return JSON.parse(value);
-  } catch {
-    return value;
-  }
-};
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
+  };
 
   const messageColumns = [
     {

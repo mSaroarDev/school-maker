@@ -21,6 +21,13 @@ const MessageDetails = ({
   const { back } = useRouter();
 
   const { data: message, isPending } = useGetMessageById(messageId);
+  const safeParse = (value: string) => {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
+  };
 
   return (
     <>
@@ -81,7 +88,7 @@ const MessageDetails = ({
 
               <div className="mt-6 prose max-w-none">
                 {message?.data?.text && (
-                  <div dangerouslySetInnerHTML={{ __html: JSON.parse(message?.data?.text) }}></div>
+                  <div dangerouslySetInnerHTML={{ __html: safeParse(message?.data?.text) }}></div>
                 )}
               </div>
 
