@@ -8,6 +8,8 @@ import { HiTrash } from "react-icons/hi";
 import { LuSettings2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
 import CategoryModal from "./CategoryModal";
+import { TTransactions } from "@/api/finance/finance.types";
+import ErrorLabel from "@/components/_core/ErrorLabel";
 
 type CreateModalProps = {
   type: string;
@@ -58,7 +60,7 @@ const CreateModal = ({
 
   const [showCategoryModal, setShowCategoryModal] = useState(false);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: TTransactions) => {
     console.log("data", data);
   }
 
@@ -70,7 +72,9 @@ const CreateModal = ({
           {...register("title", { required: true })}
           placeholder="Enter title"
           defaultValue={defaultValues.title}
+          className={errors.title && "border-red-500"}
         />
+        {errors.title && <ErrorLabel msg="Title is required" />}
       </div>
 
       <div>
@@ -91,7 +95,9 @@ const CreateModal = ({
           {...register("transferedFrom", { required: true })}
           placeholder="Enter transfered from"
           defaultValue={defaultValues.transferedFrom}
+          className={errors.transferedFrom && "border-red-500"}
         />
+        {errors.transferedFrom && <ErrorLabel msg="Transfered From is required" />}
       </div>
 
       <div>
@@ -100,7 +106,9 @@ const CreateModal = ({
           {...register("transferedTo", { required: true })}
           placeholder="Enter transfered to"
           defaultValue={defaultValues.transferedTo}
+          className={errors.transferedTo && "border-red-500"}
         />
+        {errors.transferedTo && <ErrorLabel msg="Transfered To is required" />}
       </div>
 
       <div>
@@ -109,7 +117,9 @@ const CreateModal = ({
           {...register("remarks", { required: true })}
           placeholder="Enter remarks"
           defaultValue={defaultValues.remarks}
+          className={errors.remarks && "border-red-500"}
         />
+        {errors.remarks && <ErrorLabel msg="Remarks is required" />}
       </div>
 
       <div>
@@ -120,11 +130,21 @@ const CreateModal = ({
               <Input
                 defaultValue={item.title}
                 placeholder="Title"
+                {...register(`amounts.${index}.title` as const, { required: true })}
+                className={errors.amounts?.[index]?.title && "border-red-500"}
               />
+
               <div className="flex gap-2">
                 <Input
                   defaultValue={item.amount}
                   placeholder="Amount"
+                  type="number"
+                  {...register(`amounts.${index}.amount` as const, {
+                    required: true,
+                    valueAsNumber: true,
+                    min: 0
+                  })}
+                  className={errors.amounts?.[index]?.amount && "border-red-500"}
                 />
                 <Button
                   size="icon"
@@ -153,7 +173,11 @@ const CreateModal = ({
         <Button
           onClick={handleSubmit(onSubmit)}
         >
-          Add Transaction
+          {/* show total */}
+          Add {" "}
+          ({fields.length > 0 && (
+            " $" + fields.reduce((acc, curr) => acc + (curr.amount || 0), 0)
+          )})
         </Button>
       </div>
 
