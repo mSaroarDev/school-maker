@@ -7,6 +7,9 @@ import Card from "@/components/ui/card";
 import { transactionsIncomes } from "@/dummy/incomes";
 import { IncomeBreadTree } from "@/helpers/breadcrumbs";
 import { useParams } from "next/navigation";
+import { useState } from "react";
+import CreateModal from "./CreateModal";
+import { Modal } from "@/components/_core/Modal";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -48,6 +51,11 @@ const IncomeMain = () => {
   const incomes = transactionsIncomes.filter(item => item.type === "income");
   const expenses = transactionsIncomes.filter(item => item.type === "expense");
 
+  const isIncome = type === "income";
+  const isExpense = type === "expense";
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
   return (
     <>
       <BreadcrumbsComponent breadTree={[
@@ -75,7 +83,9 @@ const IncomeMain = () => {
           showSearch
           searchPlaceholder="Search by payer, method, amount"
           filterComponent={<></>}
-          createButtonFunction={() => { }}
+          createButtonFunction={() => {
+            setShowCreateModal(true);
+          }}
         />
 
         <div>
@@ -91,6 +101,21 @@ const IncomeMain = () => {
           />
         </div>
       </Card>
+
+      {showCreateModal && (
+        <Modal
+          isOpen={showCreateModal}
+          toggle={() => setShowCreateModal(false)}
+          title={`Add New ${type.charAt(0).toUpperCase() + type.slice(1)}`}
+          description="Add new transaction details"
+          showSubmitButton={false}
+          showFooter={false}
+          sideClick={true}
+          size="xl"
+        >
+          <CreateModal type={type} />
+        </Modal>
+      )}
     </>
   );
 };
