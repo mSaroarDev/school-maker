@@ -1,8 +1,8 @@
 import { CalendarDays, ContactRound, House, Settings } from "lucide-react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { IoBookOutline } from "react-icons/io5";
-import { LuNotebookPen } from "react-icons/lu";
-import { PiGraduationCapDuotone, PiStudentDuotone } from "react-icons/pi";
+import { LuNotebookPen, LuWallet } from "react-icons/lu";
+import { PiGraduationCapDuotone, PiMoneyWavyBold, PiStudentDuotone } from "react-icons/pi";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { TbMessage2 } from "react-icons/tb";
 
@@ -41,8 +41,12 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           label: "Finance",
           icon: RiMoneyDollarBoxLine,
           link: "/finance",
+          submenu: [
+            { id: 18, name: "Recent Transactions", path: "/finance", icon: LuWallet },
+            { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold }
+          ]
         },
-         {
+        {
           label: "Notices",
           icon: LuNotebookPen,
           link: "/notices",
@@ -108,7 +112,7 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
   //   },
   // ];
 
-  if(!isAdmin) return adminLinks;
+  if (!isAdmin) return adminLinks;
   if (isAdmin) return adminLinks;
 
   return [];
