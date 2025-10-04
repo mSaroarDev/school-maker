@@ -7,6 +7,19 @@ import Card from "@/components/ui/card";
 import { transactions } from "@/dummy/transactions";
 import { FinanceBreadTree } from "@/helpers/breadcrumbs";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MdMoreVert } from "react-icons/md";
+import { BiEdit } from "react-icons/bi";
+import { HiTrash } from "react-icons/hi";
+import { FiEye } from "react-icons/fi";
+import { GrStreetView } from "react-icons/gr";
 
 const FinanceMain = () => {
   const columns = [
@@ -15,7 +28,7 @@ const FinanceMain = () => {
       cell: (row) => (
         <div className="flex items-center gap-1">
           <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-            <Image 
+            <Image
               src={""}
               alt="Avatar"
               fill
@@ -30,27 +43,55 @@ const FinanceMain = () => {
     },
     {
       name: "Class",
-      selector: (row)=> row?.Class
+      selector: (row) => row?.Class
     },
     {
       name: "Tution Fee",
-      selector: (row)=> row?.TutionFee
+      selector: (row) => row?.TutionFee
     },
     {
       name: "Activity Fee",
-      selector: (row)=> row?.activityFee
+      selector: (row) => row?.activityFee
     },
     {
       name: "Miscellenous Fee",
-      selector: (row)=> row?.miscellenousFee
+      selector: (row) => row?.miscellenousFee
     },
     {
       name: "Amount",
-      selector: (row)=> row?.Amount
+      selector: (row) => row?.Amount
     },
     {
       name: "Status",
-      cell: (row)=> <RenderStatus status={row?.Status} />
+      cell: (row) => <RenderStatus status={row?.Status} />
+    },
+    {
+      name: "Action",
+      width: "100px",
+      cell: (row) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="more-action-button">
+            <MdMoreVert size={20} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Action</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => push(`/teachers/${row?._id}`)}
+            >
+              <FiEye size={18} /> View Reciept
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+            // onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+            >
+              <GrStreetView size={18} /> Review
+            </DropdownMenuItem>
+
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
     }
   ];
 
