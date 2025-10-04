@@ -32,5 +32,13 @@ export const MessagesBreadTree = [
 export const FinanceBreadTree = [
   { name: "Finance" },
   { name: "Home", url: "/dashboard" },
+  { name: "Finance", url: "/finance" },
+  { name: "Dashboard" },
+];
+
+export const FinanceDueBreadTree = [
   { name: "Finance" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Finance", url: "/finance" },
+  { name: "Due Fees" },
 ];

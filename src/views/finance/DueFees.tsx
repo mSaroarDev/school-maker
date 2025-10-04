@@ -13,6 +13,12 @@ import RenderStatus from "@/components/_core/RenderStatus";
 import { MdMoreVert } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import { GrStreetView } from "react-icons/gr";
+import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
+import { FinanceDueBreadTree } from "@/helpers/breadcrumbs";
+import Card from "@/components/ui/card";
+import HeaderComponent from "@/components/_core/HeaderComponent";
+import { DueFeesData } from "@/dummy/DueFees";
+import { SiFreelancer } from "react-icons/si";
 
 const DueFees = () => {
 
@@ -40,16 +46,12 @@ const DueFees = () => {
       selector: (row) => row?.Class
     },
     {
-      name: "Tution Fee",
-      selector: (row) => row?.TutionFee
+      name: "Description",
+      selector: (row) => row?.DueName
     },
     {
-      name: "Activity Fee",
-      selector: (row) => row?.activityFee
-    },
-    {
-      name: "Miscellenous Fee",
-      selector: (row) => row?.miscellenousFee
+      name: "Due Date",
+      selector: (row) => row?.DueDate
     },
     {
       name: "Amount",
@@ -74,13 +76,19 @@ const DueFees = () => {
               className="cursor-pointer"
               onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
             >
-              <FiEye size={18} /> View Reciept
+              <FiEye size={20} /> View Reciept
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => setShowReviewModal(true)}
+            // onClick={() => setShowReviewModal(true)} 
             >
-              <GrStreetView size={18} /> Review
+              <GrStreetView size={20} /> Review
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+            // onClick={() => setShowReviewModal(true)} 
+            >
+              <SiFreelancer size={20} /> Pay Now
             </DropdownMenuItem>
 
           </DropdownMenuContent>
@@ -91,16 +99,22 @@ const DueFees = () => {
 
   return (
     <>
-      <CustomDataTable
-        selectableRows
-        columns={columns}
-        data={[]}
-        progressPending={false}
-        paginationServer
-        noDataComponent="No books found"
-        paginationComponent
-        totalResults={50}
-      />
+      <BreadcrumbsComponent breadTree={FinanceDueBreadTree} />
+
+      <Card>
+        <HeaderComponent title="Due Fees List"/>
+
+        <CustomDataTable
+          selectableRows
+          columns={columns}
+          data={DueFeesData || []}
+          progressPending={false}
+          paginationServer
+          noDataComponent="No books found"
+          paginationComponent
+          totalResults={50}
+        />
+      </Card>
     </>
   );
 };

@@ -6,6 +6,7 @@ export const colors = {
     unavailable: "#AA3C4B",
     unpaid: "#AA3C4B",
     Unpaid: "#AA3C4B",
+    Due: "#AA3C4B",
     passed: "#6ABF2F",
     Passed: "#6ABF2F",
     accepted: "#6ABF2F",
