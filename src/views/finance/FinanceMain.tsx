@@ -2,11 +2,9 @@
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
+import { Modal } from "@/components/_core/Modal";
 import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
-import { transactions } from "@/dummy/transactions";
-import { FinanceBreadTree } from "@/helpers/breadcrumbs";
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,14 +13,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MdMoreVert } from "react-icons/md";
-import { BiEdit } from "react-icons/bi";
-import { HiTrash } from "react-icons/hi";
-import { FiEye } from "react-icons/fi";
-import { GrStreetView } from "react-icons/gr";
+import { transactions } from "@/dummy/transactions";
+import { FinanceBreadTree } from "@/helpers/breadcrumbs";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Modal } from "@/components/_core/Modal";
+import { FiEye } from "react-icons/fi";
+import { GrStreetView } from "react-icons/gr";
+import { MdMoreVert } from "react-icons/md";
 import ReviewModal from "./ReviewModal";
 
 const FinanceMain = () => {
