@@ -24,7 +24,6 @@ import { MdMoreVert } from "react-icons/md";
 import ReviewModal from "./ReviewModal";
 
 const FinanceMain = () => {
-  const { push } = useRouter();
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const columns = [
@@ -120,7 +119,7 @@ const FinanceMain = () => {
 
       <Card className="mt-5">
         <HeaderComponent
-          title="Due Fees"
+          title="Recent Transactions"
           // createLink="/teachers/create"
           // query={query}
           // setQuery={setQuery}

@@ -42,3 +42,9 @@ export const FinanceDueBreadTree = [
   { name: "Finance", url: "/finance" },
   { name: "Due Fees" },
 ];
+
+export const IncomeBreadTree = [
+  { name: "Finance" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Finance", url: "/finance" },
+];
