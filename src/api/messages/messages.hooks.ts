@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createMessage, getMessageById, getMessages } from "./messages.api";
+import { createMessage, getMessageById, getMessages, updateMessageById } from "./messages.api";
 import { TGetMessagesPayload } from "./messages.types";
 
 export const useCreateMessage = () => {
@@ -36,4 +36,16 @@ export const useGetMessageById = (id: string) => {
   });
 
   return query; 
-}
+};
+
+export const useUpdateMessage = () => {
+  const queryClient = useQueryClient();
+  const data = useMutation({
+    mutationFn: updateMessageById,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["message"] });
+    }
+  });
+
+  return data;
+};

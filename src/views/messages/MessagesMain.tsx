@@ -12,13 +12,17 @@ import { LuCopy, LuNotebookPen, LuRefreshCw } from "react-icons/lu";
 import MessageComponse from "./MessageComponse";
 import { useAuth } from "@/hooks/useAuth";
 import { showToast } from "@/utils/showToast";
-import { useGetMessages } from "@/api/messages/messages.hooks";
+import { useGetMessages, useUpdateMessage } from "@/api/messages/messages.hooks";
 import { TMessage } from "@/api/messages/messages.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PiPaperPlaneRightBold } from "react-icons/pi";
 import MessageDetails from "./MessageDetails";
 import TableSkeleton from "@/components/_core/skeleton/TableSkeleton";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineTrash, HiTrash } from "react-icons/hi";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { MdMoreVert } from "react-icons/md";
+import { BiEdit } from "react-icons/bi";
+import { showConfirmModal } from "@/utils/showConfirmModal";
 
 const MessagesMain = () => {
 
@@ -48,6 +52,7 @@ const MessagesMain = () => {
     userId: user?._id || "",
   });
 
+  const { mutateAsync: updateMessage } = useUpdateMessage();
   const { data: messages, isPending } = useGetMessages(filters);
   const { push } = useRouter();
 
@@ -58,6 +63,25 @@ const MessagesMain = () => {
       return value;
     }
   };
+
+  const handleDeleteMessage = (messageId: string) => {
+    showConfirmModal({
+      title: "Delete Message",
+      text: "Are you sure you want to delete this message? This action cannot be undone.",
+      func: async () => {
+        const res = await updateMessage({
+          id: messageId,
+          data: { isDeleted: true }
+        })
+
+        if (res?.success) {
+          showToast("success", "Message moved to trash");
+        } else {
+          showToast("error", res?.message || "Failed to delete message");
+        }
+      }
+    })
+  }
 
   const messageColumns = [
     {
@@ -91,9 +115,24 @@ const MessagesMain = () => {
           <div className="flex-shrink-0">
             {moment(row.createdAt).fromNow()}
           </div>
-          <button className="more-action-button">
-            <FiMoreVertical size={16} />
-          </button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="more-action-button">
+              <MdMoreVert size={18} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Action</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => handleDeleteMessage(row?._id ? row._id : "")}
+              >
+                <HiTrash size={18} /> Move to Trash
+              </DropdownMenuItem>
+
+            </DropdownMenuContent>
+          </DropdownMenu>
+
         </div>
       )
     }

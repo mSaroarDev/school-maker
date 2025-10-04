@@ -16,7 +16,7 @@ export const getMessageById = async (id: string) => {
   return res?.data;
 };
 
-export const updateMessageById = async (id: string, data: Partial<TMessage>) => {
-  const res = await request.put(`/messages/${id}`, data);
+export const updateMessageById = async (payload: {id: string, data: Partial<TMessage>}) => {
+  const res = await request.put(`/messages/update/${payload.id}`, payload.data);
   return res?.data;
 };
