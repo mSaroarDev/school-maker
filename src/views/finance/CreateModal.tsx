@@ -1,9 +1,13 @@
+import { Modal } from "@/components/_core/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
+import { LuSettings2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
+import CategoryModal from "./CategoryModal";
 
 type CreateModalProps = {
   type: string;
@@ -52,6 +56,8 @@ const CreateModal = ({
     name: "amounts"
   });
 
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+
   const onSubmit = (data: any) => {
     console.log("data", data);
   }
@@ -68,7 +74,10 @@ const CreateModal = ({
       </div>
 
       <div>
-        <Label>Category</Label>
+        <div className="flex items-center justify-between">
+          <Label>Category</Label>
+          <LuSettings2 size={18} onClick={() => setShowCategoryModal(true)} />
+        </div>
         <Input
           {...register("category", { required: true })}
           placeholder="Enter category"
@@ -107,7 +116,7 @@ const CreateModal = ({
         <Label>Amounts</Label>
         <div>
           {fields.map((item, index) => (
-            <div key={index} className="p-1 rounded grid grid-cols-1 md:grid-cols-2 gap-2"> 
+            <div key={index} className="p-1 rounded grid grid-cols-1 md:grid-cols-2 gap-2">
               <Input
                 defaultValue={item.title}
                 placeholder="Title"
@@ -135,14 +144,33 @@ const CreateModal = ({
           variant="outline"
           size="sm"
           onClick={() => append({ title: "", amount: 0 })}
-        ><MdAdd size={18} />Add More</Button>
+        >
+          <MdAdd size={18} />Add More
+        </Button>
       </div>
 
       <div className="text-right mt-2">
-        <Button>Add Transaction</Button>
+        <Button
+          onClick={handleSubmit(onSubmit)}
+        >
+          Add Transaction
+        </Button>
       </div>
 
-
+      {showCategoryModal && (
+        <Modal
+          isOpen={showCategoryModal}
+          toggle={() => setShowCategoryModal(false)}
+          title="Change Status"
+          description="Change the status of this transaction"
+          showSubmitButton={false}
+          showFooter={false}
+          sideClick={true}
+          size="xl"
+        >
+          <CategoryModal />
+        </Modal>
+      )}
     </div>
   );
 };
