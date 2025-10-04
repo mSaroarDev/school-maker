@@ -102,7 +102,14 @@ const DueFees = () => {
       <BreadcrumbsComponent breadTree={FinanceDueBreadTree} />
 
       <Card>
-        <HeaderComponent title="Due Fees List"/>
+        <HeaderComponent
+          title="Due Fees"
+          // createLink="/teachers/create"
+          // query={query}
+          // setQuery={setQuery}
+          filterComponent={<></>}
+          showSearch
+        />
 
         <CustomDataTable
           selectableRows

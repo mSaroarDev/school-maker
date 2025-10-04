@@ -119,7 +119,14 @@ const FinanceMain = () => {
       </Card>
 
       <Card className="mt-5">
-        <HeaderComponent title="Recent Transactions" />
+        <HeaderComponent
+          title="Due Fees"
+          // createLink="/teachers/create"
+          // query={query}
+          // setQuery={setQuery}
+          filterComponent={<></>}
+          showSearch
+        />
 
         <div className="mt-5">
           <CustomDataTable
