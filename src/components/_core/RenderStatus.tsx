@@ -1,7 +1,11 @@
 export const colors = {
     active: "#6ABF2F",
+    paid: "#6ABF2F",
+    Paid: "#6ABF2F",
     available: "#6ABF2F",
     unavailable: "#AA3C4B",
+    unpaid: "#AA3C4B",
+    Unpaid: "#AA3C4B",
     passed: "#6ABF2F",
     Passed: "#6ABF2F",
     accepted: "#6ABF2F",
@@ -61,9 +65,21 @@ const RenderStatus = ({status, size, styles}: IRenderStatusProps) => {
         textTransform: "uppercase", 
         fontSize: size ? `${size}px` : "10px",
         fontWeight: "600",
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
         ...styles 
       }}
       >
+        <span
+          style={{
+            backgroundColor: getTextColor(status),
+            height: 6,
+            width: 6,
+            content: "",
+            borderRadius: "50%"
+          }}
+        ></span>
         {status}
       </span>
     </>
