@@ -20,8 +20,15 @@ import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
 import { FiEye } from "react-icons/fi";
 import { GrStreetView } from "react-icons/gr";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Modal } from "@/components/_core/Modal";
+import ReviewModal from "./ReviewModal";
 
 const FinanceMain = () => {
+  const { push } = useRouter();
+  const [showReviewModal, setShowReviewModal] = useState(false);
+
   const columns = [
     {
       name: "Student Name",
@@ -78,13 +85,13 @@ const FinanceMain = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => push(`/teachers/${row?._id}`)}
+              onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
             >
               <FiEye size={18} /> View Reciept
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-            // onClick={() => handleUpdateTeacher(row?._id ? row._id : "")}
+              onClick={() => setShowReviewModal(true)}
             >
               <GrStreetView size={18} /> Review
             </DropdownMenuItem>
@@ -129,6 +136,21 @@ const FinanceMain = () => {
           />
         </div>
       </Card>
+
+      {showReviewModal && (
+        <Modal
+          isOpen={showReviewModal}
+          toggle={() => setShowReviewModal(false)}
+          title="Change Status"
+          description="Change the status of this transaction"
+          showSubmitButton={false}
+          showFooter={false}
+          sideClick={true}
+          size="xl"
+        >
+          <ReviewModal />
+        </Modal>
+      )}
     </>
   );
 };
