@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PiPaperPlaneRightBold } from "react-icons/pi";
 import MessageDetails from "./MessageDetails";
 import TableSkeleton from "@/components/_core/skeleton/TableSkeleton";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const MessagesMain = () => {
 
@@ -130,8 +131,8 @@ const MessagesMain = () => {
                   push(`/messages?folder=inbox`);
                 }}
               >
-                <FiInbox className="flex-shrink-0" size={20} />
-                <span className="font-medium">Inbox</span>
+                <FiInbox className="flex-shrink-0" size={18} />
+                <span>Inbox</span>
               </li>
 
               <li
@@ -141,8 +142,19 @@ const MessagesMain = () => {
                   push(`/messages?folder=sent`);
                 }}
               >
-                <PiPaperPlaneRightBold className="flex-shrink-0" size={20} />
-                <span className="font-medium">Sent</span>
+                <PiPaperPlaneRightBold className="flex-shrink-0" size={18} />
+                <span>Sent</span>
+              </li>
+
+              <li
+                className={`flex items-center gap-3 cursor-pointer hover:bg-primary/5 px-4 py-2 rounded-r-md ${filters.folder === "trash" ? "bg-primary/10 font-medium border-s-4 border-primary rounded-r-md" : ""}`}
+                onClick={() => {
+                  setFilters({ ...filters, folder: "trash" });
+                  push(`/messages?folder=trash`);
+                }}
+              >
+                <HiOutlineTrash className="flex-shrink-0" size={18} />
+                <span>Trash</span>
               </li>
 
 
