@@ -128,7 +128,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
 
                         {/* Submenu rendering */}
                         {link.submenu && isOpen && (
-                          <div className="ml-5 mt-1 flex flex-col gap-1">
+                          <div className="ml-6 mt-1 flex flex-col gap-1">
                             {link.submenu.map((sub) => (
                               <Link
                                 key={sub.id}

@@ -1,5 +1,6 @@
 import { CalendarDays, ContactRound, House, Settings } from "lucide-react";
 import { AiOutlineTeam } from "react-icons/ai";
+import { HiLogin, HiOutlineLogout } from "react-icons/hi";
 import { IoBookOutline } from "react-icons/io5";
 import { LuNotebookPen, LuWallet } from "react-icons/lu";
 import { PiGraduationCapDuotone, PiMoneyWavyBold, PiStudentDuotone } from "react-icons/pi";
@@ -43,7 +44,9 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           link: "/finance",
           submenu: [
             { id: 18, name: "Recent Transactions", path: "/finance", icon: LuWallet },
-            { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold }
+            { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold },
+            { id: 19, name: "Income", path: "/finance/income", icon: HiLogin },
+            { id: 19, name: "Expense", path: "/finance/income", icon: HiOutlineLogout },
           ]
         },
         {
