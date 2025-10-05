@@ -45,8 +45,8 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           submenu: [
             { id: 18, name: "Overview", path: "/finance", icon: LuWallet },
             { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold },
-            { id: 19, name: "Income", path: "/finance/income", icon: HiLogin },
-            { id: 19, name: "Expense", path: "/finance/expense", icon: HiOutlineLogout },
+            { id: 20, name: "Income", path: "/finance/income", icon: HiLogin },
+            { id: 21, name: "Expense", path: "/finance/expense", icon: HiOutlineLogout },
           ]
         },
         {
