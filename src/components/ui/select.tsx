@@ -49,7 +49,6 @@ function SelectComponent<
 
   const { theme } = useTheme();
 
-  // Theme configuration
   const themes = {
     light: {
       background: '#ffffff',
@@ -82,8 +81,6 @@ function SelectComponent<
   } as const;
 
   type ThemeKey = keyof typeof themes;
-
-  // Fixed theme selection to prevent undefined access
   const themeKey: ThemeKey = theme === "dark" ? "dark" : "light";
   const currentTheme = themes[themeKey];
 
@@ -91,11 +88,11 @@ function SelectComponent<
     control: (provided, state) => ({
       ...provided,
       backgroundColor: currentTheme.background,
-      borderColor: hasError 
-        ? currentTheme.borderError 
-        : state.isFocused 
-        ? currentTheme.borderFocus 
-        : currentTheme.border,
+      borderColor: hasError
+        ? currentTheme.borderError
+        : state.isFocused
+          ? currentTheme.borderFocus
+          : currentTheme.border,
       borderWidth: '1px',
       borderRadius: '4px',
       boxShadow: state.isFocused
@@ -105,8 +102,8 @@ function SelectComponent<
       outline: 'none',
       cursor: 'pointer',
       '&:hover': {
-        borderColor: hasError 
-          ? currentTheme.borderError 
+        borderColor: hasError
+          ? currentTheme.borderError
           : currentTheme.borderHover,
       },
     }),
@@ -155,9 +152,7 @@ function SelectComponent<
       border: `1px solid ${currentTheme.border}`,
       borderRadius: '6px',
       boxShadow: `0 10px 15px -3px ${currentTheme.shadow}, 0 4px 6px -2px ${currentTheme.shadow}`,
-      zIndex: 9999,
-      position: 'absolute',
-      width: '100%',
+      zIndex: 99999,
       maxHeight: '200px',
       overflowY: 'auto',
     }),
@@ -166,27 +161,14 @@ function SelectComponent<
       maxHeight: '200px',
       overflowY: 'auto',
       padding: '4px 0',
-      '&::-webkit-scrollbar': {
-        width: '6px',
-      },
-      '&::-webkit-scrollbar-track': {
-        background: 'transparent',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: currentTheme.textSecondary,
-        borderRadius: '3px',
-      },
-      '&::-webkit-scrollbar-thumb:hover': {
-        backgroundColor: currentTheme.border,
-      },
     }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
         ? currentTheme.optionSelected
         : state.isFocused
-        ? currentTheme.optionHover
-        : 'transparent',
+          ? currentTheme.optionHover
+          : 'transparent',
       color: state.isSelected
         ? theme === 'dark' ? '#ffffff' : currentTheme.text
         : currentTheme.text,
@@ -194,9 +176,6 @@ function SelectComponent<
       padding: '8px 12px',
       cursor: 'pointer',
       transition: 'background-color 0.15s ease-in-out',
-      '&:active': {
-        backgroundColor: currentTheme.optionSelected,
-      },
     }),
     indicatorSeparator: (provided) => ({
       ...provided,
@@ -207,9 +186,6 @@ function SelectComponent<
       color: state.isFocused ? currentTheme.borderFocus : currentTheme.textSecondary,
       transition: 'color 0.2s ease-in-out, transform 0.2s ease-in-out',
       transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-      '&:hover': {
-        color: currentTheme.borderFocus,
-      },
     }),
     clearIndicator: (provided) => ({
       ...provided,
@@ -244,9 +220,9 @@ function SelectComponent<
             isMulti={isMulti}
             placeholder={placeholder}
             menuPlacement="auto"
-            menuPosition="absolute"
-            menuShouldBlockScroll={false}
-            closeMenuOnScroll={false}
+            menuPosition="fixed"
+            menuShouldBlockScroll={true}
+            closeMenuOnScroll={true}
             value={
               isMulti
                 ? options.filter((option) =>
@@ -258,18 +234,21 @@ function SelectComponent<
             }
             onChange={(selected) => {
               if (isMulti) {
-                field.onChange(
-                  Array.isArray(selected)
-                    ? selected.map((opt) => opt.value)
-                    : []
-                );
+                field.onChange(Array.isArray(selected) ? selected.map((opt) => opt.value) : []);
               } else {
                 field.onChange(selected ? (selected as OptionType).value : null);
               }
             }}
             onBlur={field.onBlur}
             name={field.name}
-            styles={customStyles}
+            styles={{
+              ...customStyles,
+              menuPortal: (base) => ({
+                ...base,
+                zIndex: 999999, 
+                pointerEvents: "auto",
+              }),
+            }}
             classNamePrefix="react-select"
             isSearchable={rest.isSearchable !== false}
             isClearable={rest.isClearable}
@@ -279,9 +258,10 @@ function SelectComponent<
           />
         )}
       />
+
       {hasError && (
-        <ErrorLabel 
-          msg={hasError?.message?.toString() || "This field is required"} 
+        <ErrorLabel
+          msg={hasError?.message?.toString() || "This field is required"}
         />
       )}
     </div>

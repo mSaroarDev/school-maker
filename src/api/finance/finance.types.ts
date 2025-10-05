@@ -2,14 +2,14 @@ export type TTransactions = {
   _id?: string;
   category: string;
   title: string;
-  paidBy: string;
+  paidBy?: string;
   amounts: {
     title: string;
     amount: number;
   }[];
   transferedFrom: string;
   transferedTo: string;
-  status: string;
+  status?: string;
   remarks?: string;
   type: string;
   createdAt?: string;
