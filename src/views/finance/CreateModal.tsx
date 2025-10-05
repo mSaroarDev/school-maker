@@ -185,8 +185,8 @@ const CreateModal = ({
         <Modal
           isOpen={showCategoryModal}
           toggle={() => setShowCategoryModal(false)}
-          title="Change Status"
-          description="Change the status of this transaction"
+          title="Category Settings"
+          description="Manage your transaction categories"
           showSubmitButton={false}
           showFooter={false}
           sideClick={true}
