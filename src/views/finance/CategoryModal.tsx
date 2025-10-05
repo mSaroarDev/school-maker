@@ -1,10 +1,11 @@
-import { useCreateFinanceCategory, useGetFinanceCategories } from "@/api/financeCategory/financeCategory.hooks";
+import { useCreateFinanceCategory, useGetFinanceCategories, useUpdateFinanceCategory } from "@/api/financeCategory/financeCategory.hooks";
 import { TFinanceCategory } from "@/api/financeCategory/financeCategory.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiSolidEdit } from "react-icons/bi";
 
@@ -24,23 +25,35 @@ const CategoryModal = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue
   } = useForm({
     defaultValues
   });
 
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<TFinanceCategory | null>(null);
+
   const { mutateAsync: createFinanceCategory, isPending } = useCreateFinanceCategory();
+  const { mutateAsync: updateFinanceCategory, isPending: isUpdating } = useUpdateFinanceCategory();
   const { data: categories, isPending: isLoadingCategories } = useGetFinanceCategories(type);
-  console.log("categories", categories);
 
   const onSubmit = async (data: { categoryName: string; type: string }) => {
     if (!data.categoryName) return;
 
+    const editPayload = {
+      id: selectedCategory?._id || "",
+      data: {
+        categoryName: data.categoryName
+      }
+    }
+
     try {
-      const res = await createFinanceCategory(data);
+      const res = isEditing ? await updateFinanceCategory(editPayload) : await createFinanceCategory(data);
       if (res?.success) {
         showToast("success", res?.message || "Category created successfully");
         reset();
+        setIsEditing(false);
       }
     } catch (error) {
       showToast("error", handleErrorMessage(error) || "Failed to create category");
@@ -63,8 +76,8 @@ const CategoryModal = ({
 
           <Button
             onClick={handleSubmit(onSubmit)}
-            isLoading={isPending}
-            disabled={isPending}
+            isLoading={isPending || isUpdating}
+            disabled={isPending || isUpdating}
           >
             Submit
           </Button>
@@ -82,7 +95,14 @@ const CategoryModal = ({
             <div className="border-r border-black/40 pr-2">
               {category?.categoryName}
             </div>
-            <div className="cursor-pointer border-primary">
+            <div
+              onClick={() => {
+                setValue("categoryName", category?.categoryName || "");
+                setIsEditing(true);
+                setSelectedCategory(category);
+              }}
+              className="cursor-pointer border-primary"
+            >
               <BiSolidEdit size={16} className="text-black" />
             </div>
           </div>
