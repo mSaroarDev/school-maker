@@ -192,7 +192,9 @@ const CreateModal = ({
           sideClick={true}
           size="xl"
         >
-          <CategoryModal />
+          <CategoryModal 
+            type={type}
+          />
         </Modal>
       )}
     </div>
