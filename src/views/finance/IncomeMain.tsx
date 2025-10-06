@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
 import { Modal } from "@/components/_core/Modal";
+import { useGetAllTransaction } from "@/api/finance/finance.hooks";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -48,11 +49,19 @@ const IncomeMain = () => {
   ];
 
   // data
-  const incomes = transactionsIncomes.filter(item => item.type === "income");
-  const expenses = transactionsIncomes.filter(item => item.type === "expense");
+  // const incomes = transactionsIncomes.filter(item => item.type === "income");
+  // const expenses = transactionsIncomes.filter(item => item.type === "expense");
 
-  const isIncome = type === "income";
-  const isExpense = type === "expense";
+  // const isIncome = type === "income";
+  // const isExpense = type === "expense";
+
+  const {data: transactions, isPending: isGetingTransactions} = useGetAllTransaction({
+    type,
+    currPage: 1,
+    limit: 50
+  });
+
+  console.log("transactions", transactions);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -92,12 +101,9 @@ const IncomeMain = () => {
           <CustomDataTable
             selectableRows
             columns={transactionColumns}
-            data={type === "income" ? incomes : expenses || []}
-            progressPending={false}
+            data={transactions?.data || []}
+            progressPending={isGetingTransactions}
             paginationServer
-            noDataComponent="No books found"
-            paginationComponent
-            totalResults={50}
           />
         </div>
       </Card>

@@ -7,12 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
 import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuSettings2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
 import CategoryModal from "./CategoryModal";
 import { TFinanceCategory } from "@/api/financeCategory/financeCategory.types";
+import { useCreateTransaction } from "@/api/finance/finance.hooks";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
 
 type CreateModalProps = {
   type: string;
@@ -23,22 +27,18 @@ const CreateModal = ({
 }: CreateModalProps) => {
 
   const defaultValues = {
-    "type": type,
-    "category": "",
-    "title": "Monthly Tuition Fee Collection",
-    "amounts": [
+    type,
+    category: "",
+    title: "",
+    amounts: [
       {
-        "title": "January Fee",
-        "amount": 5000
-      },
-      {
-        "title": "Library Fee",
-        "amount": 1500
+        title: "",
+        amount: 0 
       }
     ],
-    "transferedFrom": "Cash",
-    "transferedTo": "Bank Account",
-    "remarks": "Initial payment recorded"
+    transferedFrom: "",
+    transferedTo: "",
+    remarks: ""
   };
 
   const {
@@ -49,6 +49,11 @@ const CreateModal = ({
   } = useForm({
     defaultValues
   });
+
+  const amounts = useWatch({
+    control,
+    name: "amounts"
+  })
 
   const {
     fields,
@@ -62,6 +67,7 @@ const CreateModal = ({
   const [showCategoryModal, setShowCategoryModal] = useState(false);
 
   const { data: categories, isPending: isLoadingCategories } = useGetFinanceCategories(type);
+  const { mutateAsync: createTransaction, isPending: isCreatingTransaction } = useCreateTransaction();
 
   const categoryOptions = categories?.data?.map((category: TFinanceCategory) => ({
     value: category._id,
@@ -69,7 +75,20 @@ const CreateModal = ({
   })) || [];
 
   const onSubmit = (data: TTransactions) => {
-    console.log("data", data);
+    showConfirmModal({
+      title: "Create Transaction",
+      text: "Are you sure you want to create this transaction?",
+      func: async () => {
+        try {
+          const res = await createTransaction(data);
+          if (res?.success) {
+            showToast("success", res?.message || "Transaction created successfully");
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error) || "Failed to create transaction");
+        }
+      }
+    })
   }
 
   return (
@@ -187,11 +206,14 @@ const CreateModal = ({
         </div>
 
         <div className="text-right mt-2">
-          <Button type="submit">
-            {/* show total */}
+          <Button
+            isLoading={isCreatingTransaction}
+            disabled={isCreatingTransaction} 
+            type="submit"
+          >
             Add {" "}
-            ({fields.length > 0 && (
-              " $" + fields.reduce((acc, curr) => acc + (curr.amount || 0), 0)
+            ({amounts.length > 0 && (
+              " $" + amounts.reduce((acc, curr) => acc + (curr.amount || 0), 0)
             )})
           </Button>
         </div>
