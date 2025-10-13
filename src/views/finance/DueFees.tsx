@@ -22,80 +22,80 @@ import { SiFreelancer } from "react-icons/si";
 
 const DueFees = () => {
 
-  const columns = [
-    {
-      name: "Student Name",
-      cell: (row) => (
-        <div className="flex items-center gap-1">
-          <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-            <Image
-              src={""}
-              alt="Avatar"
-              fill
-            />
-          </div>
-          <div>
-            <h3 className="font-medium">{row?.studentName}</h3>
-            <p>{row?.studentId}</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      name: "Class",
-      selector: (row) => row?.Class
-    },
-    {
-      name: "Description",
-      selector: (row) => row?.DueName
-    },
-    {
-      name: "Due Date",
-      selector: (row) => row?.DueDate
-    },
-    {
-      name: "Amount",
-      selector: (row) => row?.Amount
-    },
-    {
-      name: "Status",
-      cell: (row) => <RenderStatus status={row?.Status} />
-    },
-    {
-      name: "Action",
-      width: "100px",
-      cell: (row) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger className="more-action-button">
-            <MdMoreVert size={20} />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Action</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
-            >
-              <FiEye size={20} /> View Reciept
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-            // onClick={() => setShowReviewModal(true)} 
-            >
-              <GrStreetView size={20} /> Review
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-            // onClick={() => setShowReviewModal(true)} 
-            >
-              <SiFreelancer size={20} /> Pay Now
-            </DropdownMenuItem>
+  // const columns = [
+  //   {
+  //     name: "Student Name",
+  //     cell: (row) => (
+  //       <div className="flex items-center gap-1">
+  //         <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
+  //           <Image
+  //             src={""}
+  //             alt="Avatar"
+  //             fill
+  //           />
+  //         </div>
+  //         <div>
+  //           <h3 className="font-medium">{row?.studentName}</h3>
+  //           <p>{row?.studentId}</p>
+  //         </div>
+  //       </div>
+  //     )
+  //   },
+  //   {
+  //     name: "Class",
+  //     selector: (row) => row?.Class
+  //   },
+  //   {
+  //     name: "Description",
+  //     selector: (row) => row?.DueName
+  //   },
+  //   {
+  //     name: "Due Date",
+  //     selector: (row) => row?.DueDate
+  //   },
+  //   {
+  //     name: "Amount",
+  //     selector: (row) => row?.Amount
+  //   },
+  //   {
+  //     name: "Status",
+  //     cell: (row) => <RenderStatus status={row?.Status} />
+  //   },
+  //   {
+  //     name: "Action",
+  //     width: "100px",
+  //     cell: (row) => (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger className="more-action-button">
+  //           <MdMoreVert size={20} />
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent>
+  //           <DropdownMenuLabel>Action</DropdownMenuLabel>
+  //           <DropdownMenuSeparator />
+  //           <DropdownMenuItem
+  //             className="cursor-pointer"
+  //             onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
+  //           >
+  //             <FiEye size={20} /> View Reciept
+  //           </DropdownMenuItem>
+  //           <DropdownMenuItem
+  //             className="cursor-pointer"
+  //           // onClick={() => setShowReviewModal(true)} 
+  //           >
+  //             <GrStreetView size={20} /> Review
+  //           </DropdownMenuItem>
+  //           <DropdownMenuItem
+  //             className="cursor-pointer"
+  //           // onClick={() => setShowReviewModal(true)} 
+  //           >
+  //             <SiFreelancer size={20} /> Pay Now
+  //           </DropdownMenuItem>
 
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    }
-  ];
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     )
+  //   }
+  // ];
 
   return (
     <>
@@ -111,7 +111,7 @@ const DueFees = () => {
           showSearch
         />
 
-        <CustomDataTable
+        {/* <CustomDataTable
           selectableRows
           columns={columns}
           data={DueFeesData || []}
@@ -120,7 +120,7 @@ const DueFees = () => {
           noDataComponent="No books found"
           paginationComponent
           totalResults={50}
-        />
+        /> */}
       </Card>
     </>
   );
