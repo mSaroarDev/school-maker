@@ -1,16 +1,16 @@
 "use client";
+import { useGetAllTransaction } from "@/api/finance/finance.hooks";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
+import { Modal } from "@/components/_core/Modal";
 import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
-import { transactionsIncomes } from "@/dummy/incomes";
 import { IncomeBreadTree } from "@/helpers/breadcrumbs";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
-import { Modal } from "@/components/_core/Modal";
-import { useGetAllTransaction } from "@/api/finance/finance.hooks";
+import { TTransactions } from "@/api/finance/finance.types";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -19,32 +19,32 @@ const IncomeMain = () => {
   const transactionColumns = [
     {
       name: "Invoice ID",
-      selector: (row) => row?.invoiceId
+      selector: (row: TTransactions) => row?._id
     },
     {
       name: "Payer",
-      selector: (row) => row?.payer
+      selector: (row: TTransactions) => row?.transferedFrom
     },
     {
       name: "Date",
-      selector: (row) => row?.date
+      selector: (row: TTransactions) => row?.updatedAt
     },
     {
       name: "Method",
-      selector: (row) => row?.method
+      selector: (row: TTransactions) => row?.category
     },
     {
       name: "Paid From",
-      selector: (row) => row?.paidFrom
+      selector: (row: TTransactions) => row?.transferedFrom
     },
     {
       name: "Amount",
-      selector: (row) => row?.amount
+      // selector: (row: TTransactions) => row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0)
     },
     {
       name: "Status",
       width: "120px",
-      cell: (row) => <RenderStatus status={row?.status} />
+      cell: (row: TTransactions) => <RenderStatus status={row?.status} />
     }
   ];
 
