@@ -4,49 +4,49 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { Modal } from "@/components/_core/Modal";
-import RenderStatus from "@/components/_core/RenderStatus";
+// import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
 import { IncomeBreadTree } from "@/helpers/breadcrumbs";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
-import { TTransactions } from "@/api/finance/finance.types";
+// import { TTransactions } from "@/api/finance/finance.types";
 
 const IncomeMain = () => {
   const params = useParams();
   const type = params?.type as string || "income";
 
-  const transactionColumns = [
-    {
-      name: "Invoice ID",
-      selector: (row: TTransactions) => row?._id
-    },
-    {
-      name: "Payer",
-      selector: (row: TTransactions) => row?.transferedFrom
-    },
-    {
-      name: "Date",
-      selector: (row: TTransactions) => row?.updatedAt
-    },
-    {
-      name: "Method",
-      selector: (row: TTransactions) => row?.category
-    },
-    {
-      name: "Paid From",
-      selector: (row: TTransactions) => row?.transferedFrom
-    },
-    {
-      name: "Amount",
-      // selector: (row: TTransactions) => row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0)
-    },
-    {
-      name: "Status",
-      width: "120px",
-      cell: (row: TTransactions) => <RenderStatus status={row?.status} />
-    }
-  ];
+  // const transactionColumns = [
+  //   {
+  //     name: "Invoice ID",
+  //     selector: (row: TTransactions) => row?._id
+  //   },
+  //   {
+  //     name: "Payer",
+  //     selector: (row: TTransactions) => row?.transferedFrom
+  //   },
+  //   {
+  //     name: "Date",
+  //     selector: (row: TTransactions) => row?.updatedAt
+  //   },
+  //   {
+  //     name: "Method",
+  //     selector: (row: TTransactions) => row?.category
+  //   },
+  //   {
+  //     name: "Paid From",
+  //     selector: (row: TTransactions) => row?.transferedFrom
+  //   },
+  //   {
+  //     name: "Amount",
+  //     // selector: (row: TTransactions) => row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0)
+  //   },
+  //   {
+  //     name: "Status",
+  //     width: "120px",
+  //     cell: (row: TTransactions) => <RenderStatus status={row?.status} />
+  //   }
+  // ];
 
   // data
   // const incomes = transactionsIncomes.filter(item => item.type === "income");
@@ -98,13 +98,13 @@ const IncomeMain = () => {
         />
 
         <div>
-          <CustomDataTable
+          {/* <CustomDataTable
             selectableRows
             columns={transactionColumns}
             data={transactions?.data || []}
             progressPending={isGetingTransactions}
             paginationServer
-          />
+          /> */}
         </div>
       </Card>
 
