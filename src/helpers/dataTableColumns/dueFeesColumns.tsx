@@ -1,11 +1,12 @@
-import { MdMoreVert } from "react-icons/md";
+import { TTransactions } from "@/api/finance/finance.types";
+import Avatar from "@/components/_core/Avatar";
+import RenderStatus, { StatusKey } from "@/components/_core/RenderStatus";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { FiEye } from "react-icons/fi";
 import { GrStreetView } from "react-icons/gr";
+import { MdMoreVert } from "react-icons/md";
 import { SiFreelancer } from "react-icons/si";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import RenderStatus, { StatusKey } from "@/components/_core/RenderStatus";
-import { TTransactions } from "@/api/finance/finance.types";
+import moment from "moment";
 
 export const getDueFeesColumns = () => [
   {
@@ -13,13 +14,17 @@ export const getDueFeesColumns = () => [
     cell: (row: TTransactions) => (
       <div className="flex items-center gap-1">
         <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-          {/* <Image src={""} alt="Avatar" fill /> */}
+          <Avatar 
+            fullName={typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.fullName : "N/A"}
+            avatar={typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.avatar : "N/A"}
+            size={40}
+          />
         </div>
         <div>
-          <h3 className="font-medium">
+          <h3 className="font-medium line-clamp-1">
             {typeof row?.studentId === "object" && row?.studentId !== null ? row.studentId.fullName : "N/A"}
           </h3>
-          <p>{typeof row?.studentId === "object" && row?.studentId !== null ? row.studentId.studentId : "N/A"}</p>
+          <p className="text-xs">{typeof row?.studentId === "object" && row?.studentId !== null ? row.studentId.studentId : "N/A"}</p>
         </div>
       </div>
     ),
@@ -34,7 +39,7 @@ export const getDueFeesColumns = () => [
   },
   {
     name: "Due Date",
-    selector: (row: TTransactions) => row?.dueDate || "N/A",
+    selector: (row: TTransactions) => moment(row?.dueDate).format("DD MMM, YYYY") || "N/A",
   },
   {
     name: "Amount",

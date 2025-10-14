@@ -8,6 +8,7 @@ export type TTransactions = {
   };
   studentId?: string | {
     _id: string;
+    avatar?: string;
     studentId: string;
     fullName: string;
     class: {

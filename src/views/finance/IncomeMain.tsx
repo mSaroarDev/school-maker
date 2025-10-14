@@ -107,6 +107,7 @@ const IncomeMain = () => {
             data={transactions?.data || []}
             progressPending={isGetingTransactions}
             paginationServer
+            totalResults={transactions?.totalResults || 0}
           />
         </div>
       </Card>
