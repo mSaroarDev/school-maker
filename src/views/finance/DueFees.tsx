@@ -19,83 +19,25 @@ import Card from "@/components/ui/card";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { DueFeesData } from "@/dummy/DueFees";
 import { SiFreelancer } from "react-icons/si";
+import { useState } from "react";
+import { getDueFeesColumns } from "@/helpers/dataTableColumns/dueFeesColumns";
+import CreateDueModal from "./CreateDueModal";
+import { Modal } from "@/components/_core/Modal";
+import { useGetAllTransaction } from "@/api/finance/finance.hooks";
 
 const DueFees = () => {
 
-  // const columns = [
-  //   {
-  //     name: "Student Name",
-  //     cell: (row) => (
-  //       <div className="flex items-center gap-1">
-  //         <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-  //           <Image
-  //             src={""}
-  //             alt="Avatar"
-  //             fill
-  //           />
-  //         </div>
-  //         <div>
-  //           <h3 className="font-medium">{row?.studentName}</h3>
-  //           <p>{row?.studentId}</p>
-  //         </div>
-  //       </div>
-  //     )
-  //   },
-  //   {
-  //     name: "Class",
-  //     selector: (row) => row?.Class
-  //   },
-  //   {
-  //     name: "Description",
-  //     selector: (row) => row?.DueName
-  //   },
-  //   {
-  //     name: "Due Date",
-  //     selector: (row) => row?.DueDate
-  //   },
-  //   {
-  //     name: "Amount",
-  //     selector: (row) => row?.Amount
-  //   },
-  //   {
-  //     name: "Status",
-  //     cell: (row) => <RenderStatus status={row?.Status} />
-  //   },
-  //   {
-  //     name: "Action",
-  //     width: "100px",
-  //     cell: (row) => (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger className="more-action-button">
-  //           <MdMoreVert size={20} />
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent>
-  //           <DropdownMenuLabel>Action</DropdownMenuLabel>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem
-  //             className="cursor-pointer"
-  //             onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
-  //           >
-  //             <FiEye size={20} /> View Reciept
-  //           </DropdownMenuItem>
-  //           <DropdownMenuItem
-  //             className="cursor-pointer"
-  //           // onClick={() => setShowReviewModal(true)} 
-  //           >
-  //             <GrStreetView size={20} /> Review
-  //           </DropdownMenuItem>
-  //           <DropdownMenuItem
-  //             className="cursor-pointer"
-  //           // onClick={() => setShowReviewModal(true)} 
-  //           >
-  //             <SiFreelancer size={20} /> Pay Now
-  //           </DropdownMenuItem>
+  const columns = getDueFeesColumns();
 
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     )
-  //   }
-  // ];
+  const [query, setQuery] = useState("");
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+    const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
+      type: "due",
+      currPage: 1,
+      limit: 50
+    });
 
   return (
     <>
@@ -104,24 +46,38 @@ const DueFees = () => {
       <Card>
         <HeaderComponent
           title="Due Fees"
-          // createLink="/teachers/create"
-          // query={query}
-          // setQuery={setQuery}
+          query={query}
+          setQuery={setQuery}
           filterComponent={<></>}
+          createButtonFunction={() => setShowCreateModal(true)}
           showSearch
         />
 
-        {/* <CustomDataTable
+        <CustomDataTable
           selectableRows
           columns={columns}
-          data={DueFeesData || []}
-          progressPending={false}
+          data={transactions?.data || []}
+          progressPending={isGetingTransactions}
           paginationServer
-          noDataComponent="No books found"
           paginationComponent
           totalResults={50}
-        /> */}
+        />
       </Card>
+
+      {showCreateModal && (
+        <Modal
+          isOpen={showCreateModal}
+          toggle={() => setShowCreateModal(false)}
+          title={`Create Due Fee`}
+          description="Add new transaction details"
+          showSubmitButton={false}
+          showFooter={false}
+          sideClick={true}
+          size="xl"
+        >
+          <CreateDueModal />
+        </Modal>
+      )}
     </>
   );
 };

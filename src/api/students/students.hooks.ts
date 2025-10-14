@@ -9,6 +9,7 @@ export const useGetAllStudents = (payload: TGetStudentsPayload) => {
     staleTime: 5 * 60 * 1000,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+    enabled: payload?.enabled ?? true,
   });
 
   return query;

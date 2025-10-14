@@ -6,6 +6,16 @@ export type TTransactions = {
     categoryName: string;
     type: string;
   };
+  studentId?: string | {
+    _id: string;
+    studentId: string;
+    fullName: string;
+    class: {
+      _id: string;
+      displayName: string;
+      classValue: string;
+    };
+  };
   title: string;
   paidBy?: string;
   paymentMethod?: string;
@@ -13,6 +23,7 @@ export type TTransactions = {
     title: string;
     amount: number;
   }[];
+  dueDate?: string;
   transferedFrom: string;
   transferedTo: string;
   status?: string;

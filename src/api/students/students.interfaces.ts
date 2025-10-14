@@ -5,6 +5,7 @@ export type TGetStudentsPayload = {
   studentId?: string;
   class?: string;
   email?: string;
+  enabled?: boolean;
 };
 
 type BasicInformation = {
