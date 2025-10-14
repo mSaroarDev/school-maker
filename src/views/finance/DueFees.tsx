@@ -19,7 +19,7 @@ const DueFees = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
     const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
-      type: "due",
+      status: ["due", "overdue"],
       currPage: 1,
       limit: 50
     });

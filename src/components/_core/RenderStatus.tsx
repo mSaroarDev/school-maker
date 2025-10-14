@@ -9,6 +9,7 @@ export const colors = {
     Unpaid: "#AA3C4B",
     Adjusted: "#AA3C4B",
     Due: "#AA3C4B",
+    overdue: "#ff0000",
     passed: "#6ABF2F",
     Done: "#6ABF2F",
     Passed: "#6ABF2F",

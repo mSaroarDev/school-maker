@@ -7,7 +7,7 @@ interface AvatarProps {
   size?: number;
 }
 
-const Avatar = ({ fullName, avatar, size = 40 }: AvatarProps) => {
+const Avatar = ({ fullName = "", avatar, size = 40 }: AvatarProps) => {
   const avatarColor = useMemo(() => {
     const colors = [
       "red",
@@ -63,5 +63,4 @@ const Avatar = ({ fullName, avatar, size = 40 }: AvatarProps) => {
     </div>
   );
 };
-
 export default Avatar;

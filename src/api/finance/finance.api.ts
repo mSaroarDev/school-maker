@@ -1,5 +1,6 @@
 import request from "../apiRequest";
 import { TGetTransactionsPayload, TTransactions } from "./finance.types";
+import qs from "qs";
 
 export const createTransaction = async (data: TTransactions) => {
   const res = await request.post("/finance/create", data);
@@ -7,7 +8,10 @@ export const createTransaction = async (data: TTransactions) => {
 };
 
 export const getTransactions = async (payload: TGetTransactionsPayload) => {
-  const res = await request.get(`/finance`, {params: payload});
+  const res = await request.get(`/finance`, {
+    params: payload,
+    paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" })
+  }, );
   return res.data;
 };
 

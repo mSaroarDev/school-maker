@@ -38,8 +38,8 @@ export type TGetTransactionsPayload = {
   currPage: number;
   limit: number;
   search?: string;
-  status?: string;
-  type?: string;
+  status?: string[];
+  type?: string | string[];
   startDate?: string;
   endDate?: string;
 }
