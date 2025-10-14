@@ -4,59 +4,18 @@ import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { Modal } from "@/components/_core/Modal";
-// import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
 import { IncomeBreadTree } from "@/helpers/breadcrumbs";
+import { getFinanceCategories } from "@/helpers/dataTableColumns/transactionsColumns";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import CreateModal from "./CreateModal";
-import { TTransactions } from "@/api/finance/finance.types";
-// import { TTransactions } from "@/api/finance/finance.types";
-import moment from "moment";
-import RenderStatus, { StatusKey } from "@/components/_core/RenderStatus";
 
 const IncomeMain = () => {
   const params = useParams();
   const type = params?.type as string || "income";
 
-  const transactionColumns = [
-    {
-      name: "Invoice ID",
-      selector: (row: TTransactions) => row?.invoiceId || "N/A"
-    },
-    {
-      name: "Payer",
-      selector: (row: TTransactions) => row?.transferedFrom || "N/A"
-    },
-    {
-      name: "Date",
-      selector: (row: TTransactions) => moment(row?.updatedAt).format("DD MMM, YYYY") || "N/A"
-    },
-    {
-      name: "Category",
-      selector: (row: TTransactions) =>
-        typeof row?.category === "object" && row?.category !== null
-          ? row.category.categoryName
-          : "N/A"
-    },
-    {
-      name: "Paid From",
-      selector: (row: TTransactions) => row?.transferedFrom || "N/A"
-    },
-    {
-      name: "Paid to",
-      selector: (row: TTransactions) => row?.transferedTo || "N/A"
-    },
-    {
-      name: "Amount",
-      selector: (row: TTransactions) => `৳ ${row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0)}`
-    },
-    {
-      name: "Status",
-      width: "140px",
-      cell: (row: TTransactions) => <RenderStatus status={row?.status as StatusKey} />
-    }
-  ];
+  const transactionColumns = getFinanceCategories();
 
   const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
     type,

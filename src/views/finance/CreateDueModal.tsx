@@ -1,31 +1,26 @@
+import { useCreateTransaction } from "@/api/finance/finance.hooks";
 import { TTransactions } from "@/api/finance/finance.types";
 import { useGetFinanceCategories } from "@/api/financeCategory/financeCategory.hooks";
+import { TFinanceCategory } from "@/api/financeCategory/financeCategory.types";
 import ErrorLabel from "@/components/_core/ErrorLabel";
 import { Modal } from "@/components/_core/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SelectComponent from "@/components/ui/select";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
+import "flatpickr/dist/themes/light.css";
+import moment from "moment";
 import { useState } from "react";
+import Flatpickr from "react-flatpickr";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { HiTrash } from "react-icons/hi";
 import { LuSettings2 } from "react-icons/lu";
 import { MdAdd } from "react-icons/md";
-import CategoryModal from "./CategoryModal";
-import { TFinanceCategory } from "@/api/financeCategory/financeCategory.types";
-import { useCreateTransaction } from "@/api/finance/finance.hooks";
-import { showConfirmModal } from "@/utils/showConfirmModal";
-import { showToast } from "@/utils/showToast";
-import { handleErrorMessage } from "@/utils/handleErrorMessage";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/light.css";
-import moment from "moment";
-import { useGetAllStudents } from "@/api/students/students.hooks";
 import { RiUserSearchLine } from "react-icons/ri";
-
-type CreateDueModalProps = {
-  type: string;
-}
+import CategoryModal from "./CategoryModal";
 
 const CreateDueModal = () => {
 
@@ -42,7 +37,7 @@ const CreateDueModal = () => {
     ],
     transferedFrom: "N/A",
     transferedTo: "N/A",
-    remarks: "Due fee",
+    remarks: "",
     status: "due",
     studentId: "",
     dueDate: ""
@@ -78,13 +73,6 @@ const CreateDueModal = () => {
   const { data: categories, isPending: isLoadingCategories } = useGetFinanceCategories("due");
   const { mutateAsync: createTransaction, isPending: isCreatingTransaction } = useCreateTransaction();
 
-  const [search, setSearch] = useState("");
-  const { data: students, isPending } = useGetAllStudents(
-    search
-      ? { currPage: 1, limit: 10, search }
-      : { enabled: false }
-  );
-
   const categoryOptions = categories?.data?.map((category: TFinanceCategory) => ({
     value: category._id,
     label: category.categoryName
@@ -113,7 +101,6 @@ const CreateDueModal = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-3"
       >
-
         <div>
           <div className="flex items-center justify-between">
             <Label>Enter Student ID</Label>
@@ -152,6 +139,20 @@ const CreateDueModal = () => {
             }
           />
           {errors.transferedFrom && <ErrorLabel msg="Transfered From is required" />}
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between">
+            <Label>Description/Remarks/Cause</Label>
+          </div>
+          <Input
+            type="text"
+            {...register("remarks", { required: true })}
+            placeholder="Enter Student ID"
+            defaultValue={defaultValues.remarks}
+            className={errors.remarks && "border-red-500"}
+          />
+          {errors.remarks && <ErrorLabel msg="Remarks ID is required" />}
         </div>
 
         <div>
