@@ -1,8 +1,14 @@
 export type TTransactions = {
   _id?: string;
-  category: string;
+  invoiceId?: string;
+  category?: string | {
+    _id: string;
+    categoryName: string;
+    type: string;
+  };
   title: string;
   paidBy?: string;
+  paymentMethod?: string;
   amounts: {
     title: string;
     amount: number;

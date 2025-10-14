@@ -30,6 +30,7 @@ const CreateModal = ({
     type,
     category: "",
     title: "",
+    paymentMethod: "",
     amounts: [
       {
         title: "",
@@ -38,7 +39,8 @@ const CreateModal = ({
     ],
     transferedFrom: "",
     transferedTo: "",
-    remarks: ""
+    remarks: "",
+    status: type === "income" || type === "expense" ? "completed" : "pending"
   };
 
   const {
@@ -95,7 +97,8 @@ const CreateModal = ({
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 gap-2">
+        className="grid grid-cols-1 gap-2"
+      >
         <div>
           <Label>Title</Label>
           <Input
@@ -143,6 +146,17 @@ const CreateModal = ({
             className={errors.transferedTo && "border-red-500"}
           />
           {errors.transferedTo && <ErrorLabel msg="Transfered To is required" />}
+        </div>
+
+         <div>
+          <Label>Payment Method</Label>
+          <Input
+            {...register("paymentMethod", { required: true })}
+            placeholder="Enter payment method"
+            defaultValue={defaultValues.paymentMethod}
+            className={errors.paymentMethod && "border-red-500"}
+          />
+          {errors.paymentMethod && <ErrorLabel msg="Payment Method is required" />}
         </div>
 
         <div>

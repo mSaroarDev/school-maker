@@ -1,5 +1,6 @@
 export const colors = {
     active: "#6ABF2F",
+    completed: "#6ABF2F",
     paid: "#6ABF2F",
     Paid: "#6ABF2F",
     available: "#6ABF2F",
