@@ -27,9 +27,18 @@ const ReviewTransactionModal = ({selectedTransaction, setShowReviewModal}: Revie
       text: "Are you sure you want to update the transaction status?",
       func: async () => {
         try {
+          const payload = {
+            status: selectedStatus,
+          };
+
+          // if its completed, add paymentDate
+          if(selectedStatus === "completed") {
+            Object.assign(payload, { type: "income" });
+          };
+
           const res = await updateTransaction({
             _id: selectedTransaction?._id || "", 
-            data: { status: selectedStatus}
+            data: payload
           });
 
           if(res?.success) {
