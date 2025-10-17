@@ -15,7 +15,7 @@ export const getTransactions = async (payload: TGetTransactionsPayload) => {
   return res.data;
 };
 
-export const updateTransaction = async (payload: {_id: string, data: TTransactions}) => {
+export const updateTransaction = async (payload: {_id: string, data: Partial<TTransactions>}) => {
   const {_id, ...data} = payload;
   const res = await request.put(`/finance/update/${_id}`, data);
   return res.data;

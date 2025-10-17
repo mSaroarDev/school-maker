@@ -8,7 +8,12 @@ import { MdMoreVert } from "react-icons/md";
 import { SiFreelancer } from "react-icons/si";
 import moment from "moment";
 
-export const getDueFeesColumns = () => [
+type DueFeesColumnsProps = {
+  setShowReviewModal: (value: boolean) => void;
+  setSelectedTransaction: (value: TTransactions | null) => void;
+};
+
+export const getDueFeesColumns = ({setShowReviewModal, setSelectedTransaction}:DueFeesColumnsProps) => [
   {
     name: "Student Name",
     cell: (row: TTransactions) => (
@@ -66,7 +71,13 @@ export const getDueFeesColumns = () => [
           >
             <FiEye size={20} /> View Receipt
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem 
+            className="cursor-pointer"
+            onClick={() => {
+              setShowReviewModal(true);
+              setSelectedTransaction(row);
+            }}
+          >
             <GrStreetView size={20} /> Review
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
