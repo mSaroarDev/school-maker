@@ -1,103 +1,30 @@
 "use client";
+import { useGetAllTransaction } from "@/api/finance/finance.hooks";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import { Modal } from "@/components/_core/Modal";
-import RenderStatus from "@/components/_core/RenderStatus";
 import Card from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { transactions } from "@/dummy/transactions";
 import { FinanceBreadTree } from "@/helpers/breadcrumbs";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { getRecentTransactionColumns } from "@/helpers/dataTableColumns/allTransactionColumns";
 import { useState } from "react";
-import { FiEye } from "react-icons/fi";
-import { GrStreetView } from "react-icons/gr";
-import { MdMoreVert } from "react-icons/md";
 import ReviewModal from "./ReviewModal";
 
 const FinanceMain = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
 
-  // const columns = [
-  //   {
-  //     name: "Student Name",
-  //     cell: (row) => (
-  //       <div className="flex items-center gap-1">
-  //         <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-  //           <Image
-  //             src={""}
-  //             alt="Avatar"
-  //             fill
-  //           />
-  //         </div>
-  //         <div>
-  //           <h3 className="font-medium">{row?.studentName}</h3>
-  //           <p>{row?.studentId}</p>
-  //         </div>
-  //       </div>
-  //     )
-  //   },
-  //   {
-  //     name: "Class",
-  //     selector: (row) => row?.Class
-  //   },
-  //   {
-  //     name: "Tution Fee",
-  //     selector: (row) => row?.TutionFee
-  //   },
-  //   {
-  //     name: "Activity Fee",
-  //     selector: (row) => row?.activityFee
-  //   },
-  //   {
-  //     name: "Miscellenous Fee",
-  //     selector: (row) => row?.miscellenousFee
-  //   },
-  //   {
-  //     name: "Amount",
-  //     selector: (row) => row?.Amount
-  //   },
-  //   {
-  //     name: "Status",
-  //     cell: (row) => <RenderStatus status={row?.Status} />
-  //   },
-  //   {
-  //     name: "Action",
-  //     width: "100px",
-  //     cell: (row) => (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger className="more-action-button">
-  //           <MdMoreVert size={20} />
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent>
-  //           <DropdownMenuLabel>Action</DropdownMenuLabel>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem
-  //             className="cursor-pointer"
-  //             onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
-  //           >
-  //             <FiEye size={18} /> View Reciept
-  //           </DropdownMenuItem>
-  //           <DropdownMenuItem
-  //             className="cursor-pointer"
-  //             onClick={() => setShowReviewModal(true)}
-  //           >
-  //             <GrStreetView size={18} /> Review
-  //           </DropdownMenuItem>
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
+    type: ["income", "expense"],
+    status: ["completed", "failed", "rejected"],
+    currPage,
+    limit
+  });
 
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     )
-  //   }
-  // ];
+  console.log("transactions ==>", transactions);
+
+  const columns = getRecentTransactionColumns();
 
   return (
     <>
@@ -128,16 +55,16 @@ const FinanceMain = () => {
         />
 
         <div className="mt-5">
-          {/* <CustomDataTable
-            selectableRows
+          <CustomDataTable
+            data={transactions?.data || []}
             columns={columns}
-            data={transactions || []}
-            progressPending={false}
-            paginationServer
-            noDataComponent="No books found"
-            paginationComponent
-            totalResults={transactions.length}
-          /> */}
+            currPage={currPage}
+            setCurrPage={setCurrPage}
+            limit={limit}
+            setLimit={setLimit}
+            progressPending={isGetingTransactions}
+            totalResults={transactions?.totalResults || 0}
+          />
         </div>
       </Card>
 

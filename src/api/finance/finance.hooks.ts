@@ -15,6 +15,8 @@ export const useCreateTransaction = () => {
 };
 
 export const useGetAllTransaction = (payload: TGetTransactionsPayload) => {
+  console.log("payload in hook", payload);
+  
   const query = useQuery({
     queryKey: ["finance", payload],
     queryFn: ()=> getTransactions(payload),
