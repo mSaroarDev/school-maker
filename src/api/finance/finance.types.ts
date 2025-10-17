@@ -44,6 +44,6 @@ export type TGetTransactionsPayload = {
   search?: string;
   status?: string[];
   type?: string | string[];
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
 }

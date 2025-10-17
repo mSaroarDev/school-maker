@@ -7,7 +7,7 @@ import { Modal } from "@/components/_core/Modal";
 import Card from "@/components/ui/card";
 import { FinanceDueBreadTree } from "@/helpers/breadcrumbs";
 import { getDueFeesColumns } from "@/helpers/dataTableColumns/dueFeesColumns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateDueModal from "./CreateDueModal";
 import ReviewTransactionModal from "./ReviewTransactionModal";
 import { TTransactions } from "@/api/finance/finance.types";
@@ -15,16 +15,34 @@ import { TTransactions } from "@/api/finance/finance.types";
 const DueFees = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<TTransactions | null>(null);
-  const columns = getDueFeesColumns({setShowReviewModal, setSelectedTransaction});
-  const [query, setQuery] = useState("");
+  const columns = getDueFeesColumns({ setShowReviewModal, setSelectedTransaction });
+
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [search, setSearch] = useState<string>("");
 
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
     status: ["due", "overdue"],
-    currPage: 1,
-    limit: 50
+    currPage,
+    limit,
+    startDate,
+    endDate,
+    search,
   });
+
+  const [input, setInput] = useState<string>("");
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setCurrPage(1);
+      setSearch(input);
+    }, 1000)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [input]);
 
   return (
     <>
@@ -33,8 +51,8 @@ const DueFees = () => {
       <Card>
         <HeaderComponent
           title="Due Fees"
-          query={query}
-          setQuery={setQuery}
+          query={input}
+          setQuery={setInput}
           filterComponent={<></>}
           createButtonFunction={() => setShowCreateModal(true)}
           showSearch
@@ -44,9 +62,11 @@ const DueFees = () => {
           columns={columns}
           data={transactions?.data || []}
           progressPending={isGetingTransactions}
-          paginationServer
-          paginationComponent
           totalResults={transactions?.totalResults || 0}
+          currPage={currPage}
+          setCurrPage={setCurrPage}
+          limit={limit}
+          setLimit={setLimit}
         />
       </Card>
 
@@ -76,7 +96,7 @@ const DueFees = () => {
           sideClick={true}
           size="xl"
         >
-          <ReviewTransactionModal 
+          <ReviewTransactionModal
             selectedTransaction={selectedTransaction}
             setShowReviewModal={setShowReviewModal}
           />

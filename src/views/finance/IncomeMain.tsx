@@ -8,8 +8,10 @@ import Card from "@/components/ui/card";
 import { IncomeBreadTree } from "@/helpers/breadcrumbs";
 import { getFinanceCategories } from "@/helpers/dataTableColumns/transactionsColumns";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateModal from "./CreateModal";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -17,13 +19,40 @@ const IncomeMain = () => {
 
   const transactionColumns = getFinanceCategories();
 
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [search, setSearch] = useState<string>("");
   const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
     type,
-    currPage: 1,
-    limit: 50
+    currPage,
+    limit,
+    startDate,
+    endDate,
+    search,
   });
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const handleDateChange = (selectedDates: Date[]) => {
+    if (selectedDates.length === 1) {
+      setStartDate(selectedDates[0]);
+    } else if (selectedDates.length === 2) {
+      setStartDate(selectedDates[0]);
+      setEndDate(selectedDates[1]);
+    }
+  };
+
+  const [input, setInput] = useState<string>("");
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setCurrPage(1);
+      setSearch(input);
+    }, 1000)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [input]);
 
   return (
     <>
@@ -50,11 +79,26 @@ const IncomeMain = () => {
         <HeaderComponent
           title={`Recent ${type.charAt(0).toUpperCase() + type.slice(1)}s`}
           showSearch
+          query={input}
+          setQuery={setInput}
           searchPlaceholder="Search by payer, method, amount"
           filterComponent={<></>}
           createButtonFunction={() => {
             setShowCreateModal(true);
           }}
+          extraComponent={(
+            <Flatpickr
+              onChange={handleDateChange}
+              className={`w-full px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              placeholder="Select Date"
+              options={{
+                dateFormat: "d M, Y",
+                maxDate: new Date(),
+                enableTime: false,
+                mode: "range"
+              }}
+            />
+          )}
         />
 
         <div>
@@ -62,8 +106,11 @@ const IncomeMain = () => {
             columns={transactionColumns}
             data={transactions?.data || []}
             progressPending={isGetingTransactions}
-            paginationServer
             totalResults={transactions?.totalResults || 0}
+            currPage={currPage}
+            setCurrPage={setCurrPage}
+            limit={limit}
+            setLimit={setLimit}
           />
         </div>
       </Card>

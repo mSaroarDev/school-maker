@@ -7,22 +7,50 @@ import { Modal } from "@/components/_core/Modal";
 import Card from "@/components/ui/card";
 import { FinanceBreadTree } from "@/helpers/breadcrumbs";
 import { getRecentTransactionColumns } from "@/helpers/dataTableColumns/allTransactionColumns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewModal from "./ReviewModal";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/light.css";
 
 const FinanceMain = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [search, setSearch] = useState<string>("");
+
   const { data: transactions, isPending: isGetingTransactions } = useGetAllTransaction({
     type: ["income", "expense"],
     status: ["completed", "failed", "rejected"],
     currPage,
-    limit
+    limit,
+    startDate,
+    endDate,
+    search,
   });
-  
+
+  const handleDateChange = (selectedDates: Date[]) => {
+    if (selectedDates.length === 1) {
+      setStartDate(selectedDates[0]);
+    } else if (selectedDates.length === 2) {
+      setStartDate(selectedDates[0]);
+      setEndDate(selectedDates[1]);
+    }
+  }
+
   const columns = getRecentTransactionColumns();
+
+  const [input, setInput] = useState<string>("");
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setCurrPage(1);
+      setSearch(input);
+    }, 1000)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [input]);
 
   return (
     <>
@@ -45,10 +73,21 @@ const FinanceMain = () => {
       <Card className="mt-5">
         <HeaderComponent
           title="Recent Transactions"
-          // createLink="/teachers/create"
-          // query={query}
-          // setQuery={setQuery}
-          filterComponent={<></>}
+          query={input}
+          setQuery={setInput}
+          extraComponent={(
+            <Flatpickr
+              onChange={handleDateChange}
+              className={`w-full px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              placeholder="Select Date"
+              options={{
+                dateFormat: "d M, Y",
+                maxDate: new Date(),
+                enableTime: false,
+                mode: "range"
+              }}
+            />
+          )}
           showSearch
         />
 

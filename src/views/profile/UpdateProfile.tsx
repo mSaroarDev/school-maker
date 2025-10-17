@@ -12,11 +12,11 @@ import { bloodGroupsOption, gendersOption, religionsOption } from "@/constants/c
 import { useAuth } from "@/hooks/useAuth";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showToast } from "@/utils/showToast";
+import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
 import { CldUploadButton } from 'next-cloudinary';
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Flatpickr from "react-flatpickr";
 import { useForm } from "react-hook-form";
 import { BiEdit } from "react-icons/bi";
 import { GrContactInfo } from "react-icons/gr";
