@@ -62,7 +62,7 @@ export const getDueFeesColumns = () => [
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() => window.open(`/finance/reciept/${row?._id}`, "_blank")}
+            onClick={() => window.open(`/reciept/${row?._id}`, "_blank")}
           >
             <FiEye size={20} /> View Receipt
           </DropdownMenuItem>

@@ -13,7 +13,9 @@ export const getRecentTransactionColumns = () => [
         <div className={`${row?.type === "income" ? "bg-green-600" : "bg-red-500"} h-2 w-2 grid place-items-center text-white rounded-full`}>
         </div>
 
-        {row?.invoiceId || "N/A"}
+        <a href={`/reciept/${row?._id}`} target="_blank" className="text-primary-600 underline">
+          {row?.invoiceId || "N/A"}
+        </a>
       </div>
     )
   },

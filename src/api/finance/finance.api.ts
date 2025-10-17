@@ -20,3 +20,8 @@ export const updateTransaction = async (payload: {_id: string, data: TTransactio
   const res = await request.put(`/finance/update/${_id}`, data);
   return res.data;
 };
+
+export const getTransactionById = async (id: string) => {
+  const res = await request.get(`/finance/${id}`);
+  return res.data;
+};
