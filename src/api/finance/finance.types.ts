@@ -30,6 +30,10 @@ export type TTransactions = {
   status?: string;
   remarks?: string;
   type: string;
+  createdBy?: {
+    _id: string;
+    fullName: string;
+  },
   createdAt?: string;
   updatedAt?: string;
 };

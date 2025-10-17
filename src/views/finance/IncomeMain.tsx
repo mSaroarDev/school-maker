@@ -23,8 +23,6 @@ const IncomeMain = () => {
     limit: 50
   });
 
-  console.log("transactions", transactions);
-
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   return (
@@ -61,7 +59,6 @@ const IncomeMain = () => {
 
         <div>
           <CustomDataTable
-            selectableRows
             columns={transactionColumns}
             data={transactions?.data || []}
             progressPending={isGetingTransactions}

@@ -5,7 +5,14 @@ import moment from "moment";
 export const getFinanceCategories = () => [
   {
     name: "Invoice ID",
-    selector: (row: TTransactions) => row?.invoiceId || "N/A"
+    cell: (row: TTransactions) => (
+      <div className="flex items-center gap-3">
+        <div className={`${row?.type === "income" ? "bg-green-600" : "bg-red-500"} h-2 w-2 grid place-items-center text-white rounded-full`}>
+        </div>
+
+        {row?.invoiceId || "N/A"}
+      </div>
+    )
   },
   {
     name: "Payer",
@@ -32,11 +39,21 @@ export const getFinanceCategories = () => [
   },
   {
     name: "Amount",
-    selector: (row: TTransactions) => `৳ ${row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0)}`
+    cell: (row: TTransactions) => (
+      <span className={row?.type === "income" ? "text-green-600" : "text-red-500"}>
+        {row?.type === "income" ? "+" : "-"}{" "}
+        ৳{row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0) || 0}
+      </span>
+    )
   },
   {
     name: "Status",
     width: "140px",
     cell: (row: TTransactions) => <RenderStatus status={row?.status as StatusKey} />
-  }
+  },
+  {
+    name: "Entered By",
+    width: "130px",
+    cell: (row: TTransactions) => row?.createdBy?.fullName?.split(" ").map((n) => n[0]).join("") || "N/A"
+  },
 ];

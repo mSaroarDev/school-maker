@@ -1,5 +1,4 @@
 import { TTransactions } from "@/api/finance/finance.types";
-import Avatar from "@/components/_core/Avatar";
 import RenderStatus, { StatusKey } from "@/components/_core/RenderStatus";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { FiEye } from "react-icons/fi";
@@ -8,26 +7,19 @@ import { MdMoreVert } from "react-icons/md";
 
 export const getRecentTransactionColumns = () => [
   {
-    name: "Student Name",
+    name: "Invoice Id",
     cell: (row: TTransactions) => (
-      <div className="flex items-center gap-1">
-        <div className="flex-shrink-0 w-10 h-10 overflow-hidden rounded-full bg-slate-50 relative">
-          <Avatar
-            fullName={typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.fullName : "N/A"}
-            avatar={typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.avatar : "N/A"}
-            size={40}
-          />
+      <div className="flex items-center gap-3">
+        <div className={`${row?.type === "income" ? "bg-green-600" : "bg-red-500"} h-2 w-2 grid place-items-center text-white rounded-full`}>
         </div>
-        <div>
-          <h3 className="font-medium">{typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.fullName : "N/A"}</h3>
-          <p>{typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.studentId : "N/A"}</p>
-        </div>
+
+        {row?.invoiceId || "N/A"}
       </div>
     )
   },
   {
-    name: "Class",
-    selector: (row: TTransactions) => typeof row?.studentId === "object" && typeof row?.studentId !== null ? row?.studentId?.class?.displayName : "N/A"
+    name: "Paid For",
+    selector: (row: TTransactions) => row?.title || "N/A"
   },
   // {
   //   name: "Category",
@@ -38,16 +30,21 @@ export const getRecentTransactionColumns = () => [
     selector: (row: TTransactions) => row?.paymentMethod || "N/A"
   },
   {
-    name: "Invoice Id",
-    selector: (row: TTransactions) => row?.invoiceId || "N/A"
-  },
-  {
     name: "Amount",
-    selector: (row: TTransactions) => row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0) || 0  
+    cell: (row: TTransactions) => (
+      <span className={row?.type === "income" ? "text-green-600" : "text-red-500"}>
+        {row?.type === "income" ? "+" : "-"}{" "}
+        ৳{row?.amounts?.reduce((acc, curr) => acc + curr.amount, 0) || 0}
+      </span>
+    )
   },
   {
     name: "Status",
     cell: (row: TTransactions) => <RenderStatus status={row?.status as StatusKey} />
+  },
+  {
+    name: "Entered By",
+    cell: (row: TTransactions) => row?.createdBy?.fullName?.split(" ").map((n) => n[0]).join("") || "N/A"
   },
   {
     name: "Action",
@@ -68,7 +65,7 @@ export const getRecentTransactionColumns = () => [
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
-            // onClick={() => setShowReviewModal(true)}
+          // onClick={() => setShowReviewModal(true)}
           >
             <GrStreetView size={18} /> Review
           </DropdownMenuItem>

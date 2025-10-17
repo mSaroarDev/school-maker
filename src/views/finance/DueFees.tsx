@@ -39,7 +39,6 @@ const DueFees = () => {
         />
 
         <CustomDataTable
-          selectableRows
           columns={columns}
           data={transactions?.data || []}
           progressPending={isGetingTransactions}

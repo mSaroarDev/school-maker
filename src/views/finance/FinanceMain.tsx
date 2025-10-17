@@ -21,9 +21,7 @@ const FinanceMain = () => {
     currPage,
     limit
   });
-
-  console.log("transactions ==>", transactions);
-
+  
   const columns = getRecentTransactionColumns();
 
   return (

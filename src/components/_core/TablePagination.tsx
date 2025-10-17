@@ -78,7 +78,7 @@ const TablePagination: React.FC<TablePaginationProps> = (props) => {
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <p className="text-nowrap w-full">Per_Page</p>
+            <p className="text-nowrap w-full">Per Page</p>
             <select 
               value={limit}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
