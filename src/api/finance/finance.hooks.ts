@@ -1,6 +1,6 @@
-import { createTransaction, getTransactionById, getTransactions, updateTransaction } from './finance.api';
+import { createTransaction, getTransactionById, getTransactionChartData, getTransactions, updateTransaction } from './finance.api';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TGetTransactionsPayload } from './finance.types';
+import { TGetTransactionsPayload, TTransactionChartData } from './finance.types';
 
 export const useCreateTransaction = () => {
   const queryClient = useQueryClient();
@@ -42,6 +42,18 @@ export const useGetTransactionById = (id: string) => {
   const query = useQuery({
     queryKey: ["finance", id],
     queryFn: ()=> getTransactionById(id),
+    staleTime: 5 * 60 * 1000,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  return query;
+};
+
+export const useGetTransactionChartData = (payload: TTransactionChartData) => {
+  const query = useQuery({
+    queryKey: ["finance", payload],
+    queryFn: ()=> getTransactionChartData(payload),
     staleTime: 5 * 60 * 1000,
     refetchOnMount: true,
     refetchOnWindowFocus: false,

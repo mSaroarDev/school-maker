@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import CreateModal from "./CreateModal";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
+import IncomeChart from "./charts/IncomeChart";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -61,11 +62,11 @@ const IncomeMain = () => {
         { name: type.charAt(0).toUpperCase() + type.slice(1) },
       ]} />
 
-      <Card>
+      <div>
         <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-6 lg:col-span-8">
-            <div className="bg-slate-50"></div>
-          </div>
+          <Card className="col-span-6 lg:col-span-8">
+            <IncomeChart type={type} />
+          </Card>
           <div className="col-span-6 lg:col-span-4 grid grid-cols-2 gap-5">
             <div className="bg-primary-light p-3 rounded-lg h-32"></div>
             <div className="bg-primary-light p-3 rounded-lg h-32"></div>
@@ -73,7 +74,7 @@ const IncomeMain = () => {
             <div className="bg-primary-light p-3 rounded-lg h-32"></div>
           </div>
         </div>
-      </Card>
+      </div>
 
       <Card className="mt-5">
         <HeaderComponent

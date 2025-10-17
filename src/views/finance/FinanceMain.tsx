@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import ReviewModal from "./ReviewModal";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
-import StockChart from "./charts/StockChart";
+import IncomeChart from "./charts/IncomeChart";
 
 const FinanceMain = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -60,7 +60,7 @@ const FinanceMain = () => {
       <div>
         <div className="grid grid-cols-12 gap-5">
           <Card className="col-span-6 lg:col-span-8 p-2">
-            <StockChart />
+            <IncomeChart />
           </Card>
           <div className="col-span-6 lg:col-span-4 grid grid-cols-2 gap-5">
             <div className="bg-primary-light p-3 rounded-lg h-32"></div>

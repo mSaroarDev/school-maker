@@ -46,4 +46,8 @@ export type TGetTransactionsPayload = {
   type?: string | string[];
   startDate?: Date | null;
   endDate?: Date | null;
-}
+};
+
+export type TTransactionChartData = {
+  type: "income" | "expense" | "due" | "overdue" | string;
+};
