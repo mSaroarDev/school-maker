@@ -13,6 +13,7 @@ import CreateModal from "./CreateModal";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/light.css";
 import IncomeChart from "./charts/IncomeChart";
+import ShortGraphView from "./charts/ShortGraphView";
 
 const IncomeMain = () => {
   const params = useParams();
@@ -68,10 +69,18 @@ const IncomeMain = () => {
             <IncomeChart type={type} />
           </Card>
           <div className="col-span-6 lg:col-span-4 grid grid-cols-2 gap-5">
-            <div className="bg-primary-light p-3 rounded-lg h-32"></div>
-            <div className="bg-primary-light p-3 rounded-lg h-32"></div>
-            <div className="bg-primary-light p-3 rounded-lg h-32"></div>
-            <div className="bg-primary-light p-3 rounded-lg h-32"></div>
+            <div className="bg-primary-light p-3 rounded-lg">
+              <ShortGraphView />
+            </div>
+            <div className="bg-primary-light p-3 rounded-lg">
+              <ShortGraphView />
+            </div>
+            <div className="bg-primary-light p-3 rounded-lg">
+              <ShortGraphView />
+            </div>
+            <div className="bg-primary-light p-3 rounded-lg">
+              <ShortGraphView />
+            </div>
           </div>
         </div>
       </div>

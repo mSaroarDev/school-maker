@@ -48,7 +48,7 @@ export default function IncomeChart({
         title: { text: "" },
         lineColor: "#ccc",
         startOnTick: false,
-        endOnTick: false,
+        endOnTick: true,
         minPadding: 0,
         maxPadding: 0,
       },
