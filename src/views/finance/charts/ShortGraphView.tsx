@@ -38,7 +38,7 @@ const ShortGraphView = () => {
         <>
           <div className="flex items-start justify-between">
             <div className="min-h-12">
-              <SmallLines />
+              {/* <SmallLines /> */}
             </div>
             <div className="bg-white text-green-700 flex items-center px-1 pr-2 py-0.5 rounded-full text-sm font-medium">
               <TiArrowUp className="flex-shrink-0" size={16} />
