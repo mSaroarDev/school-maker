@@ -48,3 +48,9 @@ export const IncomeBreadTree = [
   { name: "Home", url: "/dashboard" },
   { name: "Finance", url: "/finance" },
 ];
+
+export const SalaryBreadTree = [
+  { name: "Salary" },
+  { name: "Home", url: "/dashboard" },
+  { name: "Salary" },
+];

@@ -6,7 +6,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { LuNotebookPen, LuWallet } from "react-icons/lu";
 import { PiGraduationCapDuotone, PiMoneyWavyBold, PiStudentDuotone } from "react-icons/pi";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
-import { TbMessage2 } from "react-icons/tb";
+import { TbMessage2, TbShoppingBagDiscount } from "react-icons/tb";
 
 interface LinkItemProps {
   isAdmin?: boolean;
@@ -48,6 +48,7 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
             { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold },
             { id: 20, name: "Income", path: "/finance/income", icon: HiLogin },
             { id: 21, name: "Expense", path: "/finance/expense", icon: HiOutlineLogout },
+            { id: 23, name: "Salary", path: "/finance/salary", icon: TbShoppingBagDiscount },
             { id: 22, name: "Reports", path: "/finance/reports", icon: BiStats },
           ]
         },
