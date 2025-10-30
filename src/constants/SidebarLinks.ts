@@ -1,12 +1,13 @@
 import { CalendarDays, ContactRound, House, Settings } from "lucide-react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { BiStats } from "react-icons/bi";
+import { GrUserPolice } from "react-icons/gr";
 import { HiLogin, HiOutlineLogout } from "react-icons/hi";
 import { IoBookOutline } from "react-icons/io5";
-import { LuNotebookPen, LuWallet } from "react-icons/lu";
+import { LuNotebookPen, LuSquareUserRound, LuWallet } from "react-icons/lu";
 import { PiGraduationCapDuotone, PiMoneyWavyBold, PiStudentDuotone } from "react-icons/pi";
-import { RiMoneyDollarBoxLine } from "react-icons/ri";
-import { TbMessage2, TbShoppingBagDiscount } from "react-icons/tb";
+import { RiMoneyDollarBoxLine, RiUserCommunityFill } from "react-icons/ri";
+import { TbMessage2, TbMoneybag, TbShoppingBagDiscount } from "react-icons/tb";
 
 interface LinkItemProps {
   isAdmin?: boolean;
@@ -23,11 +24,6 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           label: "Dashboard",
           icon: House,
           link: "/dashboard",
-        },
-        {
-          label: "Teachers",
-          icon: PiGraduationCapDuotone,
-          link: "/teachers",
         },
         {
           label: "Students",
@@ -48,7 +44,7 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
             { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold },
             { id: 20, name: "Income", path: "/finance/income", icon: HiLogin },
             { id: 21, name: "Expense", path: "/finance/expense", icon: HiOutlineLogout },
-            { id: 23, name: "Salary", path: "/finance/salary", icon: TbShoppingBagDiscount },
+            { id: 23, name: "Salary", path: "/finance/salary", icon: TbMoneybag },
             { id: 22, name: "Reports", path: "/finance/reports", icon: BiStats },
           ]
         },
@@ -61,6 +57,16 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           label: "Calender",
           icon: CalendarDays,
           link: "/calender",
+        },
+        {
+          label: "Employees",
+          icon: LuSquareUserRound,
+          link: "/employees",
+          submenu: [
+            { id: 18, name: "Teachers", icon: PiGraduationCapDuotone, path: "/teachers", },
+            { id: 19, name: "Staffs", path: "/finance/due", icon: RiUserCommunityFill },
+            { id: 20, name: "Committee", path: "/finance/income", icon: GrUserPolice },
+          ]
         },
         {
           label: "Library",

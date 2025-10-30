@@ -134,7 +134,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                                 key={sub.id}
                                 href={sub.path}
                                 className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-md transition 
-                                  ${pathname === sub.path
+                                  ${pathname.startsWith(sub.path)
                                     ? "bg-primary/30 text-black"
                                     : "hover:bg-primary/10"
                                   }`}

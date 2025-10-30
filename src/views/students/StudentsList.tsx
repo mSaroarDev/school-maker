@@ -2,6 +2,7 @@
 import { useGetAllStudents, useUpdateStudent } from "@/api/students/students.hooks";
 import { TStudentResponse } from "@/api/students/students.interfaces";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
+import Avatar from "@/components/_core/Avatar";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import {
   DropdownMenu,
@@ -40,14 +41,10 @@ const StudentsList = () => {
       name: "Student Name",
       cell: (row: TStudentResponse) => (
         <div className="flex items-center gap-4">
-          <div className="flex-shrink-0 w-10 h-10 relative rounded-full overflow-hidden">
-            <Image
-              src={row?.avatar || AvatarPlaceholder}
-              alt={row?.fullName}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <Avatar
+            fullName={row?.fullName || "N/A"}
+            avatar={row?.avatar}
+          />
           <div>
             <h3 onClick={() => push(`/students/profile/${row?._id}`)} className="font-medium hover:underline">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.contactInformation?.email}</p>
@@ -100,7 +97,7 @@ const StudentsList = () => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-            onClick={() => handleUpdate(row?._id ? row._id : "")}
+              onClick={() => handleUpdate(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>
@@ -156,7 +153,7 @@ const StudentsList = () => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-            onClick={() => handleUpdate(row?._id ? row._id : "")}
+              onClick={() => handleUpdate(row?._id ? row._id : "")}
             >
               <HiTrash size={18} /> Delete
             </DropdownMenuItem>

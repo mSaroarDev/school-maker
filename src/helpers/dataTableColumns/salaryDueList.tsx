@@ -10,11 +10,12 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import { BiSolidEdit } from "react-icons/bi";
 import { FiEye } from "react-icons/fi";
 import { GrStreetView } from "react-icons/gr";
 import { MdMoreVert } from "react-icons/md";
 
-export const salaryDueListColumns = () => [
+export const salaryDueListColumns = (setShowUpdateModal) => [
   {
     name: "Sl.",
     width: "50px",
@@ -23,8 +24,8 @@ export const salaryDueListColumns = () => [
   {
     name: "Employee Name",
     cell: (row: TTransactions) => (
-      <div className="flex items-center gap-2">
-        <div className="w-5 h-5 rounded overflow-hidden relative">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded overflow-hidden relative">
           <Image
             fill
             src={avatar}
@@ -70,6 +71,13 @@ export const salaryDueListColumns = () => [
     ),
   },
   {
+    name: "Total",
+    cell: (row: TTransactions) => (
+      <div>
+        {`৳${(50000 + 5000).toLocaleString()}`}
+      </div>
+    ),
+  }, {
     name: "Month",
     cell: (row: TTransactions) => (
       <div>
@@ -100,9 +108,9 @@ export const salaryDueListColumns = () => [
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
-          // onClick={() => setShowReviewModal(true)}
+          onClick={() => setShowUpdateModal(true)}
           >
-            <GrStreetView size={18} /> Review
+            <BiSolidEdit size={18} /> Update Status
           </DropdownMenuItem>
 
         </DropdownMenuContent>

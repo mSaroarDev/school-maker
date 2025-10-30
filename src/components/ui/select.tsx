@@ -27,6 +27,7 @@ type SelectComponentProps<
   isMulti?: boolean;
   placeholder?: string;
   rules?: RegisterOptions<TFieldValues, TName>;
+  extraStyles?: Partial<StylesConfig<OptionType>>;
 } & Omit<
   ReactSelectProps<OptionType, boolean>,
   "options" | "isMulti" | "onChange" | "value" | "name" | "placeholder"
@@ -43,6 +44,7 @@ function SelectComponent<
   isMulti = false,
   placeholder = "Select...",
   rules,
+  extraStyles,
   ...rest
 }: SelectComponentProps<TFieldValues, TName>) {
   const hasError = errors && errors[name];
@@ -243,6 +245,7 @@ function SelectComponent<
             name={field.name}
             styles={{
               ...customStyles,
+              ...extraStyles,
               menuPortal: (base) => ({
                 ...base,
                 zIndex: 999999, 
