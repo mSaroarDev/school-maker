@@ -122,13 +122,13 @@ const TeachersList = ({ search }: ITeachersListProps) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => push(`/teachers/profile/${row?._id}`)}
+              onClick={() => push(`/employees/${employeeType}/${row?._id}/profile`)}
             >
               <PiUserSquareFill size={18} /> View Profile
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => push(`/teachers/${row?._id}`)}
+              onClick={() => push(`/employees/${employeeType}/${row?._id}`)}
             >
               <BiEdit size={18} /> Edit
             </DropdownMenuItem>

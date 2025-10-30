@@ -1,13 +1,18 @@
 "use client";
+import { useCreateTeacher, useGetTeacherById, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import StepProgress from "@/components/_core/StepProgress";
 import Card from "@/components/ui/card";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { showToast } from "@/utils/showToast";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { CgSpinner } from "react-icons/cg";
 import { FaUserGraduate } from "react-icons/fa6";
 import { LuHandshake } from "react-icons/lu";
+import { MdOutlineMenuBook } from "react-icons/md";
 import { PiMagicWand } from "react-icons/pi";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { TiContacts } from "react-icons/ti";
@@ -16,21 +21,13 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
-import { MdOutlineMenuBook } from "react-icons/md";
-import { useCreateTeacher, useGetTeacherById, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
-import { showToast } from "@/utils/showToast";
-import { handleErrorMessage } from "@/utils/handleErrorMessage";
-import { CgSpinner } from "react-icons/cg";
 
 const CreateTeacher = () => {
   const params = useParams();
   const teacherId = params ? params.id : null;
   const { back } = useRouter();
 
-  const pathname = usePathname();
-  const isTeacher = pathname.includes("/teachers/");
-
-  console.log("isTeacher: ", isTeacher);
+  const employeeType = params ? params.employeeType : null;
 
   const breadTree = [
     { name: teacherId === "create" ? "Add New Teacher" : "Edit Teacher" },
@@ -85,7 +82,7 @@ const CreateTeacher = () => {
     ],
     classes: [],
     teachingSubjects: [],
-    employeeType: isTeacher ? "teacher" : "staff",
+    employeeType: employeeType as string | null,
   }
 
   const {
@@ -110,6 +107,7 @@ const CreateTeacher = () => {
   const { mutateAsync: updateTeacher, isPending: isUpdating } = useUpdateTeacher();
 
   const handleCreateTeacher = async (data: TTeacherPayload) => {
+    console.log("Submitted Data:", data);
     try {
       const res = teacherId === "create" ? await createTeacher(data) : await updateTeacher({ teacherId: teacherId as string, data });
       if (res?.success) {
@@ -145,7 +143,9 @@ const CreateTeacher = () => {
         <Card className="col-span-12 lg:col-span-9 h-fit">
           <div className="flex items-center gap-2">
             <PiMagicWand size={18} />
-            <h3 className="font-semibold text-base">Add New Teacher</h3>
+            <h3 className="font-semibold text-base capitalize">
+              {teacherId === "create" ? `Add New ${employeeType}` : `Edit ${employeeType}`}
+            </h3>
           </div>
 
           {(teacherId !== "create" && isGeting) ? (

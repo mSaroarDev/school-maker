@@ -2,6 +2,7 @@ import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "flatpickr/dist/themes/light.css";
+import { useParams } from "next/navigation";
 import Flatpickr from "react-flatpickr";
 import { Control, FieldErrors, useFieldArray, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { GoPlus } from "react-icons/go";
@@ -23,13 +24,17 @@ const Step4 = ({
   errors,
   register,
   setValue,
-  getValues
+  getValues,
 }: Step4Props) => {
 
   const { append, remove } = useFieldArray({
     control,
     name: "salaryHistory"
-  })
+  });
+
+  const params = useParams();
+  const employeeType = params.employeeType as string;
+  const isTeacher = employeeType === "teacher";
 
   return (
     <>
@@ -101,7 +106,9 @@ const Step4 = ({
 
         <div className="flex items-center justify-between mt-5">
           <Button onClick={() => setStep(3)} variant="outline"><IoArrowBack size={18} /> Previous</Button>
-          <Button onClick={() => setStep(5)}>Next <IoArrowForwardSharp size={18} /></Button>
+          <Button onClick={() => setStep(5)}>
+            Next <IoArrowForwardSharp size={18} />
+          </Button>
         </div>
       </div>
     </>
