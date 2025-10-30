@@ -1,38 +1,35 @@
-import HighchartsReact from "highcharts-react-official";
 import { TiArrowUp } from "react-icons/ti";
-import Highcharts from "highcharts";
-import SmallLines from "./SmallLines";
 
 const ShortGraphView = () => {
 
-  const data = [ { "_id": { "year": 2025, "month": 1 }, "totalAmount": 1200 }, { "_id": { "year": 2025, "month": 2 }, "totalAmount": 900 } ]
+  // const data = [ { "_id": { "year": 2025, "month": 1 }, "totalAmount": 1200 }, { "_id": { "year": 2025, "month": 2 }, "totalAmount": 900 } ]
 
-  const options = {
-    chart: {
-      type: "spline",
-      backgroundColor: "transparent",
-      height: 40,
-      margin: [0, 0, 0, 0],
-    },
-    title: { text: null },
-    credits: { enabled: false },
-    xAxis: { visible: false },
-    yAxis: { visible: false },
-    legend: { enabled: false },
-    tooltip: { enabled: false },
-    plotOptions: {
-      series: {
-        lineWidth: 2,
-        color: "#ffffff",
-        marker: { enabled: false },
-      },
-    },
-    series: [
-      {
-        data: data.map(item => item.totalAmount),
-      },
-    ],
-  };
+  // const options = {
+  //   chart: {
+  //     type: "spline",
+  //     backgroundColor: "transparent",
+  //     height: 40,
+  //     margin: [0, 0, 0, 0],
+  //   },
+  //   title: { text: null },
+  //   credits: { enabled: false },
+  //   xAxis: { visible: false },
+  //   yAxis: { visible: false },
+  //   legend: { enabled: false },
+  //   tooltip: { enabled: false },
+  //   plotOptions: {
+  //     series: {
+  //       lineWidth: 2,
+  //       color: "#ffffff",
+  //       marker: { enabled: false },
+  //     },
+  //   },
+  //   series: [
+  //     {
+  //       data: data.map(item => item.totalAmount),
+  //     },
+  //   ],
+  // };
 
     return (
         <>

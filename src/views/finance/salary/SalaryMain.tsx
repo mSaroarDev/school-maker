@@ -32,7 +32,7 @@ const SalaryMain = () => {
     )
   };
   
-  const columns = salaryDueListColumns(setShowUpdateModal);
+  const columns = salaryDueListColumns();
 
   return (
     <>
@@ -50,16 +50,16 @@ const SalaryMain = () => {
         />
 
         <div>
-          <CustomDataTable
+          {/* <CustomDataTable
             columns={columns}
             data={salaryDueListData || []}
             progressPending={false}
             totalResults={20}
-          // currPage={currPage}
-          // setCurrPage={setCurrPage}
-          // limit={limit}
-          // setLimit={setLimit}
-          />
+          currPage={currPage}
+          setCurrPage={setCurrPage}
+          limit={limit}
+          setLimit={setLimit}
+          /> */}
         </div>
       </Card>
 

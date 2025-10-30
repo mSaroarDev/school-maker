@@ -19,8 +19,8 @@ const DueFees = () => {
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [endDate, setEndDate] = useState<Date | null>(null);
   const [search, setSearch] = useState<string>("");
 
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -29,8 +29,8 @@ const DueFees = () => {
     status: ["due", "overdue"],
     currPage,
     limit,
-    startDate,
-    endDate,
+    // startDate,
+    // endDate,
     search,
   });
 

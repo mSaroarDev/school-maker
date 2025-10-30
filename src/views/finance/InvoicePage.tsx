@@ -1,6 +1,5 @@
 "use client";
 import { useGetTransactionById } from "@/api/finance/finance.hooks";
-import { TTransactions } from "@/api/finance/finance.types";
 import RenderStatus from "@/components/_core/RenderStatus";
 import { useParams } from "next/navigation";
 

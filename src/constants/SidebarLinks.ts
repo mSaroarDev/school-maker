@@ -7,7 +7,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { LuNotebookPen, LuSquareUserRound, LuWallet } from "react-icons/lu";
 import { PiGraduationCapDuotone, PiMoneyWavyBold, PiStudentDuotone } from "react-icons/pi";
 import { RiMoneyDollarBoxLine, RiUserCommunityFill } from "react-icons/ri";
-import { TbMessage2, TbMoneybag, TbShoppingBagDiscount } from "react-icons/tb";
+import { TbMessage2, TbMoneybag } from "react-icons/tb";
 
 interface LinkItemProps {
   isAdmin?: boolean;
