@@ -1,6 +1,7 @@
 import { useGetAllTeachers, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
+import Avatar from "@/components/_core/Avatar";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import {
   DropdownMenu,
@@ -65,24 +66,22 @@ const TeachersList = ({ search }: ITeachersListProps) => {
       name: "Teacher Name",
       cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
-          <div className="flex-shrink-0 w-10 h-10 relative rounded-full overflow-hidden">
-            <Image
-              src={row?.avatar || AvatarPlaceholder}
-              alt={row?.fullName}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <Avatar 
+            fullName={row?.fullName}
+            avatar={row?.avatar}
+          />
           <div>
             <h3 onClick={()=> push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
-            <p className="font-light text-xs line-clamp-1">{row?.email}</p>
+            <p className="font-light text-xs line-clamp-1">{row?.employeeId}</p>
           </div>
         </div>
       )
     },
     {
-      name: "Emp ID",
-      selector: (row: TTeacherPayloadTeacher) => row?.employeeId,
+      name: "Email",
+      cell: (row: TTeacherPayloadTeacher) => (
+        <div className="line-clamp-1">{row?.email || "N/A"}</div>
+      ),
     },
     {
       name: "Subject",

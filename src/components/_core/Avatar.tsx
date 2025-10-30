@@ -14,7 +14,7 @@ const Avatar = ({ fullName = "", avatar, size = 40 }: AvatarProps) => {
   return (
     <div
       style={{ width: size, height: size }}
-      className="rounded-full overflow-hidden flex items-center justify-center relative"
+      className="shrink-0 rounded-full overflow-hidden flex items-center justify-center relative"
     >
       <Image
         src={avatar ? avatar : srcLink}

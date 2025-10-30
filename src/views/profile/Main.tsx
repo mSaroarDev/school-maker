@@ -27,6 +27,7 @@ import { useGetTeacherById } from "@/api/teachers/teachers.hooks";
 import { Badge } from "@/components/ui/badge"
 import { TQualification } from "@/api/teachers/teachers.interfaces";
 import { RiBookmark3Line } from "react-icons/ri";
+import Avatar from "@/components/_core/Avatar";
 
 const ProfilePageMain = () => {
 
@@ -55,15 +56,12 @@ const ProfilePageMain = () => {
       </div>
       <div className="grid grid-cols-12 gap-5 mt-5">
         <div className="col-span-12 md:col-span-6 lg:col-span-3">
-          <Card className="flex flex-col gap-3 items-center justify-center py-5 mb-3">
-            <div className="relative w-28 h-28 rounded-full bg-gray-300 overflow-hidden">
-              <Image
-                src={user?.avatar || avatarImage}
-                alt="Profile Picture"
-                fill
-                className="object-cover"
-              />
-            </div>
+          <Card className="flex flex-col gap-3 items-center justify-center py-10 mb-3">
+            <Avatar 
+              fullName={user?.fullName || "N/A"}
+              size={112}
+              avatar={user?.avatar}
+            />
             <h2 className="font-medium text-lg -mb-2.5">{user?.fullName}</h2>
             <p className="text-sm">{`${user?.profile?.address || user?.designation}
               ${user?.profile?.city ? ", " : ""}

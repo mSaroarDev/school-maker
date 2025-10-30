@@ -3,7 +3,7 @@ import { TTeacherPayload } from "@/api/teachers/teachers.interfaces";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import StepProgress from "@/components/_core/StepProgress";
 import Card from "@/components/ui/card";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaUserGraduate } from "react-icons/fa6";
@@ -20,11 +20,17 @@ import { MdOutlineMenuBook } from "react-icons/md";
 import { useCreateTeacher, useGetTeacherById, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { showToast } from "@/utils/showToast";
 import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { CgSpinner } from "react-icons/cg";
 
 const CreateTeacher = () => {
   const params = useParams();
   const teacherId = params ? params.teacherId : null;
   const { back } = useRouter();
+
+  const pathname = usePathname();
+  const isTeacher = pathname.includes("/teachers/");
+
+  console.log("isTeacher: ", isTeacher);
 
   const breadTree = [
     { name: teacherId === "create" ? "Add New Teacher" : "Edit Teacher" },
@@ -78,7 +84,8 @@ const CreateTeacher = () => {
       }
     ],
     classes: [],
-    teachingSubjects: []
+    teachingSubjects: [],
+    employeeType: isTeacher ? "teacher" : "staff",
   }
 
   const {
@@ -93,7 +100,7 @@ const CreateTeacher = () => {
     defaultValues
   });
 
-  
+
   const { data: teacherData, isPending: isGeting } = useGetTeacherById({
     teacherId: teacherId as string,
     options: { enabled: teacherId !== "create" }
@@ -104,7 +111,7 @@ const CreateTeacher = () => {
 
   const handleCreateTeacher = async (data: TTeacherPayload) => {
     try {
-      const res = teacherId === "create" ? await createTeacher(data) : await updateTeacher({teacherId: teacherId as string, data});
+      const res = teacherId === "create" ? await createTeacher(data) : await updateTeacher({ teacherId: teacherId as string, data });
       if (res?.success) {
         showToast("success", res?.message || "Teacher created");
         back();
@@ -134,52 +141,61 @@ const CreateTeacher = () => {
             direction="col"
           />
         </Card>
+
         <Card className="col-span-12 lg:col-span-9 h-fit">
           <div className="flex items-center gap-2">
             <PiMagicWand size={18} />
             <h3 className="font-semibold text-base">Add New Teacher</h3>
           </div>
 
-          {step === 1 && <Step1
-            setStep={setStep}
-            register={register}
-            errors={errors}
-            control={control}
-            setValue={setValue}
-            getValues={getValues}
-          />}
+          {(teacherId !== "create" && isGeting) ? (
+            <div className="w-full h-40 flex items-center justify-center">
+              <CgSpinner size={30} className="animate-spin text-primary" />
+            </div>
+          ) : (
+            <>
+              {step === 1 && <Step1
+                setStep={setStep}
+                register={register}
+                errors={errors}
+                control={control}
+                setValue={setValue}
+                getValues={getValues}
+              />}
 
-          {step === 2 && <Step2
-            setStep={setStep}
-            register={register}
-            errors={errors}
-          />}
+              {step === 2 && <Step2
+                setStep={setStep}
+                register={register}
+                errors={errors}
+              />}
 
-          {step === 3 && <Step3
-            setStep={setStep}
-            register={register}
-            errors={errors}
-            control={control}
-            getValues={getValues}
-          />}
+              {step === 3 && <Step3
+                setStep={setStep}
+                register={register}
+                errors={errors}
+                control={control}
+                getValues={getValues}
+              />}
 
-          {step === 4 && <Step4
-            setStep={setStep}
-            register={register}
-            errors={errors}
-            control={control}
-            setValue={setValue}
-            getValues={getValues}
-          />}
+              {step === 4 && <Step4
+                setStep={setStep}
+                register={register}
+                errors={errors}
+                control={control}
+                setValue={setValue}
+                getValues={getValues}
+              />}
 
-          {step === 5 && <Step5
-            setStep={setStep}
-            errors={errors}
-            control={control}
-            handleCreateTeacher={handleCreateTeacher}
-            handleSubmit={handleSubmit}
-            isLoading={isCreating || isUpdating || isGeting}
-          />}
+              {step === 5 && <Step5
+                setStep={setStep}
+                errors={errors}
+                control={control}
+                handleCreateTeacher={handleCreateTeacher}
+                handleSubmit={handleSubmit}
+                isLoading={isCreating || isUpdating}
+              />}
+            </>
+          )}
         </Card>
       </div>
     </div>

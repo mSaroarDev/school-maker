@@ -75,6 +75,7 @@ export type TTeacherPayload = {
   teachingSubjects: string[];
   classes: string[];
   salaryHistory: { salaryType: string, amount: string, effectedFrom: string }[];
+  employeeType: string;
   remarks?: string;
   isDeleted?: boolean;
 };

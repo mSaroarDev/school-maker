@@ -27,7 +27,7 @@ const Step5 = ({
   return (
     <>
       <form onSubmit={handleSubmit(handleCreateTeacher)} className="mt-5">
-        <div>
+        <div className="mb-2">
           <Label>Subjects</Label>
           <SelectComponent
             name="teachingSubjects" 
