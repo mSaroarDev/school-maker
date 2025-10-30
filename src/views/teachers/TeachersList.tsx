@@ -1,3 +1,4 @@
+"use client";
 import { useGetAllTeachers, useUpdateTeacher } from "@/api/teachers/teachers.hooks";
 import { TTeacherPayloadTeacher } from "@/api/teachers/teachers.interfaces";
 import AvatarPlaceholder from "@/assets/images/avatar.jpeg";
@@ -15,7 +16,7 @@ import { handleErrorMessage } from "@/utils/handleErrorMessage";
 import { showConfirmModal } from "@/utils/showConfirmModal";
 import { showToast } from "@/utils/showToast";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
@@ -29,10 +30,15 @@ interface ITeachersListProps {
 const TeachersList = ({ search }: ITeachersListProps) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+
+  const params = useParams();
+  const employeeType = params.employeeType as string;
+
   const { data: teachers, isPending } = useGetAllTeachers({
     currPage: currPage,
     limit: limit,
-    search: search
+    search,
+    employeeType
   });
 
   const { push } = useRouter();
@@ -41,7 +47,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
   const handleUpdateTeacher = (teacherId: string) => {
     showConfirmModal({
       title: "Are you sure?",
-      text: "You want to delete this teacher",
+      text: "You want to delete this" + employeeType,
       confirmText: "Yes, Delete",
       cancelText: "No, Cancel",
       func: async () => {
@@ -52,7 +58,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
           });
 
           if (res?.success) {
-            showToast("success", "Teacher Info Deleted");
+            showToast("success", employeeType + "Info Deleted");
           }
         } catch (error) {
           showToast("error", handleErrorMessage(error));
@@ -63,15 +69,15 @@ const TeachersList = ({ search }: ITeachersListProps) => {
 
   const desktopColumns = [
     {
-      name: "Teacher Name",
+      name: `${employeeType} Name`,
       cell: (row: TTeacherPayloadTeacher) => (
         <div className="flex items-center gap-4">
-          <Avatar 
+          <Avatar
             fullName={row?.fullName}
             avatar={row?.avatar}
           />
           <div>
-            <h3 onClick={()=> push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
+            <h3 onClick={() => push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.employeeId}</p>
           </div>
         </div>
@@ -153,7 +159,7 @@ const TeachersList = ({ search }: ITeachersListProps) => {
             />
           </div>
           <div>
-            <h3 onClick={()=> push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
+            <h3 onClick={() => push(`/teachers/profile/${row?._id}`)} className="font-semibold">{row?.fullName}</h3>
             <p className="font-light text-xs line-clamp-1">{row?.email}</p>
           </div>
         </div>

@@ -1,14 +1,17 @@
 "use client";
-
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import HeaderComponent from "@/components/_core/HeaderComponent";
 import Card from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import TeachersList from "./TeachersList";
+import { useParams } from "next/navigation";
 
 const TeachersMain = () => {
   const [query, setQuery] = useState<string>("");
   const [search, setSearch] = useState<string>("");
+
+  const params = useParams();
+  const employeeType = params.employeeType as string;
 
   useEffect(() => {
     if (query.length === 0 || query.length > 2) {
@@ -19,9 +22,9 @@ const TeachersMain = () => {
   }, [query]);
 
   const breadTree = [
-    { name: "Teachers" },
+    { name: employeeType || "Teachers" },
     { name: "Home", url: "/dashboard" },
-    { name: "Teachers" },
+    { name: employeeType || "Teachers" },
   ];
 
 
@@ -33,17 +36,15 @@ const TeachersMain = () => {
 
       <Card>
         <HeaderComponent
-          title="All Teachers"
-          createLink="/teachers/create"
+          title={employeeType ? employeeType.charAt(0).toUpperCase() + employeeType.slice(1) : "Teachers"}
+          createLink={`/employees/${employeeType}/create`}
           query={query}
           setQuery={setQuery}
           filterComponent={<></>}
           showSearch
         />
 
-        <TeachersList
-          search={search}
-        />
+        <TeachersList search={search} />
       </Card>
     </>
   );

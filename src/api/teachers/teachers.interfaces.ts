@@ -84,6 +84,7 @@ export type TGetTeacherPayload = {
   currPage: number;
   limit: number;
   search?: string;
+  employeeType?: string;
 };
 
 export type TGetTeacherById = {

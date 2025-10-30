@@ -24,7 +24,7 @@ import { CgSpinner } from "react-icons/cg";
 
 const CreateTeacher = () => {
   const params = useParams();
-  const teacherId = params ? params.teacherId : null;
+  const teacherId = params ? params.id : null;
   const { back } = useRouter();
 
   const pathname = usePathname();

@@ -63,9 +63,9 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           icon: LuSquareUserRound,
           link: "/employees",
           submenu: [
-            { id: 18, name: "Teachers", icon: PiGraduationCapDuotone, path: "/teachers", },
-            { id: 19, name: "Staffs", path: "/finance/due", icon: RiUserCommunityFill },
-            { id: 20, name: "Committee", path: "/finance/income", icon: GrUserPolice },
+            { id: 23, name: "Teachers", icon: PiGraduationCapDuotone, path: "/employees/teachers", },
+            { id: 24, name: "Staffs", path: "/employees/staffs", icon: RiUserCommunityFill },
+            { id: 25, name: "Committee", path: "/employees/committee", icon: GrUserPolice },
           ]
         },
         {
