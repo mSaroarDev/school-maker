@@ -40,7 +40,7 @@ const SidebarLinks = ({ isAdmin }: LinkItemProps) => {
           icon: RiMoneyDollarBoxLine,
           link: "/finance",
           submenu: [
-            { id: 18, name: "Overview", path: "/finance", icon: LuWallet },
+            { id: 18, name: "Overview", path: "/finance/overview", icon: LuWallet },
             { id: 19, name: "Due Fees", path: "/finance/due", icon: PiMoneyWavyBold },
             { id: 20, name: "Income", path: "/finance/income", icon: HiLogin },
             { id: 21, name: "Expense", path: "/finance/expense", icon: HiOutlineLogout },
