@@ -91,7 +91,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                             className={`flex items-center justify-between px-5 py-2.5 cursor-pointer transition-all duration-150 rounded-lg 
                             hover:bg-primary/5 hover:text-primary`}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 font-medium">
                               <link.icon size={20} />
                               {width === 250 && <span>{link.label}</span>}
                             </div>
@@ -107,7 +107,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                           // Normal link
                           <Link
                             href={link.link}
-                            className={`flex items-center justify-between px-5 py-2.5 cursor-pointer transition-all duration-150 rounded-lg 
+                            className={`flex items-center justify-between px-5 py-2.5 cursor-pointer transition-all duration-150 rounded-lg font-medium
                               ${pathname === link.link
                                 ? "text-black bg-primary-light dark:bg-primary/15"
                                 : "hover:bg-primary/5 hover:text-primary"
@@ -133,7 +133,7 @@ const Sidebar = ({ width = 250, toggleSidebar }: SidebarProps) => {
                               <Link
                                 key={sub.id}
                                 href={sub.path}
-                                className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-md transition 
+                                className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-md transition font-medium
                                   ${pathname.startsWith(sub.path)
                                     ? "bg-primary/30 text-black"
                                     : "hover:bg-primary/10"
