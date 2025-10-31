@@ -1,4 +1,10 @@
 import SalaryMain from "@/views/finance/salary/SalaryMain";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `Salary - Finance`,
+  description: "Finance Salary Dashboard",
+};
 
 const page = () => {
   return (

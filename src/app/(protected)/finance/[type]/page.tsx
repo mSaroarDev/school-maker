@@ -3,7 +3,7 @@ import IncomeMain from "@/views/finance/IncomeMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: `Dashboard - Finance`,
+  title: `Finance`,
   description: "Finance Dashboard",
 };
 
