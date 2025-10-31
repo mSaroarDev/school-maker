@@ -156,7 +156,7 @@ export const resultOptions = [
   { value: "Fail", label: "Fail" },
 ];
 
-export const yearsOptions = Array.from({ length: 50 }, (_, i) => {
+export const yearsOptions = Array.from({ length: 20 }, (_, i) => {
   const year = new Date().getFullYear() - i;
   return { value: year.toString(), label: year.toString() };
 });
