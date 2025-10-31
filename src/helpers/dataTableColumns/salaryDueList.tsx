@@ -1,4 +1,4 @@
-import { TTransactions } from "@/api/finance/finance.types";
+import { TSalary } from "@/api/salary/salary.types";
 import Avatar from "@/components/_core/Avatar";
 import RenderStatus from "@/components/_core/RenderStatus";
 import {
@@ -13,31 +13,27 @@ import { BiSolidEdit } from "react-icons/bi";
 import { FiEye } from "react-icons/fi";
 import { MdMoreVert } from "react-icons/md";
 
-export const salaryDueListColumns = () => [
+export const salaryDueListColumns = (setShowUpdateModal?: (val: boolean) => void) => [
   {
     name: "Sl.",
     width: "50px",
-    selector: (_: TTransactions, index: number) => index + 1,
+    selector: (_: TSalary, index: number) => index + 1,
   },
   {
     name: "Employee Name",
-    cell: (row: TTransactions) => (
+    cell: (row: TSalary) => (
       <div className="flex items-center gap-3">
         <Avatar 
-          fullName={row.employeeId.fullName}
+          fullName={typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.fullName : "N/A"}
           size={40}
-          avatar={row.employeeId.avatar}
+          avatar={typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.avatar : "N/A"}
         />
         <div>
           <h4 className="font-medium mb-0.5">
-            {typeof row?.employeeId === "object" && row?.employeeId !== null
-              ? row.employeeId.fullName
-              : "N/A"}
+            {typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.fullName : "N/A"}
           </h4>
           <p>
-            {typeof row?.employeeId === "object" && row?.employeeId !== null
-              ? `${row.employeeId._id}`
-              : "N/A"}
+            EId: {typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.employeeId : "N/A"}
           </p>
         </div>
       </div>
@@ -45,49 +41,40 @@ export const salaryDueListColumns = () => [
   },
   {
     name: "Designation",
-    selector: (row: TTransactions) => typeof row?.employeeId === "object" && row?.employeeId !== null
-      ? `${row.employeeId.designation}`
-      : "N/A"
+    selector: (row: TSalary) => typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.designation : "N/A",
   },
   {
     name: "Base Salary",
-    cell: (row: TTransactions) => (
-      <div>
-        ৳50,000
-      </div>
+    cell: (_: TSalary) => (
+      <div>৳50,000</div>
     ),
   },
   {
     name: "Other Allowance",
-    cell: (row: TTransactions) => (
-      <div>
-        ৳5,000
-      </div>
+    cell: (_: TSalary) => (
+      <div>৳5,000</div>
     ),
   },
   {
     name: "Total",
-    cell: (row: TTransactions) => (
-      <div>
-        {`৳${(50000 + 5000).toLocaleString()}`}
-      </div>
+    cell: (_: TSalary) => (
+      <div>{`৳${(50000 + 5000).toLocaleString()}`}</div>
     ),
-  }, {
+  },
+  {
     name: "Month",
-    cell: (row: TTransactions) => (
-      <div>
-        January - 25
-      </div>
+    cell: (_: TSalary) => (
+      <div>January - 25</div>
     ),
   },
   {
     name: "Status",
-    cell: (row: TTransactions) => <RenderStatus status="due" />,
+    cell: (_: TSalary) => <RenderStatus status="due" />,
   },
   {
     name: "Action",
     width: "100px",
-    cell: (row: TTransactions) => (
+    cell: (row: TSalary) => (
       <DropdownMenu>
         <DropdownMenuTrigger className="more-action-button">
           <MdMoreVert size={20} />
@@ -103,13 +90,12 @@ export const salaryDueListColumns = () => [
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
-          onClick={() => setShowUpdateModal(true)}
+            onClick={() => setShowUpdateModal?.(true)}
           >
             <BiSolidEdit size={18} /> Update Status
           </DropdownMenuItem>
-
         </DropdownMenuContent>
       </DropdownMenu>
-    )
-  }
+    ),
+  },
 ];

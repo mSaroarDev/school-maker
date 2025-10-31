@@ -1,4 +1,4 @@
-import SalaryMain from "@/views/finance/salary/SalaryMain";
+import SalaryMain from "@/views/salary/SalaryMain";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

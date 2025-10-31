@@ -1,4 +1,5 @@
 "use client";
+import { useGetSalaries } from "@/api/salary/salary.hooks";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
@@ -8,7 +9,8 @@ import { monthOptions } from "@/constants/constants";
 import { salaryDueListData } from "@/dummy/salary";
 import { SalaryBreadTree } from "@/helpers/breadcrumbs";
 import { salaryDueListColumns } from "@/helpers/dataTableColumns/salaryDueList";
-import { useState } from "react";
+import { useDebounce } from "@/utils/useDebounce";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const SalaryMain = () => {
@@ -34,6 +36,21 @@ const SalaryMain = () => {
 
   const columns = salaryDueListColumns();
 
+  const [inputs, setInputs] = useState("");
+
+  useDebounce(()=> {
+    setSearch(inputs)
+  }, [inputs], 1000)
+
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState<string>("");
+  const {data: salaries, isPending} = useGetSalaries({
+    currPage,
+    limit,
+    search
+  });
+
   return (
     <>
       <BreadcrumbsComponent breadTree={SalaryBreadTree} />
@@ -41,8 +58,8 @@ const SalaryMain = () => {
       <Card>
         <HeaderComponent
           title="Due Fees"
-          // query={input}
-          // setQuery={setInput}
+          query={inputs}
+          setQuery={setInputs}
           filterComponent={<></>}
           // createButtonFunction={() => setShowCreateModal(true)}
           showSearch
@@ -52,13 +69,13 @@ const SalaryMain = () => {
         <div>
           <CustomDataTable
             columns={columns}
-            data={salaryDueListData || []}
-            progressPending={false}
+            data={salaries?.data || []}
+            progressPending={isPending}
             totalResults={20}
-            // currPage={currPage}
-            // setCurrPage={setCurrPage}
-            // limit={limit}
-            // setLimit={setLimit}
+            currPage={currPage}
+            setCurrPage={setCurrPage}
+            limit={limit}
+            setLimit={setLimit}
           />
         </div>
       </Card>
