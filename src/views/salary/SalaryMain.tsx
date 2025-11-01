@@ -24,26 +24,25 @@ const SalaryMain = () => {
     setFilters({
       ...filters,
       search: inputs,
-      currPage: 1,
     })
+    setCurrPage(1);
   }, [inputs], 1000);
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const [filters, setFilters] = useState({
-    currPage,
-    limit,
     search: "",
     payStatus: "Due",
-    month: moment(new Date()).format("MMMM"),
+    month: moment(new Date()).subtract(1, "month").format("MMMM"),
     year: moment(new Date()).format("YYYY") as unknown as number,
   });
 
-  const { data: salaries, isPending } = useGetSalaries(filters);
-
-  console.log("filters", filters);
-  console.log("inputs", inputs);
+  const { data: salaries, isPending } = useGetSalaries({
+    ...filters,
+    currPage,
+    limit,
+  });
 
   return (
     <>
@@ -51,7 +50,7 @@ const SalaryMain = () => {
 
       <Card>
         <HeaderComponent
-          title="Due Fees"
+          title="Salary Sheet"
           query={inputs}
           setQuery={setInputs}
           // filterComponent={<></>}
@@ -68,8 +67,8 @@ const SalaryMain = () => {
                   setFilters({
                     ...filters,
                     month: option.label,
-                    currPage: 1,
                   });
+                  setCurrPage(1);
                 }}
               />
 
@@ -82,8 +81,8 @@ const SalaryMain = () => {
                   setFilters({
                     ...filters,
                     year: option ? Number(option.value) : new Date().getFullYear(),
-                    currPage: 1,
                   });
+                  setCurrPage(1);
                 }}
               />
             </div>
@@ -95,7 +94,7 @@ const SalaryMain = () => {
             columns={columns}
             data={salaries?.data || []}
             progressPending={isPending}
-            totalResults={20}
+            totalResults={salaries?.totalResults || 0}
             currPage={currPage}
             setCurrPage={setCurrPage}
             limit={limit}

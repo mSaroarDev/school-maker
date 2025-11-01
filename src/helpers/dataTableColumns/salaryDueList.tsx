@@ -17,7 +17,7 @@ export const salaryDueListColumns = (setShowUpdateModal?: (val: boolean) => void
   {
     name: "Sl.",
     width: "50px",
-    selector: (_: TSalary, index: number) => index + 1,
+    cell: (_: TSalary, index: number) => index + 1,
   },
   {
     name: "Employee Name",
