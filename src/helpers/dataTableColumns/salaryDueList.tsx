@@ -17,6 +17,7 @@ type TAmount = {
   salaryType?: string;
   amount?: string;
   effectedFrom?: string | null;
+  setTargatedSalary? : (salary: TSalary) => void;
 }
 
 const getAmounts = (row: TSalary) => {
@@ -37,6 +38,7 @@ export const salaryDueListColumns = (
   setShowUpdateModal?: (val: boolean) => void,
   currPage: number = 1,
   limit: number = 10,
+  setTargatedSalary?: (salary: TSalary) => void,
 ) => [
   {
     name: "Sl.",
@@ -118,7 +120,10 @@ export const salaryDueListColumns = (
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() => setShowUpdateModal?.(true)}
+            onClick={() => {
+              setTargatedSalary?.(row);
+              setShowUpdateModal?.(true)
+            }}
           >
             <BiSolidEdit size={18} /> Update Status
           </DropdownMenuItem>

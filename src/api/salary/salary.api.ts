@@ -17,7 +17,8 @@ import { TGetSalary, TSalary } from "./salary.types";
     return response.data;
   },
 
-  updateSalary: async (id: string, data: Partial<TGetSalary>) => {
+  updateSalary: async (payload: {id: string, data: Partial<TGetSalary>}) => {
+    const { id, data } = payload;
     const response = await request.put(`/salary/${id}`, data);
     return response.data;
   },

@@ -1,8 +1,9 @@
 "use client";
-import { useGetSalaries } from "@/api/salary/salary.hooks";
+import { useGetSalaries, useUpdateStatus } from "@/api/salary/salary.hooks";
 import BreadcrumbsComponent from "@/components/_core/BreadcrumbsComponent";
 import CustomDataTable from "@/components/_core/CustomDataTable";
 import HeaderComponent from "@/components/_core/HeaderComponent";
+import { Modal } from "@/components/_core/Modal";
 import ReactSelect from "@/components/_core/ReactSelect";
 import Card from "@/components/ui/card";
 import { monthOptions, yearsOptions } from "@/constants/constants";
@@ -10,7 +11,12 @@ import { SalaryBreadTree } from "@/helpers/breadcrumbs";
 import { salaryDueListColumns } from "@/helpers/dataTableColumns/salaryDueList";
 import { useDebounce } from "@/utils/useDebounce";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import UpdateSalaryForm from "./UpdateSalaryForm";
+import { showConfirmModal } from "@/utils/showConfirmModal";
+import { showToast } from "@/utils/showToast";
+import { handleErrorMessage } from "@/utils/handleErrorMessage";
+import { TSalary } from "@/api/salary/salary.types";
 
 const SalaryMain = () => {
 
@@ -29,12 +35,6 @@ const SalaryMain = () => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
-  const columns = salaryDueListColumns(
-    setShowUpdateModal,
-    currPage,
-    limit,
-  );
-
   const [filters, setFilters] = useState({
     search: "",
     payStatus: "Due",
@@ -47,6 +47,54 @@ const SalaryMain = () => {
     currPage,
     limit,
   });
+
+  const [targatedSalary, setTargatedSalary] = useState<TSalary>();
+  const { mutateAsync: updateStatus } = useUpdateStatus();
+
+  const [selectedStatus, setSelectedStatus] = useState<{ value: string; label: string }>({
+    value: 'Due',
+    label: 'Due',
+  });
+
+  const handleUpdateStatus = () => {
+    showConfirmModal({
+      title: 'Confirm?',
+      text: "Are you sure you want to update the salary status?",
+      func: async () => {
+        try {
+          const res = await updateStatus({
+            id: targatedSalary?._id || "",
+            data: {
+              payStatus: selectedStatus.value,
+            }
+          });
+
+          if (res?.success) {
+            showToast("success", res?.message || "Status updated successfully");
+            setShowUpdateModal(false);
+          }
+        } catch (error) {
+          showToast("error", handleErrorMessage(error));
+        }
+      }
+    })
+  };
+
+  const columns = salaryDueListColumns(
+    setShowUpdateModal,
+    currPage,
+    limit,
+    setTargatedSalary,
+  );
+
+  useEffect(() => {
+    if (targatedSalary) {
+      setSelectedStatus({
+        value: targatedSalary.payStatus,
+        label: targatedSalary.payStatus,
+      });
+    }
+  }, [targatedSalary]);
 
   return (
     <>
@@ -106,6 +154,21 @@ const SalaryMain = () => {
           />
         </div>
       </Card>
+
+      {showUpdateModal && (
+        <Modal
+          title="Update Salary"
+          description="Update the salary status"
+          isOpen={showUpdateModal}
+          toggle={() => setShowUpdateModal(false)}
+          onSubmit={handleUpdateStatus}
+        >
+          <UpdateSalaryForm
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+          />
+        </Modal>
+      )}
     </>
   );
 };

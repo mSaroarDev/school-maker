@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SalaryApi } from "./salary.api";
 import { TGetSalary } from "./salary.types";
 
 export const useGetSalaries = (payload: TGetSalary) => {
-  console.log("payload in hook:", payload);
-  
+
   const query = useQuery({
     queryKey: ["salary", payload],
     queryFn: () => SalaryApi.getSalaries(payload),
@@ -15,3 +14,15 @@ export const useGetSalaries = (payload: TGetSalary) => {
 
   return query;
 };
+
+export const useUpdateStatus = () => {
+  const queryClient = useQueryClient();
+  const data = useMutation({
+    mutationFn: SalaryApi.updateSalary,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["salary"] });
+    }
+  });
+
+  return data;
+}
