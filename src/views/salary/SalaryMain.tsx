@@ -16,8 +16,6 @@ const SalaryMain = () => {
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
-  const columns = salaryDueListColumns();
-
   const [inputs, setInputs] = useState("");
 
   useDebounce(() => {
@@ -30,6 +28,12 @@ const SalaryMain = () => {
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+
+  const columns = salaryDueListColumns(
+    setShowUpdateModal,
+    currPage,
+    limit,
+  );
 
   const [filters, setFilters] = useState({
     search: "",

@@ -1,6 +1,6 @@
 import { TSalary } from "@/api/salary/salary.types";
 import Avatar from "@/components/_core/Avatar";
-import RenderStatus from "@/components/_core/RenderStatus";
+import RenderStatus, { StatusKey } from "@/components/_core/RenderStatus";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,17 +13,41 @@ import { BiSolidEdit } from "react-icons/bi";
 import { FiEye } from "react-icons/fi";
 import { MdMoreVert } from "react-icons/md";
 
-export const salaryDueListColumns = (setShowUpdateModal?: (val: boolean) => void) => [
+type TAmount = {
+  salaryType?: string;
+  amount?: string;
+  effectedFrom?: string | null;
+}
+
+const getAmounts = (row: TSalary) => {
+  const basicSalary = row?.salaryAmounts?.find((item: TAmount) => item.salaryType === 'Basic');
+  const otherAllowance = row?.salaryAmounts?.filter((item: TAmount) => item.salaryType !== 'Basic');
+
+  const totalOtherAllowance = otherAllowance?.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
+  const total = (Number(basicSalary?.amount || 0) + totalOtherAllowance);
+
+  return {
+    basicSalary,
+    totalOtherAllowance,
+    total,
+  };
+}
+
+export const salaryDueListColumns = (
+  setShowUpdateModal?: (val: boolean) => void,
+  currPage: number = 1,
+  limit: number = 10,
+) => [
   {
     name: "Sl.",
-    width: "50px",
-    cell: (_: TSalary, index: number) => index + 1,
+    width: "70px",
+    cell: (_: TSalary, index: number) => `#${(currPage - 1) * limit + index + 1}`,
   },
   {
     name: "Employee Name",
     cell: (row: TSalary) => (
       <div className="flex items-center gap-3">
-        <Avatar 
+        <Avatar
           fullName={typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.fullName : "N/A"}
           size={40}
           avatar={typeof row?.employeeId === "object" && typeof row?.employeeId !== null ? row?.employeeId?.avatar : "N/A"}
@@ -45,31 +69,35 @@ export const salaryDueListColumns = (setShowUpdateModal?: (val: boolean) => void
   },
   {
     name: "Base Salary",
-    cell: (_: TSalary) => (
-      <div>৳50,000</div>
+    cell: (row: TSalary) => (
+      <div>
+        {getAmounts(row).basicSalary ? `৳${Number(getAmounts(row).basicSalary?.amount || 0).toLocaleString()}` : "-"}
+      </div>
     ),
   },
   {
     name: "Other Allowance",
-    cell: (_: TSalary) => (
-      <div>৳5,000</div>
+    cell: (row: TSalary) => (
+      <div>
+        {getAmounts(row).totalOtherAllowance ? `৳${Number(getAmounts(row).totalOtherAllowance || 0).toLocaleString()}` : "-"}
+      </div>
     ),
   },
   {
     name: "Total",
     cell: (_: TSalary) => (
-      <div>{`৳${(50000 + 5000).toLocaleString()}`}</div>
+      <div>
+        {getAmounts(_).total ? `৳${Number(getAmounts(_).total || 0).toLocaleString()}` : "-"}
+      </div>
     ),
   },
   {
     name: "Month",
-    cell: (_: TSalary) => (
-      <div>January - 25</div>
-    ),
+    cell: (row: TSalary) => `${row?.month} - ${row?.year}`,
   },
   {
     name: "Status",
-    cell: (_: TSalary) => <RenderStatus status="due" />,
+    cell: (row: TSalary) => <RenderStatus status={row?.payStatus as StatusKey} />,
   },
   {
     name: "Action",
