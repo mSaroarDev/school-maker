@@ -74,7 +74,7 @@ const RenderStatus = ({ status, size, styles }: IRenderStatusProps) => {
   return (
     <>
       <span style={{
-        backgroundColor: getBackgroundColor(colors[status.toUpperCase() as StatusKey] as string),
+        backgroundColor: getBackgroundColor(colors[status]),
         color: getTextColor(status),
         padding: "5px 10px",
         borderRadius: "5px",
